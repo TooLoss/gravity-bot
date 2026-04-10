@@ -5,6 +5,8 @@ public class Projectile extends Acteur {
     
     public Vecteur vitesse;
 
+    public static final double vitesseSatellite = 1.f;
+
     public Projectile(Vecteur position, Vecteur vitesse) {
         this.vitesse = vitesse;
         this.setPosition(position);
@@ -23,7 +25,8 @@ public class Projectile extends Acteur {
      * @param v Vecteur à ajouter.
      */
     public void ajouterVitesse(Vecteur v) {
-        // TODO
+        this.vitesse.ajouter(v);
+        vitesse.normaliser().multiplier(vitesseSatellite);
     }
 
     public void setVitesse(Vecteur v) {
