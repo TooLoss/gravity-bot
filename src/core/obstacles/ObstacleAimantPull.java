@@ -17,7 +17,8 @@ public class ObstacleAimantPull extends Obstacle {
 
     @Override
     public boolean estDansObstacle(Acteur acteur) {
-        return ( Math.abs(this.distance(acteur)) < rayonAction );
+        // TODO généraliser ce comportements avec une interface pour tous les
+        // obstacles à interraction circulaire
     }
 
 }
