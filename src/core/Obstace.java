@@ -16,5 +16,7 @@ public abstract class Obstacle extends Acteur {
      * @return boolean true si l'acteur est dans l'obstacle.
      */
     public abstract boolean estDansObstacle(Acteur acteur);
+    // TODO conseil peut être faire une interface VerificationObstacle et
+    // implémenter des types de collisions (rectangle, spherique, ...).
     
 }
