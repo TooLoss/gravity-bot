@@ -9,7 +9,7 @@ public class Map {
     /** Méthode appelé chaque frame correspondant à la game loop.
      * @param dt Delta t écoulé depuis la dernière frame.
      */
-    public void faireFrame(double dt) {
+    public void acutaliser(double dt) {
         // TODO
     }
 

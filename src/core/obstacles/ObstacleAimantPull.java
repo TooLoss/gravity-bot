@@ -2,8 +2,8 @@ package core.obstacles;
 
 public class ObstacleAimantPull extends Obstacle {
 
-    private static final double rayonAction = 5.f;
     private static final double puissance = 1.f;
+    private static final Collision collision;
 
     @Override
     public void eventAction(Projectile projectile) {
@@ -14,11 +14,5 @@ public class ObstacleAimantPull extends Obstacle {
         directeur.multiplier(puissance);
         projectile.ajouterVitesse(directeur);
      }
-
-    @Override
-    public boolean estDansObstacle(Acteur acteur) {
-        // TODO généraliser ce comportements avec une interface pour tous les
-        // obstacles à interraction circulaire
-    }
 
 }
