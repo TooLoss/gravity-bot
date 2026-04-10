@@ -52,4 +52,11 @@ public abstract class Acteur {
         return this.position.distance(acteur.getPosition());
     }
 
+    /** Translater l'acteur d'un vecteur v.
+     * @param v Vecteur translation.
+     */
+    public void translater(Vecteur v) {
+        // TODO
+    }
+
 }
