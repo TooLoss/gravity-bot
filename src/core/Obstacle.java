@@ -21,7 +21,9 @@ public abstract class Obstacle extends Acteur {
         // Acteur acteur, Acteur source
         return collision.estEnCollision(acteur, this);
     }
-    // TODO conseil peut être faire une interface VerificationObstacle et
-    // implémenter des types de collisions (rectangle, spherique, ...).
+
+    public void setCollision(Collision collision) {
+        this.collision = collision;
+    }
     
 }
