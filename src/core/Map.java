@@ -1,6 +1,6 @@
 package core;
 
-/** Classe Map contient référence aux obstacles et projectils. */
+/** Classe Map contient référence aux obstacles et projectiles. */
 public class Map {
     
     private Projectile projectile;
