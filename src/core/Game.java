@@ -4,12 +4,8 @@ public class Game {
 
     private Map map;
 
-    private boolean estDansEcran(Acteur acteur) {
+    public void lancerJeu() {
         // TODO
-    }
-
-    public void lancerSimulation() {
-        map.actualiser();
     }
 
 }
