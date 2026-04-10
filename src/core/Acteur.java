@@ -1,31 +1,53 @@
 package core;
 import utils.Vecteur;
 
+/** Classe acteur.
+ * Classe abstraite. Tout objet qui se place sur le plateau hérite de cette
+ * classe.
+ */
 public abstract class Acteur {
 
+    /** Position de l'acteur dans l'écran. */
     private Vecteur position;
 
+    /** Constructeur de l'acteur en fonction d'une position.
+     * @param position Position sur l'écran.
+     */
     public Acteur(Vecteur position) {
         this();
         this.position = new Vecteur(position);
     }
 
+    /** Constructeur de l'acteur avec une position nulle. */
     public Acteur() {
         Vecteur pos = new Vecteur(0);
         this.position = pos;
     }
 
+    /** Fonction abstraite qui est executé à chaque frame du jeu.
+     * @param dt Delta t écoulé depuis la dernière frame.
+     */
     public abstract void actualiser(double dt);
 
+    /** Récupérer la position de l'acteur.
+     * @return Vecteur position copié de l'acteur.
+     */
     public Vecteur getPosition() {
         Vecteur pos = new Vecteur(this.position);
         return pos;
     }
 
-    public Vecteur void setPosition(Vecteur v) {
+    /** Setter de la position de l'acteur.
+     * @param v Vecteur position de l'acteur.
+     */
+    public void setPosition(Vecteur v) {
         this.position = new Vecteur(v); 
     }
 
+    /** Distance de l'acteur à une autre.
+     * @param acteur Acteur dont on mesure la distance.
+     * @return double distance entre les acteurs.
+     */
     public double distance(Acteur acteur) {
         return this.position.distance(acteur.getPosition());
     }
