@@ -24,6 +24,11 @@ public class Vecteur {
         this(0);
     }
 
+    public Vecteur(Vecteur v) {
+        this.x = v.x;
+        this.y = v.y;
+    }
+
     public double getX() {
         return this.x;
     }
