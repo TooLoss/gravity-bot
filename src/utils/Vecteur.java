@@ -131,4 +131,37 @@ public class Vecteur {
         this.y += dy;
     }
 
+    public void opposer() {
+        this.x = -1 * this.x;
+        this.y = -1 * this.y;
+    }
+
+    public void ajouter(Vecteur v) {
+        this.x += v.getX();
+        this.y += v.getY();
+    }
+
+    public void soustraire(Vecteur v) {
+        this.ajouter(v.opposer());
+    }
+
+    public double getNorme() {
+        return Math.sqrt(this.x**2 + this.y**2);
+    }
+
+    public void normaliser() {
+        double norme = this.getNorme();
+        this.x /= norme;
+        this.y /= norme;
+    }
+
+    public void multiplier(Vecteur v) {
+        this.x *= v.getX();
+        this.y *= v.getY();
+    }
+
+    public void multiplier(double f) {
+        this.multiplier(new Vecteur(f));
+    }
+
 }
