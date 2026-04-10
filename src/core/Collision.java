@@ -2,6 +2,6 @@ package core;
 
 public interface Collision {
 
-    boolean estEnCollision(Acteur acteur, Acteur source);
+    boolean estEnCollision(Acteur acteur);
 
 }
