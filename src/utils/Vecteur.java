@@ -5,11 +5,11 @@ package utils;
  * Utilisé pour les coordonnées ou les vecteurs dans le plan.
  */
 public class Vecteur {
-    
+
     /**
      * Composante du vecteur sur l'axe des abscisses (axe x).
      */
-    private double x; 
+    private double x;
      /**
      * Composante du vecteur sur l'axe des ordonnées (axe y).
      */
@@ -142,11 +142,12 @@ public class Vecteur {
     }
 
     public void soustraire(Vecteur v) {
-        this.ajouter(v.opposer());
+        this.x -= v.x; 
+        this.y -= v.y;
     }
 
     public double getNorme() {
-        return Math.sqrt(this.x**2 + this.y**2);
+        return Math.sqrt((this.x * this.x) + (this.y * this.y));
     }
 
     public void normaliser() {
