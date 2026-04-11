@@ -61,11 +61,7 @@ public class ModeEditeur extends JFrame {
         centre.setBackground(new Color(20, 15, 5));
         centre.setBorder(BorderFactory.createLineBorder(new Color(120, 80, 20), 2));
 
-        //*
-        JLabel placeholder = new JLabel("[ Zone de construction du niveau ]", SwingConstants.CENTER);
-        placeholder.setForeground(new Color(160, 120, 40));
-        placeholder.setFont(new Font("Arial", Font.ITALIC, 20));
-        centre.add(placeholder, BorderLayout.CENTER);
+        centre.add(new AfficherGrille(), BorderLayout.CENTER);
 
         return centre;
     }
