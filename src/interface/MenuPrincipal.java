@@ -14,8 +14,8 @@ public class MenuPrincipal extends JFrame {
         setResizable(false);
 
         JPanel panneauPrincipal = new JPanel();
-        // le titre et les 4 boutons
-        panneauPrincipal.setLayout(new GridLayout(5, 1, 10, 15));
+        // le titre et les 5 boutons
+        panneauPrincipal.setLayout(new GridLayout(6, 1, 10, 15));
         panneauPrincipal.setBorder(BorderFactory.createEmptyBorder(50, 50, 50, 50));
         panneauPrincipal.setBackground(Color.DARK_GRAY);
 
@@ -25,8 +25,9 @@ public class MenuPrincipal extends JFrame {
         titre.setForeground(Color.WHITE);
         panneauPrincipal.add(titre);
 
-        // les 4 boutons
+        // les 5 boutons
         JButton btnJouer = creerBoutonMenu("Jouer");
+        JButton btnEditeur = creerBoutonMenu("Éditeur");
         JButton btnSettings = creerBoutonMenu("Paramètres");
         JButton btnCredit = creerBoutonMenu("Crédits");
         JButton btnQuitter = creerBoutonMenu("Quitter");
@@ -37,6 +38,14 @@ public class MenuPrincipal extends JFrame {
            this.dispose(); //ferme la fenetre du menu
            FenetreJeu jeu = new FenetreJeu();
            jeu.setVisible(true); // afficher la fenetre du jeu
+        });
+
+        // Action Éditeur : ferme le menu et ouvre le menu editeur
+
+        btnEditeur.addActionListener(e -> {
+            this.dispose();
+            ModeEditeur editeur = new ModeEditeur();
+            editeur.setVisible(true);
         });
 
         // Action Paramètres
@@ -52,6 +61,7 @@ public class MenuPrincipal extends JFrame {
 
         // Ajout des boutons au panneau principal
         panneauPrincipal.add(btnJouer);
+        panneauPrincipal.add(btnEditeur);
         panneauPrincipal.add(btnSettings);
         panneauPrincipal.add(btnCredit);
         panneauPrincipal.add(btnQuitter);
