@@ -1,4 +1,6 @@
 package core;
+import utils.Vecteur;
+
 
 /** Classe Map contient référence aux obstacles et projectiles. */
 public class Map {
@@ -7,13 +9,14 @@ public class Map {
     public static final double GAME_TICK = 1000000000L / 60; // 60 TPS
 
     private boolean estDansEcran(Acteur acteur) {
-        boolean estX = acteur.getX() >= 0 && acteur.getX() <= SCREEN_SIZE.getX();
-        boolean estY = acteur.getY() >= 0 && acteur.getY() <= SCREEN_SIZE.getY();
+        boolean estX = acteur.getPosition().getX() >= 0 && acteur.getPosition().getX() <= SCREEN_SIZE.getX();
+        boolean estY = acteur.getPosition().getY() >= 0 && acteur.getPosition().getY() <= SCREEN_SIZE.getY();
+        EEN_SIZE.getY();
         return estX && estY;
     }
 
     private Projectile projectile;
-    private Obstacles[] obstacles;
+    private Obstacle[] obstacles;
 
     /** Méthode appelé chaque frame correspondant à la game loop.
      * @return boolean True si le projectile atteind l'objectif.
@@ -31,7 +34,7 @@ public class Map {
             while (accumulator >= GAME_TICK) {
                 testerCollisions();
                 projectile.actualiser(GAME_TICK);
-                accumulator -= GAME_TICK; 
+                accumulator -= GAME_TICK;
             }
 
             // TODO Faire l'affichage Swing
@@ -40,7 +43,7 @@ public class Map {
     }
 
     public void testerCollisions() {
-        for (Obstacles obs : obstacles) {
+        for (Obstacle obs : obstacles) {
             if (obs.estDansObstacle(this.projectile)) {
                 obs.eventAction(this.projectile);
             }

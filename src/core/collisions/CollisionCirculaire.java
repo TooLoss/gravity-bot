@@ -1,4 +1,8 @@
 package core.collisions;
+import utils.Vecteur;
+import core.Acteur;
+import core.Collision;
+import core.Obstacle;
 
 public class CollisionCirculaire implements Collision {
 

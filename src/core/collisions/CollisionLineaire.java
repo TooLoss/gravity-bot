@@ -1,5 +1,8 @@
 package core.collisions;
-
+import utils.Vecteur;
+import core.Acteur;
+import core.Collision;
+import core.Obstacle;
 public class CollisionLineaire implements Collision {
 
     private Vecteur position;
@@ -11,7 +14,7 @@ public class CollisionLineaire implements Collision {
         this.direction = dir;
         this.epaisseur = e;
     }
-    
+
     @Override
     public boolean estEnCollision(Acteur acteur) {
         Vecteur AP = new Vecteur(this.position, acteur.getPosition());
