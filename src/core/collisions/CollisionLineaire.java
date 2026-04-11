@@ -32,10 +32,21 @@ public class CollisionLineaire implements Collision {
     
     @Override
     public boolean estEnCollision(Acteur acteur) {
-        Vecteur AP = new Vecteur(this.position, acteur.getPosition());
-        Vecteur AB = new Vecteur(this.direction); AB.ajouter(this.position);
-        double distance = AP.produitScalaire(AB);
-        return distance < epaisseur;
+        Vecteur u = new Vecteur(this.direction);
+        u.normaliser();
+
+        Vecteur n = this.vecteurNormale();
+
+        Vecteur OP = new Vecteur(acteur.getPosition());
+        OP.soustraire(this.position);
+
+        double projDirection = OP.produitScalaire(u);
+        double projNormale = OP.produitScalaire(n);
+
+        boolean dansLaPortee = projDirection >= 0 && projDirection <= this.portee;
+        boolean dansLEpaisseur = Math.abs(projNormale) <= this.epaisseur;
+
+        return dansLaPortee && dansLEpaisseur;
     }
 
 }
