@@ -164,5 +164,9 @@ public class Vecteur {
     public void multiplier(double f) {
         this.multiplier(new Vecteur(f));
     }
+    
+    public double produitScalaire(Vecteur v) {
+        return this.x * v.x + this.y * v.y;
+    }
 
 }
