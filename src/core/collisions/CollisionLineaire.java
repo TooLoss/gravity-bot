@@ -15,21 +15,21 @@ public class CollisionLineaire implements Collision {
 
         this.direction = new Vecteur(dir);
         this.direction.normaliser();
-        
+
         this.portee = portee;
         this.epaisseur = e;
     }
-    
+
     public CollisionLineaire(Vecteur pos, Vecteur dir, double e) {
         this.position = pos;
 
         this.direction = new Vecteur(dir);
         this.portee = dir.getNorme();
-        
+
         this.direction.normaliser();
         this.epaisseur = e;
     }
-    
+
     @Override
     public boolean estEnCollision(Acteur acteur) {
         Vecteur u = new Vecteur(this.direction);
