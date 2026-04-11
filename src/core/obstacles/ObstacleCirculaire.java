@@ -18,12 +18,7 @@ public class ObstacleCirculaire extends Obstacle {
     }
 
     @Override
-    public boolean estDansObstacle(Acteur acteur) {
-        return (this.distance(acteur) < rayon);
-    }
-
-    @Override
     public void eventAction(Projectile projectile) {
-        projectile.setCollided(true);
+        projectile.Collision(true);
     }
 }
