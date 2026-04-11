@@ -9,7 +9,8 @@ public class ObstacleAimantPull extends Obstacle {
     public void eventAction(Projectile projectile) {
         Vecteur posProjectile = projectile.getPosition();
         Vecteur posObstacle = this.getPosition();
-        Vecteur directeur = posProjectile.soustraire(posObstacle).opposer();
+        Vecteur directeur = new Vecteur(posProjectile);
+        directeur.soustraire(posObstacle).opposer();
         directeur.normaliser();
         directeur.multiplier(puissance);
         projectile.ajouterVitesse(directeur);
