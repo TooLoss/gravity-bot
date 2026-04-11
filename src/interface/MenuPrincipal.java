@@ -3,6 +3,9 @@ import java.awt.*;
 
 public class MenuPrincipal extends JFrame {
 
+    //Variable volume instanciée à 50
+    private int volumeJeu = 50;
+
     public MenuPrincipal() {
         setTitle("Gravity-Bot - Menu Principal");
         setSize(700, 600);
@@ -118,11 +121,21 @@ public class MenuPrincipal extends JFrame {
 
         //Options Volume
         JPanel Volume = new JPanel();
-        JLabel afficherVol = new JLabel("Volume : 50");
+        JLabel afficherVol = new JLabel("Volume : " + volumeJeu + " ");
         JButton moins = new JButton("-");
         JButton plus = new JButton("+");
-        moins.addActionListener(e -> afficherVol.setText("Volume : 0"));
-        plus.addActionListener(e -> afficherVol.setText("Volume : 100"));
+        moins.addActionListener(e ->{
+            if (volumeJeu >= 10){
+                volumeJeu -= 10;
+                afficherVol.setText("Volume : " + volumeJeu + " ");
+            } 
+        } );
+        plus.addActionListener(e -> {
+            if (volumeJeu <= 90){
+                volumeJeu += 10;
+                afficherVol.setText("Volume : " + volumeJeu + " ");
+            } 
+        });
         Volume.add(moins);
         Volume.add(afficherVol);
         Volume.add(plus);
@@ -137,7 +150,9 @@ public class MenuPrincipal extends JFrame {
         btnSauvegarder.setAlignmentX(Component.CENTER_ALIGNMENT);
         btnSauvegarder.setMaximumSize(new Dimension(350, 50));
         btnSauvegarder.addActionListener(e -> {
+            //Creer classe Audio et faire audio.setGlobalVolume(volumeJeu);
             System.out.println("Paramètres sauvegardées");
+            JOptionPane.showMessageDialog(menuParam, "Paramètres enregistrés !");
         } );
         contenu.add(btnSauvegarder);
         contenu.add(Box.createVerticalStrut(10));
