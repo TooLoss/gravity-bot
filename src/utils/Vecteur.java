@@ -47,6 +47,17 @@ public class Vecteur {
         this(0);
     }
 
+    /** 
+     * Construire un vecteur AB avec 2 points.
+     *
+     * @param a Position A.
+     * @param b Position B.
+     */
+    public Vecteur(Vecteur a, Vecteur b) {
+        this.x = b.getX() - b.getX();
+        this.x = b.getY() - b.getY();
+    }
+
      /**
      * Construit un vecteur par copie d'un vecteur existant.
      *
