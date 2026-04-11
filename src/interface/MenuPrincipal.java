@@ -86,14 +86,73 @@ public class MenuPrincipal extends JFrame {
     //Affichage des paramètres
     private void afficherParametres() {
         JDialog menuParam = new JDialog(this, "Paramètres", true);
-        menuParam.setSize(400,350); 
-        menuParam.setLocation(200,200);
-        menuParam.setLayout(new GridLayout(5, 1, 10, 10));
+        menuParam.setSize(500,600); 
+        menuParam.setLocation(300,200);
+
+        //Affichage organisé
+        JPanel contenu = new JPanel();
+        contenu.setLayout(new BoxLayout(contenu, BoxLayout.Y_AXIS));
+        contenu.setBorder(BorderFactory.createEmptyBorder(30, 50, 30, 50));
+        contenu.add(Box.createVerticalGlue());
 
         //Afficher titre
-        menuParam.add(new JLabel("Options d'accessibilité"));
+        JLabel titre = new JLabel("Options du jeu");
+        titre.setFont(new Font("Arial", Font.BOLD, 22));
+        titre.setAlignmentX(Component.CENTER_ALIGNMENT);
+        contenu.add(titre);
+        contenu.add(Box.createVerticalStrut(30));
+
+        //Option de contraste
+        JButton btnContraste = new JButton("Contraste : Normal");
+        btnContraste.setAlignmentX(Component.CENTER_ALIGNMENT);
+        btnContraste.setMaximumSize(new Dimension(300,50));
+        btnContraste.addActionListener(e -> {
+            if (btnContraste.getText().equals("Contraste : Normal")){
+                btnContraste.setText("Contraste : Elevé");
+            } else {
+                btnContraste.setText("Contraste : Normal");
+            } 
+        } );
+        contenu.add(btnContraste);
+        contenu.add(Box.createVerticalStrut(20));
+
+        //Options Volume
+        JPanel Volume = new JPanel();
+        JLabel afficherVol = new JLabel("Volume : 50");
+        JButton moins = new JButton("-");
+        JButton plus = new JButton("+");
+        moins.addActionListener(e -> afficherVol.setText("Volume : 0"));
+        plus.addActionListener(e -> afficherVol.setText("Volume : 100"));
+        Volume.add(moins);
+        Volume.add(afficherVol);
+        Volume.add(plus);
+        Volume.setAlignmentX(Component.CENTER_ALIGNMENT);
+        contenu.add(Volume);
+
+        //Espace pour aérer un peu le menu
+        contenu.add(new JPanel());
+
+        //Sauvegarder les changements
+        JButton btnSauvegarder = new JButton("Sauvegarder les changements");
+        btnSauvegarder.setAlignmentX(Component.CENTER_ALIGNMENT);
+        btnSauvegarder.setMaximumSize(new Dimension(350, 50));
+        btnSauvegarder.addActionListener(e -> {
+            System.out.println("Paramètres sauvegardées");
+        } );
+        contenu.add(btnSauvegarder);
+        contenu.add(Box.createVerticalStrut(10));
+
+        //Quitter ce menu
+        JButton btnRetour = new JButton("Retour au menu");
+        btnRetour.setAlignmentX(Component.CENTER_ALIGNMENT);
+        btnRetour.setMaximumSize(new Dimension(350, 50));
+        btnRetour.addActionListener(ev -> menuParam.dispose() );
+        contenu.add(btnRetour);
+
+        contenu.add(Box.createVerticalGlue());
 
         //Visibilité du menu
+        menuParam.add(contenu);
         menuParam.setVisible(true);
     }
 
