@@ -55,6 +55,21 @@ public class ModeEditeur extends JFrame {
 
         return bandeau;
     }
+    
+    // Zone Centrale : liée à AfficherGrille
+    private JPanel construireCentre() {
+        JPanel centre = new JPanel(new BorderLayout());
+        centre.setBackground(new Color(20, 15, 5));
+        centre.setBorder(BorderFactory.createLineBorder(new Color(120, 80, 20), 2));
+
+        //*
+        JLabel placeholder = new JLabel("[ Zone de construction du niveau ]", SwingConstants.CENTER);
+        placeholder.setForeground(new Color(160, 120, 40));
+        placeholder.setFont(new Font("Arial", Font.ITALIC, 20));
+        centre.add(placeholder, BorderLayout.CENTER);
+
+        return centre;
+    }
 
     // Cree un bouton stylise pour la sidebar de l'editeur
     private JButton creerBoutonOutil(String nom, String description) {
