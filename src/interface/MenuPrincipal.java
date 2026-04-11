@@ -38,7 +38,7 @@ public class MenuPrincipal extends JFrame {
 
         // Action Paramètres
         btnSettings.addActionListener(e -> {
-            System.out.println("Clic sur Paramètres - Logique à implémenter plus tard");
+            afficherParametres();
         });
 
         // Action Crédits
@@ -81,6 +81,20 @@ public class MenuPrincipal extends JFrame {
                 + "ENSEEIHT - 2026";
 
         JOptionPane.showMessageDialog(this, message, "Crédits", JOptionPane.INFORMATION_MESSAGE);
+    }
+
+    //Affichage des paramètres
+    private void afficherParametres() {
+        JDialog menuParam = new JDialog(this, "Paramètres", true);
+        menuParam.setSize(400,350); 
+        menuParam.setLocation(200,200);
+        menuParam.setLayout(new GridLayout(5, 1, 10, 10));
+
+        //Afficher titre
+        menuParam.add(new JLabel("Options d'accessibilité"));
+
+        //Visibilité du menu
+        menuParam.setVisible(true);
     }
 
     public static void main(String[] args) {
