@@ -30,6 +30,9 @@ import java.awt.*;
 
         construireInterface();
 
+        //affichage grille
+        this.add(new AfficherGrille());
+
     }
 
     private void construireInterface() {
@@ -185,7 +188,5 @@ import java.awt.*;
                 BorderFactory.createEmptyBorder(6, 16, 6, 16)));
 
     }
-
-
 
  }
