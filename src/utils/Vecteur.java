@@ -55,7 +55,7 @@ public class Vecteur {
      */
     public Vecteur(Vecteur a, Vecteur b) {
         this.x = b.getX() - a.getX();
-        this.x = b.getY() - a.getY();
+        this.y = b.getY() - a.getY();
     }
 
      /**
@@ -190,5 +190,47 @@ public class Vecteur {
         this.x = nouveauX;
         this.y = nouveauY;
     }
+    /**
+     * Effectue une rotation du vecteur d'un angle theta autour d'un point pivot spécifié.
+     *
+     * @param theta l'angle de rotation en radians
+     * @param pivot le point (Vecteur) autour duquel la rotation s'effectue
+     */
+     public void rotationnerAutourPivot(double theta, Vecteur pivot) {
+        // 1- On déplace le vecteur pour que le pivot devienne le centre (0,0)
+        this.soustraire(pivot);
 
+        // 2- On applique la rotation simple (qui tourne toujours autour de 0,0)
+        this.rotationner(theta);
+
+        // 3- On remet le vecteur à sa vraie place
+        this.ajouter(pivot);
+    }
+    /**
+     * Projette orthogonalement ce vecteur sur un autre vecteur (axe).
+     * * @param axe le vecteur sur lequel on souhaite faire la projection
+     */
+    public void projeterOrthogonalement(Vecteur axe) {
+        // 1- Calcul de U . U (la norme de l'axe au carré)
+        // On réutilise la fonction produitScalaire 
+        double normeAxeCarre = axe.produitScalaire(axe);
+
+        // Éviter la division par zéro
+        // Si on essaie de projeter sur un point (0,0), la projection devient nulle.
+        if (normeAxeCarre == 0) {
+            this.x = 0;
+            this.y = 0;
+            return;
+        }
+
+        // 3- Calcul de V . U (le produit scalaire entre ce vecteur et l'axe)
+        double produitScalaire = this.produitScalaire(axe);
+
+        // 4-  Calcul du facteur ((V . U)/(U.U))  
+        double facteur = produitScalaire / normeAxeCarre;
+
+        // 5. On applique ce facteur à l'axe pour obtenir notre nouveau vecteur. projuV = ((V . U)/(U.U))U
+        this.x = axe.getX() * facteur;
+        this.y = axe.getY() * facteur;
+    }
 }
