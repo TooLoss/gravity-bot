@@ -153,8 +153,8 @@ public class Vecteur {
     }
 
     public void soustraire(Vecteur v) {
-        this.x -= v.x; 
-        this.y -= v.y;
+        this.x -= v.getX(); 
+        this.y -= v.getY();
     }
 
     public double getNorme() {
