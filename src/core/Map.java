@@ -11,7 +11,6 @@ public class Map {
     private boolean estDansEcran(Acteur acteur) {
         boolean estX = acteur.getPosition().getX() >= 0 && acteur.getPosition().getX() <= SCREEN_SIZE.getX();
         boolean estY = acteur.getPosition().getY() >= 0 && acteur.getPosition().getY() <= SCREEN_SIZE.getY();
-        EEN_SIZE.getY();
         return estX && estY;
     }
 
