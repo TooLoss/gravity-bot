@@ -1,5 +1,4 @@
 package core.collisions;
-<<<<<<< HEAD
 import core.Acteur;
 import core.Collision;
 
