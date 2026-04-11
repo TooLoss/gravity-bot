@@ -37,6 +37,25 @@ public class ModeEditeur extends JFrame {
 
     }
     
+    // Bandeau nord : affiche le budget de départ que le joueur est en train de configurer
+    private JPanel construireBandeauNord() {
+        JPanel bandeau = new JPanel(new FlowLayout(FlowLayout.CENTER, 40, 8));
+        bandeau.setBackground(new Color(30, 20, 10));
+
+        JLabel labelTitre = new JLabel("Mode Editeur");
+        labelTitre.setForeground(new Color(255, 200, 80));
+        labelTitre.setFont(new Font("Arial", Font.BOLD, 16));
+
+        labelBudgetDepart = new JLabel("Budget de depart : " + budgetDepart + " euros");
+        labelBudgetDepart.setForeground(Color.LIGHT_GRAY);
+        labelBudgetDepart.setFont(new Font("Arial", Font.BOLD, 16));
+
+        bandeau.add(labelTitre);
+        bandeau.add(labelBudgetDepart);
+
+        return bandeau;
+    }
+    
 
     private void styliserBoutonControle(JButton btn, Color couleur) {
         btn.setBackground(couleur.darker());
