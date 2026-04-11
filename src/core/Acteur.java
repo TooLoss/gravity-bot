@@ -56,7 +56,7 @@ public abstract class Acteur {
      * @param v Vecteur translation.
      */
     public void translater(Vecteur v) {
-        // TODO
+    	this.position.translater(v.getX(), v.getY());
     }
 
 }
