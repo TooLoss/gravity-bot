@@ -1,0 +1,64 @@
+package test.core.collisions;
+
+import org.junit.Test;
+import static org.junit.Assert.*;
+
+import core.collisions.CollisionLineaire;
+import core.Projectile;
+import utils.Vecteur;
+
+public class CollisionLineaireTest {
+
+    @Test
+    public void testCollisionDansLaZone() {
+        // Initialisation : Un "rayon" partant de (0,0), pointant vers la droite (1,0)
+        // Portée de 10, Épaisseur de 2 (donc la zone va de Y = -2 à Y = 2)
+        CollisionLineaire rayon = new CollisionLineaire(
+            new Vecteur(0, 0), 
+            new Vecteur(1, 0), 
+            10.0, 
+            2.0
+        );
+
+        // Projectile placé en X=5, Y=1 (En plein milieu de la zone !)
+        Projectile projectile = new Projectile(new Vecteur(5, 1), new Vecteur(0, 0));
+
+        // Vérification (on utilise assertTrue car ça doit renvoyer true)
+        assertTrue("Le projectile (5,1) devrait être touché par le rayon.", 
+                   rayon.estEnCollision(projectile, null));
+    }
+
+    @Test
+    public void testCollisionHorsPortee() {
+        CollisionLineaire rayon = new CollisionLineaire(new Vecteur(0, 0), new Vecteur(1, 0), 10.0, 2.0);
+
+        // Projectile placé en X=15, Y=0 (Dans l'axe, mais beaucoup trop loin !)
+        Projectile projectile = new Projectile(new Vecteur(15, 0), new Vecteur(0, 0));
+
+        // Vérification (on utilise assertFalse car ça doit renvoyer false)
+        assertFalse("Le projectile (15,0) est trop loin, il ne devrait pas être touché.", 
+                    rayon.estEnCollision(projectile, null));
+    }
+
+    @Test
+    public void testCollisionHorsEpaisseur() {
+        CollisionLineaire rayon = new CollisionLineaire(new Vecteur(0, 0), new Vecteur(1, 0), 10.0, 2.0);
+
+        // Projectile placé en X=5, Y=5 (A la bonne distance, mais trop haut !)
+        Projectile projectile = new Projectile(new Vecteur(5, 5), new Vecteur(0, 0));
+
+        assertFalse("Le projectile (5,5) est trop haut, il ne devrait pas être touché.", 
+                    rayon.estEnCollision(projectile, null));
+    }
+
+    @Test
+    public void testCollisionDerriereLigne() {
+        CollisionLineaire rayon = new CollisionLineaire(new Vecteur(0, 0), new Vecteur(1, 0), 10.0, 2.0);
+
+        // Projectile placé en X=-2, Y=0 (Derrière l'origine du rayon)
+        Projectile projectile = new Projectile(new Vecteur(-2, 0), new Vecteur(0, 0));
+
+        assertFalse("Le projectile (-2,0) est derrière le rayon, il ne devrait pas être touché.", 
+                    rayon.estEnCollision(projectile, null));
+    }
+}
