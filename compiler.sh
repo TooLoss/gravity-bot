@@ -1,24 +1,26 @@
 #!/bin/bash
 
-# Chemins
 SRC="src"
 BIN="bin"
 
 # 1. Clean
 rm -rf $BIN && mkdir -p $BIN
 
-# 2. Liste fichiers (Exclut *Test.java et dossier interface)
-# -not -name "*Test.java" : ignore les tests
-# -path "$SRC/interface" -prune : ignore l'interface
-FILES=$(find $SRC -path "$SRC/interface" -prune -o -name "*.java" -not -name "*Test.java" -print)
+# 2. Liste via filtre inverse
+# Trouve tous les .java
+# grep -v : exclut les lignes contenant "Test.java" ou "interface/"
+FILES=$(find $SRC -name "*.java" | grep -v "Test.java" | grep -v "interface/")
 
-# 3. Compilation simple
-echo "Compilation du coeur du projet..."
+# 3. Compile
+if [ -z "$FILES" ]; then
+    echo "Rien à compiler."
+    exit 0
+fi
+
+echo "Fichiers sélectionnés :"
+echo "$FILES"
+
+echo "---"
 javac -d $BIN $FILES
 
-if [ $? -eq 0 ]; then
-    echo "Succès : Fichiers compilés dans $BIN/"
-else
-    echo "Erreur : Échec de la compilation."
-    exit 1
-fi
+[ $? -eq 0 ] && echo "Fini : $BIN/" || echo "Échec compilation."
