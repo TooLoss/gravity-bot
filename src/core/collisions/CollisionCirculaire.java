@@ -4,6 +4,7 @@ public class CollisionCirculaire implements Collision {
     private double rayon;
 
     public CollisionCirculaire(Vecteur centre, double rayon) {
+        // Le centre peut être modifié ailleur. ne pas faire de copies !!!
         this.centre = centre;
         this.rayon = rayon;
     }
