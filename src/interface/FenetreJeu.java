@@ -22,6 +22,13 @@ import java.awt.*;
     private Jlabel labelTour;
 
     public FenetreJeu() {
+        setTitle("Gravity-Bot - Partie");
+        setSize(900,650);
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setLocationRelativeTo(null);
+        setResizable(false);
+
+        construireInterface();
 
     }
 
