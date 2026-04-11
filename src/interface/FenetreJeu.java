@@ -30,8 +30,6 @@ import java.awt.*;
 
         construireInterface();
 
-        //affichage grille
-        this.add(new AfficherGrille());
 
     }
 
@@ -70,11 +68,9 @@ import java.awt.*;
         JPanel centre = new JPanel(new BorderLayout());
         centre.setBackground(new Color(15, 15, 40));
         centre.setBorder(BorderFactory.createLineBorder(new Color(60, 60, 120), 2));
-
-        JLabel placeholder = new JLabel("[ Plateau de jeu ]", SwingConstants.CENTER);
-        placeholder.setForeground(new Color(100, 100, 160));
-        placeholder.setFont(new Font("Arial", Font.ITALIC, 20));
-        centre.add(placeholder, BorderLayout.CENTER);
+        
+        // affichage de la grille
+        centre.add(new AfficherGrille(), BorderLayout.CENTER);
 
         return centre;
 
