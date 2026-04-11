@@ -30,6 +30,9 @@ import java.awt.*;
 
         construireInterface();
 
+        //affichage grille
+        this.add(new AfficherGrille());
+
     }
 
     private void construireInterface() {
@@ -101,7 +104,7 @@ import java.awt.*;
         //TODO (logique de placement)
     });
     sidebar.add(btnPlanete);
-    siebar.add(Box.createVerticalStrut(10));
+    sidebar.add(Box.createVerticalStrut(10));
 
     // Bouton Mur (100 euros)
     JButton btnMur = creerBoutonElement("Mur", "Rebond - 100 euros");
@@ -112,6 +115,7 @@ import java.awt.*;
         //TODO (logique de placement)
     });
     sidebar.add(btnMur);
+    sidebar.add(Box.createVerticalStrut(10));
 
     // Bouton Ventilateur (150 euros)
     JButton btnVentil = creerBoutonElement("Ventilateur", "Propulsion - 150 euros");
@@ -120,8 +124,9 @@ import java.awt.*;
             "Ventilateur selectionne.\nCliquez sur le plateau pour le placer.",
             "Ventilateur", JOptionPane.INFORMATION_MESSAGE);
         //TODO (logique de placement)
+    });
     sidebar.add(btnVentil);
-    sidebar.add.(Box.createVerticalStrut(10));
+    sidebar.add(Box.createVerticalStrut(10));
 
     return sidebar;
     }
@@ -183,7 +188,5 @@ import java.awt.*;
                 BorderFactory.createEmptyBorder(6, 16, 6, 16)));
 
     }
-
-
 
  }

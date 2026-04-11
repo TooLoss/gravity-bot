@@ -3,6 +3,9 @@ import java.awt.*;
 
 public class MenuPrincipal extends JFrame {
 
+    //Variable volume instanciée à 50
+    private int volumeJeu = 50;
+
     public MenuPrincipal() {
         setTitle("Gravity-Bot - Menu Principal");
         setSize(700, 600);
@@ -11,8 +14,8 @@ public class MenuPrincipal extends JFrame {
         setResizable(false);
 
         JPanel panneauPrincipal = new JPanel();
-        // le titre et les 4 boutons
-        panneauPrincipal.setLayout(new GridLayout(5, 1, 10, 15));
+        // le titre et les 5 boutons
+        panneauPrincipal.setLayout(new GridLayout(6, 1, 10, 15));
         panneauPrincipal.setBorder(BorderFactory.createEmptyBorder(50, 50, 50, 50));
         panneauPrincipal.setBackground(Color.DARK_GRAY);
 
@@ -22,8 +25,9 @@ public class MenuPrincipal extends JFrame {
         titre.setForeground(Color.WHITE);
         panneauPrincipal.add(titre);
 
-        // les 4 boutons
+        // les 5 boutons
         JButton btnJouer = creerBoutonMenu("Jouer");
+        JButton btnEditeur = creerBoutonMenu("Éditeur");
         JButton btnSettings = creerBoutonMenu("Paramètres");
         JButton btnCredit = creerBoutonMenu("Crédits");
         JButton btnQuitter = creerBoutonMenu("Quitter");
@@ -34,6 +38,14 @@ public class MenuPrincipal extends JFrame {
            this.dispose(); //ferme la fenetre du menu
            FenetreJeu jeu = new FenetreJeu();
            jeu.setVisible(true); // afficher la fenetre du jeu
+        });
+
+        // Action Éditeur : ferme le menu et ouvre le menu editeur
+
+        btnEditeur.addActionListener(e -> {
+            this.dispose();
+            ModeEditeur editeur = new ModeEditeur();
+            editeur.setVisible(true);
         });
 
         // Action Paramètres
@@ -49,6 +61,7 @@ public class MenuPrincipal extends JFrame {
 
         // Ajout des boutons au panneau principal
         panneauPrincipal.add(btnJouer);
+        panneauPrincipal.add(btnEditeur);
         panneauPrincipal.add(btnSettings);
         panneauPrincipal.add(btnCredit);
         panneauPrincipal.add(btnQuitter);
@@ -118,11 +131,21 @@ public class MenuPrincipal extends JFrame {
 
         //Options Volume
         JPanel Volume = new JPanel();
-        JLabel afficherVol = new JLabel("Volume : 50");
+        JLabel afficherVol = new JLabel("Volume : " + volumeJeu + " ");
         JButton moins = new JButton("-");
         JButton plus = new JButton("+");
-        moins.addActionListener(e -> afficherVol.setText("Volume : 0"));
-        plus.addActionListener(e -> afficherVol.setText("Volume : 100"));
+        moins.addActionListener(e ->{
+            if (volumeJeu >= 10){
+                volumeJeu -= 10;
+                afficherVol.setText("Volume : " + volumeJeu + " ");
+            } 
+        } );
+        plus.addActionListener(e -> {
+            if (volumeJeu <= 90){
+                volumeJeu += 10;
+                afficherVol.setText("Volume : " + volumeJeu + " ");
+            } 
+        });
         Volume.add(moins);
         Volume.add(afficherVol);
         Volume.add(plus);
@@ -137,7 +160,9 @@ public class MenuPrincipal extends JFrame {
         btnSauvegarder.setAlignmentX(Component.CENTER_ALIGNMENT);
         btnSauvegarder.setMaximumSize(new Dimension(350, 50));
         btnSauvegarder.addActionListener(e -> {
+            //Creer classe Audio et faire audio.setGlobalVolume(volumeJeu);
             System.out.println("Paramètres sauvegardées");
+            JOptionPane.showMessageDialog(menuParam, "Paramètres enregistrés !");
         } );
         contenu.add(btnSauvegarder);
         contenu.add(Box.createVerticalStrut(10));
