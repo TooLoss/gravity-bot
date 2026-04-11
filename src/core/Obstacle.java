@@ -6,7 +6,7 @@ package core;
  */
 public abstract class Obstacle extends Acteur {
     
-    private static Collision collision;
+    private Collision collision;
 
     /** L'action à réaliser quand le projectile entre dans l'obstacle.
      * @param projectile Projectile qui interragit avec l'obstacle.
