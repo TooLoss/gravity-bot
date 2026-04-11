@@ -33,6 +33,12 @@ import java.awt.*;
     }
 
     private void construireInterface() {
+        setLayout(new BorderLayout(5,5));
+
+        add(construireBandeauNord(), BorderLayout.NORTH);
+        add(construireCentre(), BorderLayout.CENTER);
+        add(construireSidebar(), BorderLayout.EAST);
+        add(construireFooter(), BorderLayout.SOUTH);
 
     }
 
