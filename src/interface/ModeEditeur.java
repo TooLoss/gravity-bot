@@ -69,8 +69,80 @@ public class ModeEditeur extends JFrame {
 
         return centre;
     }
+    
+    // Barre laterale : outils de construction du niveau (obstacles, objectif, budget
+    private JPanel construireSidebar() {
+        JPanel sidebar = new JPanel();
+        sidebar.setLayout(new BoxLayout(sidebar, BoxLayout.Y_AXIS));
+        sidebar.setBackground(new Color(30, 20, 10));
+        sidebar.setPreferredSize(new Dimension(185, 0));
+        sidebar.setBorder(BorderFactory.createEmptyBorder(15, 10, 15, 10));
 
-    //
+        JLabel titre = new JLabel("CONSTRUCTION");
+        titre.setForeground(new Color(255, 200, 80));
+        titre.setFont(new Font("Arial", Font.BOLD, 13));
+        titre.setAlignmentX(Component.CENTER_ALIGNMENT);
+        sidebar.add(titre);
+        sidebar.add(Box.createVerticalStrut(15));
+
+        // Bouton pour placer un obstacle sur le plateau
+        JButton btnObstacle = creerBoutonOutil("Obstacle", "Bloquer la trajectoire");
+        btnObstacle.addActionListener(e -> {
+            JOptionPane.showMessageDialog(this,
+                "Obstacle selectionne.\nCliquez sur le plateau pour le placer.",
+                "Obstacle", JOptionPane.INFORMATION_MESSAGE);
+            // TODO : appeler la logique de placement
+        });
+        sidebar.add(btnObstacle);
+        sidebar.add(Box.createVerticalStrut(10));
+
+        // Bouton pour definir la position de l'objectif sur le plateau
+        JButton btnObjectif = creerBoutonOutil("Objectif", "Definir la destination");
+        btnObjectif.addActionListener(e -> {
+            JOptionPane.showMessageDialog(this,
+                "Objectif selectionne.\nCliquez sur le plateau pour le positionner.",
+                "Objectif", JOptionPane.INFORMATION_MESSAGE);
+            // TODO : appeler la logique de placement de l'objectif
+        });
+        sidebar.add(btnObjectif);
+        sidebar.add(Box.createVerticalStrut(10));
+
+        // Bouton pour definir le point de depart du satellite
+        JButton btnDepart = creerBoutonOutil("Depart satellite", "Definir le point de depart");
+        btnDepart.addActionListener(e -> {
+            JOptionPane.showMessageDialog(this,
+                "Point de depart selectionne.\nCliquez sur le plateau pour le positionner.",
+                "Depart", JOptionPane.INFORMATION_MESSAGE);
+            // TODO : appeler la logique de placement du satellite
+        });
+        sidebar.add(btnDepart);
+        sidebar.add(Box.createVerticalStrut(20));
+
+        // Reglage du budget de depart avec un slider
+        JLabel labelSlider = new JLabel("Budget de depart :");
+        labelSlider.setForeground(Color.LIGHT_GRAY);
+        labelSlider.setFont(new Font("Arial", Font.PLAIN, 12));
+        labelSlider.setAlignmentX(Component.CENTER_ALIGNMENT);
+        sidebar.add(labelSlider);
+        sidebar.add(Box.createVerticalStrut(5));
+
+        JSlider sliderBudget = new JSlider(500, 3000, budgetDepart);
+        sliderBudget.setMajorTickSpacing(500);
+        sliderBudget.setPaintTicks(true);
+        sliderBudget.setPaintLabels(true);
+        sliderBudget.setBackground(new Color(30, 20, 10));
+        sliderBudget.setForeground(Color.LIGHT_GRAY);
+        sliderBudget.setMaximumSize(new Dimension(165, 60));
+        sliderBudget.addChangeListener(e -> {
+            budgetDepart = sliderBudget.getValue();
+            labelBudgetDepart.setText("Budget de depart : " + budgetDepart + " euros");
+        });
+        sidebar.add(sliderBudget);
+
+        return sidebar;
+    }
+
+    // Footer : sauvegarder et tester le niveau,retourner au menu
     private JPanel construireFooter() {
         JPanel footer = new JPanel(new FlowLayout(FlowLayout.CENTER, 20, 8));
         footer.setBackground(new Color(20, 20, 20));
