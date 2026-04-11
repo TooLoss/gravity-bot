@@ -3,6 +3,7 @@ package core.obstacles;
 import core.Acteur;
 import core.Obstacle;
 import core.Projectile;
+import utils.Vecteur;
 
 /**
  * Obstacle de forme circulaire.
