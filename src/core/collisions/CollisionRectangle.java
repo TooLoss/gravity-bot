@@ -1,12 +1,7 @@
 package core.collisions;
-<<<<<<< HEAD
 import core.Acteur;
-import core.Collision;
-
 import utils.Vecteur;
-import core.Acteur;
 import core.Collision;
-import core.Obstacle;
 
 
 public class CollisionRectangle implements Collision {
