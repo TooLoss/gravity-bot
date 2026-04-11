@@ -16,10 +16,10 @@ import java.awt.*;
      private int tour = 1;
 
     /** Le label du budget. **/
-     private Jlabel labelBudget;
+     private JLabel labelBudget;
     
     /** Le label du numero de tour. **/
-    private Jlabel labelTour;
+    private JLabel labelTour;
 
     public FenetreJeu() {
         setTitle("Gravity-Bot - Partie");
