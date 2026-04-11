@@ -5,6 +5,8 @@ public class MenuPrincipal extends JFrame {
 
     //Variable volume instanciée à 50
     private int volumeJeu = 50;
+    private CardLayout gestionnaireVues = new CardLayout();
+    private JPanel conteneurPrincipal = new JPanel(gestionnaireVues);
 
     public MenuPrincipal() {
         setTitle("Gravity-Bot - Menu Principal");
@@ -12,62 +14,76 @@ public class MenuPrincipal extends JFrame {
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLocationRelativeTo(null);
         setResizable(false);
+        
+        JPanel vueMenu = creerPanneauMenu();
+        JPanel vueParam = creerPanneauParam();
 
-        JPanel panneauPrincipal = new JPanel();
-        // le titre et les 5 boutons
-        panneauPrincipal.setLayout(new GridLayout(6, 1, 10, 15));
-        panneauPrincipal.setBorder(BorderFactory.createEmptyBorder(50, 50, 50, 50));
-        panneauPrincipal.setBackground(Color.DARK_GRAY);
+        conteneurPrincipal.add(vueMenu, "ACCUEIL");
+        conteneurPrincipal.add(vueParam, "SETTINGS");
 
-        // Titre du jeu
-        JLabel titre = new JLabel("GRAVITY-BOT", SwingConstants.CENTER);
-        titre.setFont(new Font("Arial", Font.BOLD, 40));
-        titre.setForeground(Color.WHITE);
-        panneauPrincipal.add(titre);
+        // On affiche le conteneur principal
+        this.setContentPane(conteneurPrincipal);
+    } 
 
-        // les 5 boutons
-        JButton btnJouer = creerBoutonMenu("Jouer");
-        JButton btnEditeur = creerBoutonMenu("Éditeur");
-        JButton btnSettings = creerBoutonMenu("Paramètres");
-        JButton btnCredit = creerBoutonMenu("Crédits");
-        JButton btnQuitter = creerBoutonMenu("Quitter");
+        private JPanel creerPanneauMenu(){
+            JPanel panneauPrincipal = new JPanel();
+            // le titre et les 5 boutons
+            panneauPrincipal.setLayout(new GridLayout(6, 1, 10, 15));
+            panneauPrincipal.setBorder(BorderFactory.createEmptyBorder(50, 50, 50, 50));
+            panneauPrincipal.setBackground(Color.DARK_GRAY);
 
+            // Titre du jeu
+            JLabel titre = new JLabel("GRAVITY-BOT", SwingConstants.CENTER);
+            titre.setFont(new Font("Arial", Font.BOLD, 40));
+            titre.setForeground(Color.WHITE);
+            panneauPrincipal.add(titre);
 
-        // Action Jouer : ferme le menu principal et ouvre la fenetre de jeu
-        btnJouer.addActionListener(e -> {
-           this.dispose(); //ferme la fenetre du menu
-           FenetreJeu jeu = new FenetreJeu();
-           jeu.setVisible(true); // afficher la fenetre du jeu
-        });
+            // les 5 boutons
+            JButton btnJouer = creerBoutonMenu("Jouer");
+            JButton btnEditeur = creerBoutonMenu("Éditeur");
+            JButton btnSettings = creerBoutonMenu("Paramètres");
+            JButton btnCredit = creerBoutonMenu("Crédits");
+            JButton btnQuitter = creerBoutonMenu("Quitter");
 
-        // Action Éditeur : ferme le menu et ouvre le menu editeur
+            
 
-        btnEditeur.addActionListener(e -> {
-            this.dispose();
-            ModeEditeur editeur = new ModeEditeur();
-            editeur.setVisible(true);
-        });
+            // Action Jouer : ferme le menu principal et ouvre la fenetre de jeu
+            btnJouer.addActionListener(e -> {
+                this.dispose(); //ferme la fenetre du menu
+                FenetreJeu jeu = new FenetreJeu();
+                jeu.setVisible(true); // afficher la fenetre du jeu
+            });
 
-        // Action Paramètres
-        btnSettings.addActionListener(e -> {
-            afficherParametres();
-        });
+            // Action Éditeur : ferme le menu et ouvre le menu editeur
 
-        // Action Crédits
-        btnCredit.addActionListener(e -> afficherCredits());
+            btnEditeur.addActionListener(e -> {
+                this.dispose();
+                ModeEditeur editeur = new ModeEditeur();
+                editeur.setVisible(true);
+            });
 
-        // Action Quitter : Ferme le programme
-        btnQuitter.addActionListener(e -> System.exit(0));
+            // Action Paramètres
+            btnSettings.addActionListener(e -> {
+                gestionnaireVues.show(conteneurPrincipal, "SETTINGS");
+            });
 
-        // Ajout des boutons au panneau principal
-        panneauPrincipal.add(btnJouer);
-        panneauPrincipal.add(btnEditeur);
-        panneauPrincipal.add(btnSettings);
-        panneauPrincipal.add(btnCredit);
-        panneauPrincipal.add(btnQuitter);
+            // Action Crédits
+            btnCredit.addActionListener(e -> afficherCredits());
 
-        this.setContentPane(panneauPrincipal);
-    }
+            // Action Quitter : Ferme le programme
+            btnQuitter.addActionListener(e -> System.exit(0));
+
+            // Ajout des boutons au panneau principal
+            panneauPrincipal.add(btnJouer);
+            panneauPrincipal.add(btnEditeur);
+            panneauPrincipal.add(btnSettings);
+            panneauPrincipal.add(btnCredit);
+            panneauPrincipal.add(btnQuitter);
+
+            this.setContentPane(panneauPrincipal);
+
+            return panneauPrincipal;
+        } 
 
     // le design des boutons
     private JButton creerBoutonMenu(String texte) {
@@ -97,26 +113,32 @@ public class MenuPrincipal extends JFrame {
     }
 
     //Affichage des paramètres
-    private void afficherParametres() {
-        JDialog menuParam = new JDialog(this, "Paramètres", true);
-        menuParam.setSize(500,600); 
-        menuParam.setLocation(300,200);
+    private JPanel creerPanneauParam() {
+    
+        //Couleurs et thématiques
+        Color fondEspace = new Color(10, 10, 25); //Bleu foncé
+        Color bleuNeon = new Color(51, 204, 255); //bleu clair brillant
+        Color texteBlanc = new Color(240, 240, 240);
+        Font fontSpatiale = new Font("Monospaced", Font.BOLD, 18); //Police
 
         //Affichage organisé
         JPanel contenu = new JPanel();
         contenu.setLayout(new BoxLayout(contenu, BoxLayout.Y_AXIS));
+        contenu.setBackground(fondEspace);
         contenu.setBorder(BorderFactory.createEmptyBorder(30, 50, 30, 50));
         contenu.add(Box.createVerticalGlue());
 
         //Afficher titre
         JLabel titre = new JLabel("Options du jeu");
-        titre.setFont(new Font("Arial", Font.BOLD, 22));
+        titre.setFont(new Font("Monospaced", Font.BOLD, 24));
+        titre.setForeground(bleuNeon);
         titre.setAlignmentX(Component.CENTER_ALIGNMENT);
         contenu.add(titre);
         contenu.add(Box.createVerticalStrut(30));
 
         //Option de contraste
         JButton btnContraste = new JButton("Contraste : Normal");
+        styliserBouton(btnContraste, bleuNeon, fondEspace, fontSpatiale);
         btnContraste.setAlignmentX(Component.CENTER_ALIGNMENT);
         btnContraste.setMaximumSize(new Dimension(300,50));
         btnContraste.addActionListener(e -> {
@@ -131,19 +153,25 @@ public class MenuPrincipal extends JFrame {
 
         //Options Volume
         JPanel Volume = new JPanel();
+        Volume.setBackground(fondEspace);
         JLabel afficherVol = new JLabel("Volume : " + volumeJeu + " ");
+        afficherVol.setForeground(texteBlanc);
+        afficherVol.setFont(fontSpatiale);
+
         JButton moins = new JButton("-");
         JButton plus = new JButton("+");
+        styliserBouton(moins, bleuNeon, fondEspace, fontSpatiale);
+        styliserBouton(plus, bleuNeon, fondEspace, fontSpatiale);
         moins.addActionListener(e ->{
             if (volumeJeu >= 10){
                 volumeJeu -= 10;
-                afficherVol.setText("Volume : " + volumeJeu + " ");
+                afficherVol.setText("Volume : " + volumeJeu + "%");
             } 
         } );
         plus.addActionListener(e -> {
             if (volumeJeu <= 90){
                 volumeJeu += 10;
-                afficherVol.setText("Volume : " + volumeJeu + " ");
+                afficherVol.setText("Volume : " + volumeJeu + "%");
             } 
         });
         Volume.add(moins);
@@ -153,32 +181,47 @@ public class MenuPrincipal extends JFrame {
         contenu.add(Volume);
 
         //Espace pour aérer un peu le menu
-        contenu.add(new JPanel());
+        JPanel Vide = new JPanel();
+        Vide.setBackground(fondEspace);
+        contenu.add(Vide);
 
         //Sauvegarder les changements
         JButton btnSauvegarder = new JButton("Sauvegarder les changements");
+        styliserBouton(btnSauvegarder, Color.GREEN, fondEspace, fontSpatiale);
         btnSauvegarder.setAlignmentX(Component.CENTER_ALIGNMENT);
         btnSauvegarder.setMaximumSize(new Dimension(350, 50));
         btnSauvegarder.addActionListener(e -> {
-            //Creer classe Audio et faire audio.setGlobalVolume(volumeJeu);
+            Audio.GestionnaireAudio.setVolume(volumeJeu);
             System.out.println("Paramètres sauvegardées");
-            JOptionPane.showMessageDialog(menuParam, "Paramètres enregistrés !");
+            JOptionPane.showMessageDialog(
+                this, "Les modifications ont été appliquées avec succès !",
+                    "Système mis à jour", JOptionPane.INFORMATION_MESSAGE );
         } );
         contenu.add(btnSauvegarder);
         contenu.add(Box.createVerticalStrut(10));
 
         //Quitter ce menu
         JButton btnRetour = new JButton("Retour au menu");
+        styliserBouton(btnRetour, Color.GRAY, fondEspace, fontSpatiale);
         btnRetour.setAlignmentX(Component.CENTER_ALIGNMENT);
         btnRetour.setMaximumSize(new Dimension(350, 50));
-        btnRetour.addActionListener(ev -> menuParam.dispose() );
+        btnRetour.addActionListener(ev -> gestionnaireVues.show(conteneurPrincipal, "ACCUEIL"));
         contenu.add(btnRetour);
 
         contenu.add(Box.createVerticalGlue());
 
-        //Visibilité du menu
-        menuParam.add(contenu);
-        menuParam.setVisible(true);
+        return contenu;
+    }
+
+    //Styliser les boutons
+    private void styliserBouton(JButton b, Color neon, Color fond, Font f) {
+        b.setFont(f);
+        b.setForeground(neon);
+        b.setBackground(fond);
+        b.setFocusPainted(false);
+        b.setBorder(BorderFactory.createLineBorder(neon, 2));
+        b.setAlignmentX(Component.CENTER_ALIGNMENT);
+        b.setMaximumSize(new Dimension(350, 50));
     }
 
     public static void main(String[] args) {
