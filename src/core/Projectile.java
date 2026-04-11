@@ -2,7 +2,7 @@ package core;
 import utils.Vecteur;
 
 public class Projectile extends Acteur {
-    
+
     public Vecteur vitesse;
 
     public static final double vitesseSatellite = 1.f;
@@ -32,6 +32,10 @@ public class Projectile extends Acteur {
 
     public void setVitesse(Vecteur v) {
         this.vitesse = new Vecteur(v);
+    }
+
+    public Vecteur getVitesse() {
+        return this.vitesse;
     }
 
 }
