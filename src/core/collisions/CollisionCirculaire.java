@@ -2,6 +2,10 @@ package core.collisions;
 import core.Acteur;
 import core.Collision;
 import utils.Vecteur;
+import utils.Vecteur;
+import core.Acteur;
+import core.Collision;
+import core.Obstacle;
 
 public class CollisionCirculaire implements Collision {
     private Vecteur centre;

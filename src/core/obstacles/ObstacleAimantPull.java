@@ -1,4 +1,9 @@
 package core.obstacles;
+import utils.Vecteur;
+import core.Acteur;
+import core.Collision;
+import core.Obstacle;
+import core.Projectile;
 
 public class ObstacleAimantPull extends Obstacle {
 
