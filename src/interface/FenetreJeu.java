@@ -128,6 +128,32 @@ import java.awt.*;
 
     // Footer : boutons de controle pour lancer la simualtion ou retourner au menu
     private JPanel construireFooter() {
+        JPanel footer = new JPanel(new FlowLayout(FlowLayout.CENTER, 20, 8));
+        footer.setBackground(new Color(20, 20, 20));
+
+        JButton btnLancer = new JButton("Lancer la simulation");
+        JButton btnRetour = new JButton("Retour au Menu");
+
+        styliserBoutonControle(btnLancer, new Color(40, 160, 80));
+        styliserBoutonControle(btnRetour, new Color(140, 50, 50));
+
+        btnLancer.addActionListener(e -> {
+            JOptionPane.showMessageDialog(this,
+                    "Simulation lancee !\n(La physique sera implementee par l'autre groupe.)",
+                    "Simulation", JOptionPane.INFORMATION_MESSAGE);
+            // TODO : declencher la simulation
+        });
+
+        btnRetour.addActionListener(e -> {
+            this.dispose();
+            MenuPrincipal menu = new MenuPrincipal();
+            menu.setVisible(true);
+        });
+
+        footer.add(btnLancer);
+        footer.add(btnRetour);
+
+        return footer;
 
     }
 
