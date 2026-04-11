@@ -27,7 +27,7 @@ public abstract class Acteur {
     /** Fonction abstraite qui est executé à chaque frame du jeu.
      * @param dt Delta t écoulé depuis la dernière frame.
      */
-    public abstract void actualiser(double dt);
+    public void actualiser(double dt) {}
 
     /** Récupérer la position de l'acteur.
      * @return Vecteur position copié de l'acteur.
