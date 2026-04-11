@@ -16,6 +16,8 @@ public class CollisionLineaire implements Collision {
     public boolean estEnCollision(Acteur acteur) {
         Vecteur AP = new Vecteur(this.position, acteur.getPosition());
         Vecteur AB = new Vecteur(this.direction); AB.ajouter(this.position);
+        double distance = AP.produitScalaire(AB);
+        return distance < epaisseur;
     }
 
 }
