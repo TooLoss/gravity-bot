@@ -4,14 +4,14 @@ package core;
 public class Map {
 
     public static final Vecteur SCREEN_SIZE = new Vecteur(500.f);
-    public static final double GAME_TICK = 1.f;
+    public static final double GAME_TICK = 1000000000L / 60; // 60 TPS
 
     private boolean estDansEcran(Acteur acteur) {
-        boolean estX = acteur.getX() - SCREEN_SIZE.getX() > 0;
-        boolean estY = acteur.getY() - SCREEN_SIZE.getY() > 0;
+        boolean estX = acteur.getX() >= 0 && acteur.getX() <= SCREEN_SIZE.getX();
+        boolean estY = acteur.getY() >= 0 && acteur.getY() <= SCREEN_SIZE.getY();
         return estX && estY;
     }
-    
+
     private Projectile projectile;
     private Obstacles[] obstacles;
 
@@ -19,22 +19,32 @@ public class Map {
      * @return boolean True si le projectile atteind l'objectif.
      */
     public boolean lancerSimulation() {
-        long previous_time = System.nanoTime();
-        long frame_time = 0;
+        long previous = System.nanoTime();
+        long accumulator = 0;
+
         while (estDansEcran(projectile)) {
-            long time = System.nanoTime();
-            long delta_time = time - previous_time;
-            previous_time = time;
+            long current = System.nanoTime();
+            long elapsed = current - previous;
+            previous = current;
+            accumulator += elapsed;
 
-            frame_time += delta_time;
+            while (accumulator >= GAME_TICK) {
+                testerCollisions();
+                projectile.actualiser(GAME_TICK);
+                accumulator -= GAME_TICK; 
+            }
 
-            while (frame_time >= GAME_TICK) {
-                // TODO Update here with GameTick
+            // TODO Faire l'affichage Swing
+        }
+        return false;
+    }
+
+    public void testerCollisions() {
+        for (Obstacles obs : obstacles) {
+            if (obs.estDansObstacle(this.projectile)) {
+                obs.eventAction(this.projectile);
             }
         }
-
-        // Le projectile n'a pas atteind l'objectif
-        return false;
     }
 
 }
