@@ -21,7 +21,7 @@ public class Map {
     public boolean lancerSimulation() {
         long previous_time = System.nanoTime();
         long frame_time = 0;
-        while (estDansEcran(projectile) {
+        while (estDansEcran(projectile)) {
             long time = System.nanoTime();
             long delta_time = time - previous_time;
             previous_time = time;

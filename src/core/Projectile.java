@@ -18,7 +18,7 @@ public class Projectile extends Acteur {
         double x = vitesse.getX();
         double y = vitesse.getY();
         Vecteur vecteurTranslation = new Vecteur(x * dt, y * dt);
-        this.translater(vecteurTranslation)
+        this.translater(vecteurTranslation);
     }
 
     /** Ajoute à la vitesse du projecteur v.
