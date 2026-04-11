@@ -55,8 +55,21 @@ public class ModeEditeur extends JFrame {
 
         return bandeau;
     }
-    
 
+    // Cree un bouton stylise pour la sidebar de l'editeur
+    private JButton creerBoutonOutil(String nom, String description) {
+        JButton btn = new JButton("<html><b>" + nom + "</b><br><small>" + description + "</small></html>");
+        btn.setBackground(new Color(60, 40, 10));
+        btn.setForeground(Color.WHITE);
+        btn.setFocusPainted(false);
+        btn.setAlignmentX(Component.CENTER_ALIGNMENT);
+        btn.setMaximumSize(new Dimension(165, 55));
+        btn.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+        btn.setBorder(BorderFactory.createLineBorder(new Color(180, 130, 20), 1));
+        return btn;
+    }
+    
+    //Applique le meme style aux boutons du footer
     private void styliserBoutonControle(JButton btn, Color couleur) {
         btn.setBackground(couleur.darker());
         btn.setForeground(Color.WHITE);
