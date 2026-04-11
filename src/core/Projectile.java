@@ -26,7 +26,8 @@ public class Projectile extends Acteur {
      */
     public void ajouterVitesse(Vecteur v) {
         this.vitesse.ajouter(v);
-        vitesse.normaliser().multiplier(vitesseSatellite);
+        vitesse.normaliser();
+        vitesse.multiplier(vitesseSatellite);
     }
 
     public void setVitesse(Vecteur v) {

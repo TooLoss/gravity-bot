@@ -21,7 +21,7 @@ public class CollisionRectangle implements Collision {
     }
 
     @Override
-    public boolean estEnCollision(Acteur acteur, Acteur source) {
+    public boolean estEnCollision(Acteur acteur) {
         // On récupère la position du projectile/satellite
         Vecteur positionActeur = acteur.getPosition();
 

@@ -47,6 +47,17 @@ public class Vecteur {
         this(0);
     }
 
+    /** 
+     * Construire un vecteur AB avec 2 points.
+     *
+     * @param a Position A.
+     * @param b Position B.
+     */
+    public Vecteur(Vecteur a, Vecteur b) {
+        this.x = b.getX() - b.getX();
+        this.x = b.getY() - b.getY();
+    }
+
      /**
      * Construit un vecteur par copie d'un vecteur existant.
      *
@@ -167,6 +178,17 @@ public class Vecteur {
     
     public double produitScalaire(Vecteur v) {
         return this.x * v.x + this.y * v.y;
+    }
+    
+    public void rotationner(double theta) {
+        double cos = Math.cos(theta);
+        double sin = Math.sin(theta);
+
+        double nouveauX = this.x * cos - this.y * sin;
+        double nouveauY = this.x * sin + this.y * cos;
+
+        this.x = nouveauX;
+        this.y = nouveauY;
     }
 
 }

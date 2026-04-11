@@ -4,17 +4,18 @@ public class CollisionLineaire implements Collision {
 
     private Vecteur position;
     private Vecteur direction;
-    private double taille;
+    private double epaisseur;
 
-    public CollisionLineaire(Vecteur pos, Vecteur dir, double t) {
+    public CollisionLineaire(Vecteur pos, Vecteur dir, double e) {
         this.position = pos;
         this.direction = dir;
-        this.taille = t;
+        this.epaisseur = e;
     }
     
     @Override
     public boolean estEnCollision(Acteur acteur) {
-        
+        Vecteur AP = new Vecteur(this.position, acteur.getPosition());
+        Vecteur AB = new Vecteur(this.direction); AB.ajouter(this.position);
     }
 
 }
