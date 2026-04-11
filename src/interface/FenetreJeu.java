@@ -44,6 +44,21 @@ import java.awt.*;
 
     // Bandeau nord : affiche le budget et le tour en cours
     private JPanel construireBandeauNord() {
+        JPanel bandeau = new JPanel( new FlowLayout(FlowLayout.CENTER, 40, 8));
+        bandeau.setBackground(new Color(30, 30, 30));
+        
+        labelBudget = new JLabel("Budget : " + budget + " euros");
+        labelBudget.setForeground(Color.WHITE);
+        labelBudget.setFont(new Font("Arial", Font.BOLD, 16));
+        
+        labelTour = new JLabel("Tour : " + tour);
+        labelTour.setForeground(Color.LIGHT_GRAY);
+        labelTour.setFont(new Font("Arial", Font.BOLD, 16));
+        
+        bandeau.add(labelBudget);
+        bandeau.add(labelTour);
+
+        return bandeau;
 
     }
 
