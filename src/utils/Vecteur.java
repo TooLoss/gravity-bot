@@ -197,13 +197,13 @@ public class Vecteur {
      * @param pivot le point (Vecteur) autour duquel la rotation s'effectue
      */
      public void rotationnerAutourPivot(double theta, Vecteur pivot) {
-        // 1- On déplace le vecteur pour que le pivot devienne le centre (0,0)
+        // On déplace le vecteur pour que le pivot devienne le centre (0,0)
         this.soustraire(pivot);
 
-        // 2- On applique la rotation simple (qui tourne toujours autour de 0,0)
+        // On applique la rotation simple (qui tourne toujours autour de 0,0)
         this.rotationner(theta);
 
-        // 3- On remet le vecteur à sa vraie place
+        // On remet le vecteur à sa vraie place
         this.ajouter(pivot);
     }
     /**
@@ -211,7 +211,7 @@ public class Vecteur {
      * * @param axe le vecteur sur lequel on souhaite faire la projection
      */
     public void projeterOrthogonalement(Vecteur axe) {
-        // 1- Calcul de U . U (la norme de l'axe au carré)
+        // Calcul de U . U (la norme de l'axe au carré)
         // On réutilise la fonction produitScalaire 
         double normeAxeCarre = axe.produitScalaire(axe);
 
@@ -223,14 +223,23 @@ public class Vecteur {
             return;
         }
 
-        // 3- Calcul de V . U (le produit scalaire entre ce vecteur et l'axe)
+        // Calcul de V . U (le produit scalaire entre ce vecteur et l'axe)
         double produitScalaire = this.produitScalaire(axe);
 
-        // 4-  Calcul du facteur ((V . U)/(U.U))  
+        // Calcul du facteur ((V . U)/(U.U))  
         double facteur = produitScalaire / normeAxeCarre;
 
-        // 5. On applique ce facteur à l'axe pour obtenir notre nouveau vecteur. projuV = ((V . U)/(U.U))U
+        // On applique ce facteur à l'axe pour obtenir notre nouveau vecteur. projuV = ((V . U)/(U.U))U
         this.x = axe.getX() * facteur;
         this.y = axe.getY() * facteur;
+    }
+    /**
+     * Calcule et retourne un vecteur normal (perpendiculaire) au vecteur actuel.
+     * Le vecteur retourné correspond à une rotation de 90° vers la gauche.
+     * * @return un nouveau Vecteur perpendiculaire
+     */
+    public Vecteur vecteurNormal() {
+        // n = (-y, x)
+        return new Vecteur(-this.y, this.x);
     }
 }
