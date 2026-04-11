@@ -19,7 +19,7 @@ public abstract class Obstacle extends Acteur {
      */
     public boolean estDansObstacle(Acteur acteur) {
         // Acteur acteur, Acteur source
-        return collision.estEnCollision(acteur, this);
+        return collision.estEnCollision(acteur);
     }
 
     public void setCollision(Collision collision) {
