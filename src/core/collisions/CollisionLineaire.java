@@ -1,4 +1,4 @@
-package core.collision;
+package core.collisions;
 
 public class CollisionLineaire implements Collision {
 

@@ -1,7 +1,4 @@
-package core.obstacles;
-import core.Acteur;
-import core.Collision;
-
+package core.collisions;
 import utils.Vecteur;
 
 public class CollisionRectangle implements Collision {
