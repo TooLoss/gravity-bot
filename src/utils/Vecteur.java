@@ -54,8 +54,8 @@ public class Vecteur {
      * @param b Position B.
      */
     public Vecteur(Vecteur a, Vecteur b) {
-        this.x = b.getX() - b.getX();
-        this.x = b.getY() - b.getY();
+        this.x = b.getX() - a.getX();
+        this.x = b.getY() - a.getY();
     }
 
      /**
