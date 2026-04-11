@@ -29,9 +29,11 @@ public class MenuPrincipal extends JFrame {
         JButton btnQuitter = creerBoutonMenu("Quitter");
 
 
-        // Action Jouer
+        // Action Jouer : ferme le menu principal et ouvre la fenetre de jeu
         btnJouer.addActionListener(e -> {
-            System.out.println("Clic sur Jouer - Logique à implémenter plus tard");
+           this.dispose(); //ferme la fenetre du menu
+           FenetreJeu jeu = new FenetreJeu();
+           jeu.setVisible(true); // afficher la fenetre du jeu
         });
 
         // Action Paramètres
