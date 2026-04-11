@@ -22,4 +22,9 @@ public class ObstacleCirculaire extends Obstacle {
     public void eventAction(Projectile projectile) {
         projectile.Collision(true);
     }
+
+    @Override
+    public void actualiser(double dt) {
+        // Acteur class abstract
+    }
 }
