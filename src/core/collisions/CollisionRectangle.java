@@ -1,4 +1,4 @@
-package core.obstacles;
+package core.collisions;
 import core.Acteur;
 import core.Collision;
 
