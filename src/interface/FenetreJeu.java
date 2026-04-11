@@ -133,11 +133,28 @@ import java.awt.*;
 
     // Creer boutons stylise pour la barre laterale
     private JButton creerBoutonElement(String nom, String info) {
+        JButton btn = new JButton("<html><b>" + nom + "</b><br><small>" + info + "</small></html>");
+        btn.setBackground(new Color(40, 40, 80));
+        btn.setForeground(Color.WHITE);
+        btn.setFocusPainted(false);
+        btn.setAlignmentX(Component.CENTER_ALIGNMENT);
+        btn.setMaximumSize(new Dimension(160, 55));
+        btn.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+        btn.setBorder(BorderFactory.createLineBorder(new Color(80, 80, 160), 1));
 
+        return btn;
     }
 
     // Appliquer meme style aux boutons du Footer
     private void styliserBoutonControle(JButton btn, Color couleur) {
+        btn.setBackground(couleur.darker());
+        btn.setForeground(Color.WHITE);
+        btn.setFont(new Font("Arial", Font.BOLD, 13));
+        btn.setFocusPainted(false);
+        btn.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+        btn.setBorder(BorderFactory.createCompoundBorder(
+                BorderFactory.createLineBorder(couleur, 1),
+                BorderFactory.createEmptyBorder(6, 16, 6, 16)));
 
     }
 
