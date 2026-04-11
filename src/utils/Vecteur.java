@@ -179,5 +179,16 @@ public class Vecteur {
     public double produitScalaire(Vecteur v) {
         return this.x * v.x + this.y * v.y;
     }
+    
+    public void rotationner(double theta) {
+        double cos = Math.cos(theta);
+        double sin = Math.sin(theta);
+
+        double nouveauX = this.x * cos - this.y * sin;
+        double nouveauY = this.x * sin + this.y * cos;
+
+        this.x = nouveauX;
+        this.y = nouveauY;
+    }
 
 }
