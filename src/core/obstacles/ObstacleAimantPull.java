@@ -3,7 +3,11 @@ package core.obstacles;
 public class ObstacleAimantPull extends Obstacle {
 
     private static final double puissance = 1.f;
-    private static final Collision collision;
+    private static final double rayon = 5.f;
+
+    public ObstacleAimantPull() {
+        this.setCollision(new CollisionCirculaire(this.getPosition, rayon));
+    }
 
     @Override
     public void eventAction(Projectile projectile) {
