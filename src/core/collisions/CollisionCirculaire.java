@@ -9,7 +9,7 @@ public class CollisionCirculaire implements Collision {
     }
 
     @Override
-    public boolean estEnCollision(Acteur acteur, Acteur source) {
-        return source.distance(acteur) < rayon;
+    public boolean estEnCollision(Acteur acteur) {
+        return centre.distance(acteur) < rayon;
     }
 }
