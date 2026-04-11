@@ -6,7 +6,6 @@ import java.awt.*;
  *   - placant des obstacles sur le plateau
  *   - reglant le budget de depart
  *   - definissant la position de l'objectif
- *
  * Cette fenetre s'ouvre depuis le bouton "Editeur" du MenuPrincipal.
  * La structure visuelle est identique a FenetreJeu, seule la sidebar change.
  */
@@ -69,6 +68,46 @@ public class ModeEditeur extends JFrame {
         centre.add(placeholder, BorderLayout.CENTER);
 
         return centre;
+    }
+
+    //
+    private JPanel construireFooter() {
+        JPanel footer = new JPanel(new FlowLayout(FlowLayout.CENTER, 20, 8));
+        footer.setBackground(new Color(20, 20, 20));
+
+        JButton btnSauvegarder = new JButton("Sauvegarder le niveau");
+        JButton btnTester      = new JButton("Tester le niveau");
+        JButton btnRetour      = new JButton("Retour au Menu");
+
+        styliserBoutonControle(btnSauvegarder, new Color(180, 130, 20));
+        styliserBoutonControle(btnTester,      new Color(40, 160, 80));
+        styliserBoutonControle(btnRetour,      new Color(140, 50, 50));
+
+        btnSauvegarder.addActionListener(e -> {
+            JOptionPane.showMessageDialog(this,
+                "Niveau sauvegarde !\n(La logique de sauvegarde sera implementee par l'autre groupe.)",
+                "Sauvegarde", JOptionPane.INFORMATION_MESSAGE);
+            // TODO : appeler la logique de sauvegarde du niveau
+        });
+
+        btnTester.addActionListener(e -> {
+            // Ferme l'editeur et ouvre la fenetre de jeu pour tester le niveau cree
+            this.dispose();
+            FenetreJeu jeu = new FenetreJeu();
+            jeu.setVisible(true);
+        });
+
+        btnRetour.addActionListener(e -> {
+            this.dispose();
+            MenuPrincipal menu = new MenuPrincipal();
+            menu.setVisible(true);
+        });
+
+        footer.add(btnSauvegarder);
+        footer.add(btnTester);
+        footer.add(btnRetour);
+
+        return footer;
     }
 
     // Cree un bouton stylise pour la sidebar de l'editeur

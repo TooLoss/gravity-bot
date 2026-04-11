@@ -1,3 +1,5 @@
+package core.collisions;
+
 public class CollisionCirculaire implements Collision {
 
     private Vecteur centre;

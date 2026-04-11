@@ -4,7 +4,7 @@
 SRC="src"
 BIN="bin"
 JUNIT="/mnt/n7fs/ens/tp_cregut/junit4.jar"
-CP="$BIN:$JUNIT:."
+CP="$JUNIT:."
 
 # 1. Clean
 rm -rf $BIN && mkdir -p $BIN
