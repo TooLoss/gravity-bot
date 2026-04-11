@@ -35,7 +35,7 @@ public class CollisionLineaire implements Collision {
         Vecteur u = new Vecteur(this.direction);
         u.normaliser();
 
-        Vecteur n = this.vecteurNormale();
+        Vecteur n = this.vecteurNormal();
 
         Vecteur OP = new Vecteur(acteur.getPosition());
         OP.soustraire(this.position);
