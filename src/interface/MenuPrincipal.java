@@ -186,7 +186,7 @@ public class MenuPrincipal extends JFrame {
         //Options Volume
         JPanel Volume = new JPanel();
         Volume.setBackground(fondEspace);
-        JLabel afficherVol = new JLabel("Volume : " + volumeJeu + " ");
+        JLabel afficherVol = new JLabel("Volume : " + volumeJeu + "%");
         afficherVol.setForeground(texteBlanc);
         afficherVol.setFont(fontSpatiale);
 
