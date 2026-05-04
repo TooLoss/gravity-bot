@@ -5,12 +5,12 @@ import core.Projectile;
 import core.collisions.CollisionRectangle;
 import utils.Vecteur;
 
-public class Mur extends Obstacle {
+public class ObstacleMur extends Obstacle {
 
     private Vecteur pointA;
     private Vecteur pointB;
 
-    public Mur(Vecteur pointA, Vecteur pointB) {
+    public ObstacleMur(Vecteur pointA, Vecteur pointB) {
         this.pointA = new Vecteur(pointA);
         this.pointB = new Vecteur(pointB);
 
