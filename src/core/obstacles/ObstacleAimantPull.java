@@ -30,7 +30,7 @@ public class ObstacleAimantPull extends Obstacle {
         directeur.soustraire(posObstacle);
         directeur.opposer();
         directeur.normaliser();
-        directeur.multiplier(puissance);
+        directeur.multiplier(puissance/100);
         projectile.ajouterVitesse(directeur);
      }
 

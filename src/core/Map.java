@@ -46,6 +46,8 @@ public class Map {
                 projectile.actualiser(GAME_TICK*10e-9);
                 accumulator -= GAME_TICK;
                 Vecteur sat_pos = projectile.getPosition();
+                Vecteur sat_speed = projectile.getVitesse();
+                System.out.println("Satellite position : " + sat_speed.getX() + " - " + sat_speed.getY());
                 System.out.println("Satellite position : " + sat_pos.getX() + " - " + sat_pos.getY());
             }
             // TODO Faire l'affichage Swing
