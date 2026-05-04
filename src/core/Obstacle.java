@@ -8,6 +8,7 @@ import utils.Vecteur;
 public abstract class Obstacle extends Acteur {
     
     private Collision collision;
+    private int prix;
 
     public Obstacle() {
         super();
@@ -33,6 +34,10 @@ public abstract class Obstacle extends Acteur {
 
     public void setCollision(Collision collision) {
         this.collision = collision;
+    }
+
+    public int getPrix() {
+        return this.prix;
     }
     
 }

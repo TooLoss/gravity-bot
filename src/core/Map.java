@@ -1,6 +1,6 @@
 package core;
 import utils.Vecteur;
-import core.obstacles.ObstacleAimantPull;
+import core.obstacles.*;
 import java.util.HashSet;
 
 
@@ -23,17 +23,20 @@ public class Map {
     public Vecteur position_initiale;
     // TODO public que pour les tests
     public Vecteur vitesse_initiale;
+    private Vecteur cible_position;
+    private ObstacleCible cible;
 
     private boolean estSimulation;
-    private int tour;
+    private boolean estGagne;
 
     public Map() {
         this.estSimulation = false;
-        this.tour = 0;
+        this.estGagne = false;
     }
 
     public void initialiserParametres() {
         this.projectile = new Projectile(position_initiale, vitesse_initiale);
+        this.cible = new ObstacleCible(cible_position);
     }
 
     public void ajouterObstacle(Obstacle obstacle) {
@@ -50,11 +53,10 @@ public class Map {
         this.estSimulation = true;
         long previous = System.nanoTime();
         long accumulator = 0;
-        tour++;
 
         initialiserParametres();
 
-        while (estDansEcran(projectile)) {
+        while (estDansEcran(projectile) && !estGagne) {
             long current = System.nanoTime();
             long elapsed = current - previous;
             previous = current;
@@ -71,15 +73,22 @@ public class Map {
             }
             // TODO Faire l'affichage Swing
         }
-        return false;
+        return estGagne;
     }
 
     public void testerCollisions() {
+        if (cible.estDansObstacle(this.projectile)) {
+            gagne();
+        }
         for (Obstacle obs : obstacles) {
             if (obs.estDansObstacle(this.projectile)) {
                 obs.eventAction(this.projectile);
             }
         }
+    }
+
+    public void gagne() {
+        this.estGagne = true;
     }
 
 }
