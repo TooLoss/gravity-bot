@@ -3,14 +3,14 @@ import utils.Vecteur;
 import core.Acteur;
 import core.Collision;
 import core.Obstacle;
-public class CollisionLineaire implements Collision {
+public class CollisionSegment implements Collision {
 
     private Vecteur position;
     private Vecteur direction;
     private double epaisseur;
     private double portee;
 
-    public CollisionLineaire(Vecteur pos, Vecteur dir, double portee, double e) {
+    public CollisionSegment(Vecteur pos, Vecteur dir, double portee, double e) {
         this.position = pos;
 
         this.direction = new Vecteur(dir);
@@ -20,7 +20,7 @@ public class CollisionLineaire implements Collision {
         this.epaisseur = e;
     }
 
-    public CollisionLineaire(Vecteur pos, Vecteur dir, double e) {
+    public CollisionSegment(Vecteur pos, Vecteur dir, double e) {
         this.position = pos;
 
         this.direction = new Vecteur(dir);
