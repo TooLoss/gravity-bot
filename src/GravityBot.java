@@ -1,11 +1,27 @@
-import utils.Vecteur;
-import core.Map;
+import javax.swing.*;
+import java.awt.event.*;
+import java.awt.MouseInfo;
+import java.awt.Point;
 
-class GravityBot {
+class GravityBot extends JFrame implements MouseListener {
+
+    public GravityBot() {
+        super("titre de l'application");
+
+        WindowListener l = new WindowAdapter() {
+            public void windowClosing(WindowEvent e){
+                System.exit(0);
+            }
+        };
+
+        addWindowListener(l);
+
+        JPanel panneau = new JPanel();
+        setSize(1000,1000);
+        setVisible(true);
+    }
+
     public static void main(String[] args) {
-        Map map = new Map();
-        map.position_initiale = new Vecteur(10.0f);
-        map.vitesse_initiale = new Vecteur(10.0f, .0f);
-        map.lancerSimulation();
+        JFrame frame = new GravityBot();
     }
 }

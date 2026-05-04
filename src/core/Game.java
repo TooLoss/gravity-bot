@@ -3,7 +3,7 @@ import core.Map;
 import core.joueurs.Joueur;
 import core.obstacles.*;
 
-public class Game {
+public class Game extends JFrame implements MouseListener {
 
     private Map map;
     private Joueur joueur1;
@@ -16,6 +16,7 @@ public class Game {
     private boolean mapTermine;
 
     public Game() {
+        addMouseListener(this);
         this.estCoupFini = false;
         this.mapTermine = false;
         this.tour = 0;
@@ -43,7 +44,29 @@ public class Game {
     }
 
     public Joueur getJoueurCourant() {
-        return 
+        return null;
     }
 
+
+    @Override
+    public void mouseClicked(MouseEvent e) {
+        System.out.println("mouse pos X : " + e.getX());
+        System.out.println("mouse pos Y : " + e.getY());
+    }
+
+    @Override
+    public void mouseEntered(MouseEvent e) {
+    }
+
+    @Override
+    public void mouseExited(MouseEvent e) {
+    }
+
+    @Override
+    public void mousePressed(MouseEvent e) {
+    }
+
+    @Override
+    public void mouseReleased(MouseEvent e) {
+    }
 }
