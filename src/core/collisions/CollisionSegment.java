@@ -8,25 +8,21 @@ public class CollisionSegment implements Collision {
     private Vecteur position;
     private Vecteur direction;
     private double epaisseur;
-    private double portee;
-
-    public CollisionSegment(Vecteur pos, Vecteur dir, double portee, double e) {
-        this.position = pos;
-
-        this.direction = new Vecteur(dir);
-        this.direction.normaliser();
-
-        this.portee = portee;
-        this.epaisseur = e;
-    }
 
     public CollisionSegment(Vecteur pos, Vecteur dir, double e) {
         this.position = pos;
-
         this.direction = new Vecteur(dir);
-        this.portee = dir.getNorme();
+        this.epaisseur = e;
+    }
 
-        this.direction.normaliser();
+    public CollisionSegment(Vecteur pos,
+            double angle,
+            double longueur,
+            double e)
+    {
+        this.position = pos;
+        this.direction = new Vecteur(Math.cos(angle), Math.sin(angle));
+        this.direction.multiplier(longueur);
         this.epaisseur = e;
     }
 
