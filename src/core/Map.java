@@ -1,6 +1,7 @@
 package core;
 import utils.Vecteur;
 import core.obstacles.ObstacleAimantPull;
+import java.util.HashSet;
 
 
 /** Classe Map contient référence aux obstacles et projectiles. */
@@ -15,23 +16,41 @@ public class Map {
         return estX && estY;
     }
 
+    // NOTE n'est pas statique car doit être initialisé depuis un fichier save map
     private Projectile projectile;
-    private Obstacle[] obstacles = { new ObstacleAimantPull(new Vecteur(200.f, 20.f)) };
+    private HashSet<Obstacle> obstacles;
     // TODO public que pour les tests
     public Vecteur position_initiale;
     // TODO public que pour les tests
     public Vecteur vitesse_initiale;
 
+    private boolean estSimulation;
+    private int tour;
+
+    public Map() {
+        this.estSimulation = false;
+        this.tour = 0;
+    }
+
     public void initialiserParametres() {
         this.projectile = new Projectile(position_initiale, vitesse_initiale);
+    }
+
+    public void ajouterObstacle(Obstacle obstacle) {
+        // TODO danger, doit enregistrer une copie
+        if (!estSimulation) {
+            obstacles.add(obstacle);
+        }
     }
 
     /** Méthode appelé chaque frame correspondant à la game loop.
      * @return boolean True si le projectile atteind l'objectif.
      */
     public boolean lancerSimulation() {
+        this.estSimulation = true;
         long previous = System.nanoTime();
         long accumulator = 0;
+        tour++;
 
         initialiserParametres();
 
