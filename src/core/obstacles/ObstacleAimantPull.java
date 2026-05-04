@@ -18,7 +18,7 @@ public class ObstacleAimantPull extends Obstacle {
 
     // TODO le mettre dans le constructeur Obstacle de base
     public ObstacleAimantPull(Vecteur position) {
-        this.setPosition(position);
+        super(position);
         this.setCollision(new CollisionCirculaire(this.getPosition(), rayon));
     }
 

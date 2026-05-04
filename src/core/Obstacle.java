@@ -1,4 +1,5 @@
 package core;
+import utils.Vecteur;
 
 /** Classe abstraite de l'obstacle.
  * L'obstacle véfifie à chaque instant si le projectile vérifie les conditions
@@ -7,6 +8,14 @@ package core;
 public abstract class Obstacle extends Acteur {
     
     private Collision collision;
+
+    public Obstacle() {
+        super();
+    }
+
+    public Obstacle(Vecteur position) {
+        super(position);
+    }
 
     /** L'action à réaliser quand le projectile entre dans l'obstacle.
      * @param projectile Projectile qui interragit avec l'obstacle.
