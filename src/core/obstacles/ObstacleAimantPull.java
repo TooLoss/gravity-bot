@@ -10,9 +10,15 @@ import core.collisions.CollisionCirculaire;
 public class ObstacleAimantPull extends Obstacle {
 
     private static final double puissance = 1.f;
-    private static final double rayon = 5.f;
+    private static final double rayon = 30.f;
 
     public ObstacleAimantPull() {
+        this.setCollision(new CollisionCirculaire(this.getPosition(), rayon));
+    }
+
+    // TODO le mettre dans le constructeur Obstacle de base
+    public ObstacleAimantPull(Vecteur position) {
+        this.setPosition(position);
         this.setCollision(new CollisionCirculaire(this.getPosition(), rayon));
     }
 

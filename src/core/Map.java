@@ -1,5 +1,6 @@
 package core;
 import utils.Vecteur;
+import core.obstacles.ObstacleAimantPull;
 
 
 /** Classe Map contient référence aux obstacles et projectiles. */
@@ -15,7 +16,15 @@ public class Map {
     }
 
     private Projectile projectile;
-    private Obstacle[] obstacles;
+    private Obstacle[] obstacles = { new ObstacleAimantPull(new Vecteur(200.f, 20.f)) };
+    // TODO public que pour les tests
+    public Vecteur position_initiale;
+    // TODO public que pour les tests
+    public Vecteur vitesse_initiale;
+
+    public void initialiserParametres() {
+        this.projectile = new Projectile(position_initiale, vitesse_initiale);
+    }
 
     /** Méthode appelé chaque frame correspondant à la game loop.
      * @return boolean True si le projectile atteind l'objectif.
@@ -23,6 +32,8 @@ public class Map {
     public boolean lancerSimulation() {
         long previous = System.nanoTime();
         long accumulator = 0;
+
+        initialiserParametres();
 
         while (estDansEcran(projectile)) {
             long current = System.nanoTime();
@@ -32,10 +43,11 @@ public class Map {
 
             while (accumulator >= GAME_TICK) {
                 testerCollisions();
-                projectile.actualiser(GAME_TICK);
+                projectile.actualiser(GAME_TICK*10e-9);
                 accumulator -= GAME_TICK;
+                Vecteur sat_pos = projectile.getPosition();
+                System.out.println("Satellite position : " + sat_pos.getX() + " - " + sat_pos.getY());
             }
-
             // TODO Faire l'affichage Swing
         }
         return false;
