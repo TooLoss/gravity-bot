@@ -18,7 +18,7 @@ public class CollisionCirculaire implements Collision {
 
     @Override
     public boolean estEnCollision(Acteur acteur) {
-        System.out.println(this.centre.toString());
+        System.out.println("Centre de la collision : " + this.centre.toString());
         return centre.distance(acteur.getPosition()) < rayon;
     }
 }

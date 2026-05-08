@@ -3,18 +3,16 @@ import java.awt.event.*;
 import core.Game;
 import core.joueurs.*;
 
-class GravityBot extends JFrame {
-
+public class GravityBot {
     public static void main(String[] args) {
-        Joueur j1 = new JoueurHumain("Joueur 1");
-        Joueur j2 = new JoueurHumain("Joueur 2");
+        // Initialize Backend
+        Joueur j1 = new Joueur("Joueur 1");
+        Joueur j2 = new Joueur("Joueur 2");
+        Game engine = new Game(j1, j2);
 
-        Game game = new Game(j1, j2);
-        
-        game.addWindowListener(new WindowAdapter() {
-            public void windowClosing(WindowEvent e){
-                System.exit(0);
-            }
+        // Initialize Frontend and pass the backend to it
+        SwingUtilities.invokeLater(() -> {
+            new FenetreJeu(engine);
         });
     }
 }

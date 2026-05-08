@@ -6,8 +6,6 @@ import core.collisions.CollisionSegment;
 
 public class ObstaclePropulseur extends Obstacle {
 
-
-    // La direction du propulseur 
     private Vecteur direction;
     private Vecteur directeur = new Vecteur(10.f);
     private double epaisseur = 10.f;
