@@ -31,7 +31,7 @@ public class Credits {
     JFrame frame = new JFrame("GravityBot");
 
     public Credits() {
-        ImageIcon bgIcon = new ImageIcon("src/gifGravity.gif");
+        ImageIcon bgIcon = new ImageIcon("interface/gifGravity.gif");
         JLabel backgroundLabel = new JLabel(bgIcon);
         
         // Setup de la frame
@@ -45,7 +45,7 @@ public class Credits {
 
         // Gestion du curseur
         try {
-            ImageIcon icon = new ImageIcon("src/cursor.png");
+            ImageIcon icon = new ImageIcon("interface/cursor.png");
             Image originalImg = icon.getImage();
             int cursorSize = 32;
             BufferedImage resizedImg = new BufferedImage(cursorSize, cursorSize, BufferedImage.TYPE_INT_ARGB);
