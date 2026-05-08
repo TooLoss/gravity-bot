@@ -209,4 +209,9 @@ public class Vecteur {
         // n = (-y, x)
         return new Vecteur(-this.y, this.x);
     }
+
+    @Override
+    public String toString() { 
+        return "(" + this.x + "," + this.y + ")";
+    }
 }
