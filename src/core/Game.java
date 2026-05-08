@@ -118,7 +118,10 @@ public class Game extends JFrame implements MouseListener {
     @Override
     public void mouseClicked(MouseEvent e) {
         if (selectedObstacle != null) {
-            selectedObstacle.setPosition(e.getX(), e.getY());
+            Point origin = SwingUtilities.convertPoint(map, 0, 0, this);
+            float relativeX = (float) e.getX() - origin.x;
+            float relativeY = (float) e.getY() - origin.y;
+            selectedObstacle.setPosition(relativeX, relativeY);
             System.out.println("Obstacle ajouté à la position : " + e.getX() + " " + e.getY());
             map.ajouterObstacle(selectedObstacle.copier());
             // selectedObstacle = null;
