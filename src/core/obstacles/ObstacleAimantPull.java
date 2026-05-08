@@ -32,7 +32,6 @@ public class ObstacleAimantPull extends Obstacle {
         directeur.normaliser();
         directeur.multiplier(puissance/100);
         projectile.ajouterVitesse(directeur);
-        System.out.println("OOAOEZOAOEIJKZAOJHILKRE");
     }
 
     @Override

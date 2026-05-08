@@ -8,7 +8,7 @@ public class Projectile extends Acteur {
     public static final double vitesseSatellite = 10.f;
 
     public Projectile(Vecteur position, Vecteur vitesse) {
-        this.vitesse = vitesse;
+        this.setVitesse(vitesse);
         this.setPosition(position);
     }
 

@@ -34,6 +34,13 @@ public class Map extends JPanel {
             int py = (int) projectile.getPosition().getY();
             g.fillOval(px - 3, py - 3, 6, 6);
         }
+
+        if (cible != null) {
+            g.setColor(Color.GREEN);
+            int px = (int) cible.getPosition().getX();
+            int py = (int) cible.getPosition().getY();
+            g.fillOval(px - 3, py - 3, 6, 6);
+        }
     }
 
     public static final Vecteur SCREEN_SIZE = new Vecteur(500.f);
@@ -48,27 +55,32 @@ public class Map extends JPanel {
     // NOTE n'est pas statique car doit être initialisé depuis un fichier save map
     private Projectile projectile;
     // TODO public que pour les tests
-    public Vecteur position_initiale = new Vecteur(10.f);
+    private Vecteur position_initiale = new Vecteur(10.f);
     // TODO public que pour les tests
-    public Vecteur vitesse_initiale = new Vecteur(10.f);
-    private Vecteur cible_position = new Vecteur(50.f, .0f);
+    private Vecteur vitesse_initiale = new Vecteur(10.f);
+    private Vecteur cible_position = new Vecteur(450.f, 450.f);
     private ObstacleCible cible;
 
-    private boolean estSimulation;
     private boolean estGagne;
 
     public Map() {
-        this.estSimulation = false;
         this.estGagne = false;
+        initialiserParametres();
     }
 
     public void initialiserParametres() {
-        this.projectile = new Projectile(position_initiale, vitesse_initiale);
-        this.cible = new ObstacleCible(cible_position);
+        if (this.projectile == null) {
+            this.projectile = new Projectile(position_initiale, vitesse_initiale);
+        } else {
+            this.projectile.setPosition(position_initiale);
+            this.projectile.setVitesse(vitesse_initiale);
+        }
+        if (this.cible == null)
+            this.cible = new ObstacleCible(cible_position);
     }
 
     public void ajouterObstacle(Obstacle obstacle) {
-        if (!estSimulation) {
+        if (estDansEcran(obstacle)) {
             System.out.println("Obstacle register : " + obstacle.getPosition().toString());
             obstacles.add(obstacle);
             repaint();
@@ -79,7 +91,6 @@ public class Map extends JPanel {
      * @return boolean True si le projectile atteind l'objectif.
      */
     public boolean lancerSimulation() {
-        this.estSimulation = true;
         long previous = System.nanoTime();
         long accumulator = 0;
 
