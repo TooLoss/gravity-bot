@@ -1,21 +1,10 @@
 package core.joueurs;
 import core.Map;
 
-public class JoueurHumain implements Joueur {
-
-    private String nom;
+public class JoueurHumain extends Joueur {
 
     public JoueurHumain(String nom) {
-        this.nom = nom;
-    }
-
-    @Override
-    public void faireJouer(Map map) {
-        // TODO
-    }
-
-    public String getNom() {
-        return this.nom;
+        super(nom);
     }
 
 }
