@@ -21,7 +21,7 @@ public class Joueur {
         return this.budget;
     }
 
-    public int retirerBudget(int prix) {
+    public void retirerBudget(int prix) {
         this.budget -= prix;
     }
 }
