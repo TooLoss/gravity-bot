@@ -44,10 +44,10 @@ public class Map extends JPanel {
     // NOTE n'est pas statique car doit être initialisé depuis un fichier save map
     private Projectile projectile;
     // TODO public que pour les tests
-    public Vecteur position_initiale;
+    public Vecteur position_initiale = new Vecteur(10.f);
     // TODO public que pour les tests
-    public Vecteur vitesse_initiale;
-    private Vecteur cible_position;
+    public Vecteur vitesse_initiale = new Vecteur(10.f);
+    private Vecteur cible_position = new Vecteur(50.f, .0f);
     private ObstacleCible cible;
 
     private boolean estSimulation;

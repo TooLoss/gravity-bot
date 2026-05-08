@@ -41,6 +41,7 @@ public abstract class Acteur {
      * @param v Vecteur position de l'acteur.
      */
     public void setPosition(Vecteur v) {
+        assert (v != null);
         this.position = new Vecteur(v); 
     }
 

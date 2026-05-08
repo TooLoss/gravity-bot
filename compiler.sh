@@ -6,7 +6,7 @@ BIN="bin"
 rm -rf $BIN && mkdir -p $BIN
 
 # Find logic
-FILES=$(find $SRC -name "*.java" | grep -v "Test.java" | grep -v "interface/")
+FILES=$(find $SRC -name "*.java" | grep -v "Test.java")
 
 # Compile action
 if [ -n "$FILES" ]; then
