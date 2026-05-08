@@ -20,4 +20,8 @@ public class Joueur {
     public int getBudget() {
         return this.budget;
     }
+
+    public int retirerBudget(int prix) {
+        this.budget -= prix;
+    }
 }

@@ -16,7 +16,10 @@ public class Map extends JPanel {
     @Override
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
-        
+
+        g.setColor(new Color(0, 0, 100)); // Dark Blue
+        g.fillRect(0, 0, 500, 500);
+
         g.setColor(Color.RED);
         for (Obstacle obs : obstacles) {
             int x = (int) obs.getPosition().getX();

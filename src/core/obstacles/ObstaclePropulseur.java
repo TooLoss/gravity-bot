@@ -9,14 +9,13 @@ public class ObstaclePropulseur extends Obstacle {
   
     // La direction du propulseur 
     private Vecteur direction;
- 
+    private Vecteur directeur = new Vecteur(10.f);
+    private double epaisseur = 10.f;
     
-    public ObstaclePropulseur(Vecteur position, Vecteur directeur, double epaisseur)
+    public ObstaclePropulseur()
     {
-        this.setPosition(position);
-        this.setCollision(new CollisionSegment(position, directeur, epaisseur));
+        this.setCollision(new CollisionSegment(this.getPosition(), directeur, epaisseur));
         
-	// On garde la direction normalisée 
         this.direction = new Vecteur(directeur);
         this.direction.normaliser();
     }
