@@ -13,3 +13,9 @@ sh ./run_test.sh
 ```bash
 sh ./compiler.sh
 ```
+
+## Lancer le projet :
+
+```bash
+java -cp bin GravityBot
+```
