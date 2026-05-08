@@ -9,7 +9,7 @@ public class MenuPrincipal {
     static int boardWidth = 700;
     static int boardHeight = 600;
 
-    // Couleurs de theme
+    // Couleurs du thème
     private static final Color loganGlow = new Color(170, 169, 205);
     private static final Color white = new Color(246, 246, 246);
 
