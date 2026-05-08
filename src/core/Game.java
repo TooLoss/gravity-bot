@@ -5,6 +5,7 @@ import java.awt.*;
 import java.awt.event.*;
 import core.joueurs.Joueur;
 import core.obstacles.*;
+import utils.Vecteur;
 
 public class Game extends JFrame implements MouseListener {
 
@@ -75,8 +76,8 @@ public class Game extends JFrame implements MouseListener {
         sidebar.setBackground(new Color(25, 25, 50));
 
         // TODO ajouter obstacles
-        sidebar.add(creerBoutonObstacle("Planete", new ObstacleAimantPull(), 200));
-        sidebar.add(creerBoutonObstacle("Propulseur", new ObstaclePropulseur(), 100));
+        sidebar.add(creerBoutonObstacle("Planete", new ObstacleAimantPull(new Vecteur()), 200));
+        sidebar.add(creerBoutonObstacle("Propulseur", new ObstaclePropulseur(new Vecteur()), 100));
 
         return sidebar;
     }
@@ -119,8 +120,8 @@ public class Game extends JFrame implements MouseListener {
         if (selectedObstacle != null) {
             selectedObstacle.setPosition(e.getX(), e.getY());
             System.out.println("Obstacle ajouté à la position : " + e.getX() + " " + e.getY());
-            map.ajouterObstacle(selectedObstacle);
-            selectedObstacle = null;
+            map.ajouterObstacle(selectedObstacle.copier());
+            // selectedObstacle = null;
             joueurCourant.retirerBudget(prixObstacle);
             refreshUI();
         }

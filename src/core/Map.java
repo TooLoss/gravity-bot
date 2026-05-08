@@ -18,6 +18,7 @@ public class Map extends JPanel {
         super.paintComponent(g);
 
         g.setColor(new Color(0, 0, 100)); // Dark Blue
+                                          // 
         g.fillRect(0, 0, 500, 500);
 
         g.setColor(Color.RED);
@@ -28,7 +29,7 @@ public class Map extends JPanel {
         }
 
         if (projectile != null) {
-            g.setColor(Color.BLUE);
+            g.setColor(Color.YELLOW);
             int px = (int) projectile.getPosition().getX();
             int py = (int) projectile.getPosition().getY();
             g.fillOval(px - 3, py - 3, 6, 6);
@@ -68,6 +69,7 @@ public class Map extends JPanel {
 
     public void ajouterObstacle(Obstacle obstacle) {
         if (!estSimulation) {
+            System.out.println("Obstacle register : " + obstacle.getPosition().toString());
             obstacles.add(obstacle);
             repaint();
         }
@@ -95,10 +97,10 @@ public class Map extends JPanel {
                 accumulator -= GAME_TICK;
                 Vecteur sat_pos = projectile.getPosition();
                 Vecteur sat_speed = projectile.getVitesse();
-                System.out.println("Satellite position : " + sat_speed.getX() + " - " + sat_speed.getY());
+                System.out.println("Satellite speed : " + sat_speed.getX() + " - " + sat_speed.getY());
                 System.out.println("Satellite position : " + sat_pos.getX() + " - " + sat_pos.getY());
+                paintImmediately(0, 0, getWidth(), getHeight());
             }
-            // TODO Faire l'affichage Swing
         }
         return estGagne;
     }

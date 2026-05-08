@@ -42,4 +42,10 @@ public class ObstacleCirculaire extends Obstacle {
     public void actualiser(double dt) {
         // Abstract
     }
+
+    @Override
+    public Obstacle copier() {
+        ObstacleCirculaire copy = new ObstacleCirculaire(this.getPosition(), this.rayon);
+        return copy;
+    }
 }

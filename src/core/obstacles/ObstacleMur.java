@@ -47,4 +47,11 @@ public class ObstacleMur extends Obstacle {
 
         projectile.setVitesse(vitesse);
     }
+
+    
+    @Override
+    public Obstacle copier() {
+        ObstacleMur copy = new ObstacleMur(pointA, pointB);
+        return copy;
+    }
 }

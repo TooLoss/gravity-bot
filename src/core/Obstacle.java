@@ -23,6 +23,9 @@ public abstract class Obstacle extends Acteur {
      */
     public abstract void eventAction(Projectile projectile);
 
+    // TODO peut être le mettre dans Acteur car on a besoin de les copier ?
+    public abstract Obstacle copier();
+
     /** Vérification des conditions de l'acteur pour intéragit avec l'obstacle.
      * @param acteur Acteur dont on vérifie si il collisionne.
      * @return boolean true si l'acteur est dans l'obstacle.

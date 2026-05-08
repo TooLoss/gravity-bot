@@ -9,8 +9,8 @@ import core.collisions.CollisionCirculaire;
 
 public class ObstacleAimantPull extends Obstacle {
 
-    private static final double puissance = 1.f;
-    private static final double rayon = 30.f;
+    private static final double puissance = 10.f;
+    private static final double rayon = 50.f;
 
     public ObstacleAimantPull() {
         this.setCollision(new CollisionCirculaire(this.getPosition(), rayon));
@@ -32,11 +32,18 @@ public class ObstacleAimantPull extends Obstacle {
         directeur.normaliser();
         directeur.multiplier(puissance/100);
         projectile.ajouterVitesse(directeur);
-     }
+        System.out.println("OOAOEZOAOEIJKZAOJHILKRE");
+    }
 
     @Override
     public void actualiser(double dt) {
         // Acteur class abstract
+    }
+
+    @Override
+    public Obstacle copier() {
+        ObstacleAimantPull copy = new ObstacleAimantPull(new Vecteur(this.getPosition()));
+        return copy;
     }
 
 }

@@ -5,7 +5,7 @@ public class Projectile extends Acteur {
 
     public Vecteur vitesse;
 
-    public static final double vitesseSatellite = 1.f;
+    public static final double vitesseSatellite = 10.f;
 
     public Projectile(Vecteur position, Vecteur vitesse) {
         this.vitesse = vitesse;

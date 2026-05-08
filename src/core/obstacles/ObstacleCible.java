@@ -24,4 +24,9 @@ public class ObstacleCible extends Obstacle {
         // TODO à enlever c'est top chiant rapidement
     }
 
+    @Override
+    public Obstacle copier() {
+        ObstacleCible copy = new ObstacleCible(new Vecteur(this.getPosition()));
+        return copy;
+    }
 }
