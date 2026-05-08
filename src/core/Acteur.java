@@ -44,6 +44,14 @@ public abstract class Acteur {
         this.position = new Vecteur(v); 
     }
 
+    /** Setter de la position de l'acteur.
+     * @param x Position x de l'acteur.
+     * @param y Position y de l'acteur.
+     */
+    public void setPosition(double x, double y) {
+        this.position = new Vecteur(x, y);
+    }
+
     /** Distance de l'acteur à une autre.
      * @param acteur Acteur dont on mesure la distance.
      * @return double distance entre les acteurs.

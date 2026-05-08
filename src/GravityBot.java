@@ -1,27 +1,20 @@
 import javax.swing.*;
 import java.awt.event.*;
-import java.awt.MouseInfo;
-import java.awt.Point;
+import core.Game;
+import core.joueurs.*;
 
-class GravityBot extends JFrame implements MouseListener {
+class GravityBot extends JFrame {
 
-    public GravityBot() {
-        super("titre de l'application");
+    public static void main(String[] args) {
+        Joueur j1 = new JoueurHumain("Joueur 1");
+        Joueur j2 = new JoueurHumain("Joueur 2");
 
-        WindowListener l = new WindowAdapter() {
+        Game game = new Game(j1, j2);
+        
+        game.addWindowListener(new WindowAdapter() {
             public void windowClosing(WindowEvent e){
                 System.exit(0);
             }
-        };
-
-        addWindowListener(l);
-
-        JPanel panneau = new JPanel();
-        setSize(1000,1000);
-        setVisible(true);
-    }
-
-    public static void main(String[] args) {
-        JFrame frame = new GravityBot();
+        });
     }
 }

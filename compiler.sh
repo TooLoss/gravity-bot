@@ -1,26 +1,18 @@
 #!/bin/bash
-
 SRC="src"
 BIN="bin"
 
-# 1. Clean
+# Clean
 rm -rf $BIN && mkdir -p $BIN
 
-# 2. Liste via filtre inverse
-# Trouve tous les .java
-# grep -v : exclut les lignes contenant "Test.java" ou "interface/"
+# Find logic
 FILES=$(find $SRC -name "*.java" | grep -v "Test.java" | grep -v "interface/")
 
-# 3. Compile
-if [ -z "$FILES" ]; then
-    echo "Rien à compiler."
-    exit 0
+# Compile action
+if [ -n "$FILES" ]; then
+    # -d: output dir | -sourcepath: resolve dependencies
+    javac -d $BIN -sourcepath $SRC $FILES
+    [ $? -eq 0 ] && echo "Success: $BIN/" || echo "Compile failed."
+else
+    echo "No files."
 fi
-
-echo "Fichiers sélectionnés :"
-echo "$FILES"
-
-echo "---"
-javac -d $BIN $FILES
-
-[ $? -eq 0 ] && echo "Fini : $BIN/" || echo "Échec compilation."

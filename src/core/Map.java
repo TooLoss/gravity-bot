@@ -1,11 +1,36 @@
 package core;
+
+import javax.swing.JPanel;
+import java.awt.Graphics;
+import java.awt.Color;
 import utils.Vecteur;
 import core.obstacles.*;
+import core.Obstacle;
 import java.util.HashSet;
 
-
 /** Classe Map contient référence aux obstacles et projectiles. */
-public class Map {
+public class Map extends JPanel {
+
+    private HashSet<Obstacle> obstacles = new HashSet<>();
+
+    @Override
+    protected void paintComponent(Graphics g) {
+        super.paintComponent(g);
+        
+        g.setColor(Color.RED);
+        for (Obstacle obs : obstacles) {
+            int x = (int) obs.getPosition().getX();
+            int y = (int) obs.getPosition().getY();
+            g.fillRect(x - 5, y - 5, 10, 10); 
+        }
+
+        if (projectile != null) {
+            g.setColor(Color.BLUE);
+            int px = (int) projectile.getPosition().getX();
+            int py = (int) projectile.getPosition().getY();
+            g.fillOval(px - 3, py - 3, 6, 6);
+        }
+    }
 
     public static final Vecteur SCREEN_SIZE = new Vecteur(500.f);
     public static final double GAME_TICK = 1000000000L / 60; // 60 TPS
@@ -18,7 +43,6 @@ public class Map {
 
     // NOTE n'est pas statique car doit être initialisé depuis un fichier save map
     private Projectile projectile;
-    private HashSet<Obstacle> obstacles;
     // TODO public que pour les tests
     public Vecteur position_initiale;
     // TODO public que pour les tests
@@ -40,9 +64,9 @@ public class Map {
     }
 
     public void ajouterObstacle(Obstacle obstacle) {
-        // TODO danger, doit enregistrer une copie
         if (!estSimulation) {
             obstacles.add(obstacle);
+            repaint();
         }
     }
 
