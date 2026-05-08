@@ -17,15 +17,24 @@ public class Map extends JPanel {
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
 
-        g.setColor(new Color(0, 0, 100)); // Dark Blue
-                                          // 
+        g.setColor(new Color(0, 0, 100));
         g.fillRect(0, 0, 500, 500);
 
-        g.setColor(Color.RED);
         for (Obstacle obs : obstacles) {
             int x = (int) obs.getPosition().getX();
             int y = (int) obs.getPosition().getY();
-            g.fillRect(x - 5, y - 5, 10, 10); 
+            if (obs instanceof ObstaclePropulseur) {
+                Vecteur dir = ((ObstaclePropulseur) obs).getDirection();
+                int x2 = x + (int)(dir.getX() * 40);
+                int y2 = y + (int)(dir.getY() * 40);
+                g.setColor(Color.CYAN);
+                g.drawLine(x, y, x2, y2);
+                g.fillOval(x - 4, y - 4, 8, 8);
+                g.fillOval(x2 - 4, y2 - 4, 8, 8);
+            } else {
+                g.setColor(Color.RED);
+                g.fillRect(x - 5, y - 5, 10, 10);
+            }
         }
 
         if (projectile != null) {
@@ -44,7 +53,7 @@ public class Map extends JPanel {
     }
 
     public static final Vecteur SCREEN_SIZE = new Vecteur(500.f);
-    public static final double GAME_TICK = 1000000000.0L / 60; // 60 TPS
+    public static final double GAME_TICK = 1000000000L / 60;
 
     private boolean estDansEcran(Acteur acteur) {
         boolean estX = acteur.getPosition().getX() >= 0 && acteur.getPosition().getX() <= SCREEN_SIZE.getX();
@@ -52,11 +61,8 @@ public class Map extends JPanel {
         return estX && estY;
     }
 
-    // NOTE n'est pas statique car doit être initialisé depuis un fichier save map
     private Projectile projectile;
-    // TODO public que pour les tests
     private Vecteur position_initiale = new Vecteur(10.f);
-    // TODO public que pour les tests
     private Vecteur vitesse_initiale = new Vecteur(10.f);
     private Vecteur cible_position = new Vecteur(450.f, 450.f);
     private ObstacleCible cible;
@@ -90,9 +96,6 @@ public class Map extends JPanel {
         return estAjoute;
     }
 
-    /** Méthode appelé chaque frame correspondant à la game loop.
-     * @return boolean True si le projectile atteind l'objectif.
-     */
     public boolean lancerSimulation() {
         long previous = System.nanoTime();
         long accumulator = 0;

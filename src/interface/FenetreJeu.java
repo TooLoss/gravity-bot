@@ -14,6 +14,8 @@ public class FenetreJeu extends JFrame {
     private Obstacle selectedObstacle;
     private int prix;
 
+    private ObstaclePropulseur propulseurEnAttente;
+
     public FenetreJeu(Game engine) {
         this.engine = engine;
         setTitle("Gravity-Bot");
@@ -28,14 +30,11 @@ public class FenetreJeu extends JFrame {
     public FenetreJeu() {}
 
     private void construireInterface() {
-        // Fond global sombre
         getContentPane().setBackground(new Color(10, 10, 15));
         setLayout(new BorderLayout(5, 5));
 
-        // NORD : Infos (Budget / Tour)
         add(construireBandeauNord(), BorderLayout.NORTH);
 
-        // CENTRE : Ta Map (Physics engine / JPanel)
         Map mapPanel = engine.getMap();
         mapPanel.addMouseListener(new MouseAdapter() {
             @Override
@@ -43,14 +42,21 @@ public class FenetreJeu extends JFrame {
                 placerObstacle(e.getX(), e.getY());
             }
         });
-        // Bordure stylisée pour délimiter la zone de jeu
+        mapPanel.addMouseMotionListener(new MouseMotionAdapter() {
+            @Override
+            public void mouseMoved(MouseEvent e) {
+                if (propulseurEnAttente != null) {
+                    Vecteur pos = propulseurEnAttente.getPosition();
+                    Vecteur dir = new Vecteur(e.getX() - pos.getX(), e.getY() - pos.getY());
+                    propulseurEnAttente.setDirection(dir);
+                    mapPanel.repaint();
+                }
+            }
+        });
         mapPanel.setBorder(BorderFactory.createLineBorder(new Color(60, 60, 120), 2));
         add(mapPanel, BorderLayout.CENTER);
 
-        // EST : Boutique
         add(construireSidebar(), BorderLayout.EAST);
-
-        // SUD : Contrôles
         add(construireFooter(), BorderLayout.SOUTH);
     }
 
@@ -63,9 +69,9 @@ public class FenetreJeu extends JFrame {
         
         Font f = new Font("SansSerif", Font.BOLD, 18);
         labelBudget.setFont(f);
-        labelBudget.setForeground(new Color(100, 255, 100)); // Vert budget
+        labelBudget.setForeground(new Color(100, 255, 100));
         labelTour.setFont(f);
-        labelTour.setForeground(new Color(180, 180, 255)); // Bleu clair
+        labelTour.setForeground(new Color(180, 180, 255));
         
         rafraichirLabels();
 
@@ -88,7 +94,6 @@ public class FenetreJeu extends JFrame {
         sidebar.add(titre);
         sidebar.add(Box.createVerticalStrut(20));
 
-        // Ajout des boutons avec style boutique
         sidebar.add(creerBoutonElement("Planète", String.valueOf(ObstacleAimantPull.prix), new ObstacleAimantPull(new Vecteur(.0f)), new Color(60, 60, 150)));
         sidebar.add(Box.createVerticalStrut(15));
         sidebar.add(creerBoutonElement("Propulseur", String.valueOf(ObstaclePropulseur.prix), new ObstaclePropulseur(new Vecteur(.0f)), new Color(150, 60, 60)));
@@ -123,7 +128,10 @@ public class FenetreJeu extends JFrame {
         btn.setForeground(Color.WHITE);
         btn.setBorder(BorderFactory.createRaisedBevelBorder());
 
-        btn.addActionListener(e -> selectedObstacle = type);
+        btn.addActionListener(e -> {
+            selectedObstacle = type;
+            propulseurEnAttente = null;
+        });
         return btn;
     }
 
@@ -140,14 +148,28 @@ public class FenetreJeu extends JFrame {
     }
 
     private void placerObstacle(int x, int y) {
-        if (selectedObstacle != null) {
-            // On positionne avant de copier pour transmettre les coordonnées
-            selectedObstacle.setPosition(x, y);
-            Obstacle copy = selectedObstacle.copier();
-            if (engine.getMap().ajouterObstacle(copy)) {
-                engine.getJoueurCourant().retirerBudget(copy.getPrix());
+        if (propulseurEnAttente != null) {
+            propulseurEnAttente = null;
+            return;
+        }
+
+        if (selectedObstacle == null) return;
+
+        if (selectedObstacle instanceof ObstaclePropulseur) {
+            ObstaclePropulseur p = new ObstaclePropulseur(new Vecteur(x, y));
+            if (engine.getMap().ajouterObstacle(p)) {
+                engine.getJoueurCourant().retirerBudget(p.getPrix());
                 rafraichirLabels();
+                propulseurEnAttente = p;
             }
+            return;
+        }
+
+        selectedObstacle.setPosition(x, y);
+        Obstacle copy = selectedObstacle.copier();
+        if (engine.getMap().ajouterObstacle(copy)) {
+            engine.getJoueurCourant().retirerBudget(copy.getPrix());
+            rafraichirLabels();
         }
     }
 
