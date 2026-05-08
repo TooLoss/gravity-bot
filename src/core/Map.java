@@ -44,7 +44,7 @@ public class Map extends JPanel {
     }
 
     public static final Vecteur SCREEN_SIZE = new Vecteur(500.f);
-    public static final double GAME_TICK = 1000000000L / 60; // 60 TPS
+    public static final double GAME_TICK = 1000000000.0L / 60; // 60 TPS
 
     private boolean estDansEcran(Acteur acteur) {
         boolean estX = acteur.getPosition().getX() >= 0 && acteur.getPosition().getX() <= SCREEN_SIZE.getX();
