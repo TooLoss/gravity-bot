@@ -5,11 +5,14 @@ import java.awt.event.*;
 import javax.swing.*;
 
 public class MenuPrincipal {
-    
+    // Variables de resolution
     static int boardWidth = 700;
     static int boardHeight = 600;
+
+    // Couleurs de theme
     private static final Color loganGlow = new Color(170, 169, 205);
     private static final Color white = new Color(246, 246, 246);
+
     private static final String[] menuOptions = {"Jouer", "Paramètres", "Crédits", "Éditeur", "Quitter"};
     
     JFrame frame = new JFrame("GravityBot");
