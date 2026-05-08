@@ -7,8 +7,8 @@ import core.collisions.CollisionSegment;
 public class ObstaclePropulseur extends Obstacle {
 
     private Vecteur direction;
-    private Vecteur directeur = new Vecteur(10.f);
-    private double epaisseur = 10.f;
+    private Vecteur directeur = new Vecteur(50.f);
+    private double epaisseur = 50.f;
 
     public ObstaclePropulseur(Vecteur position)
     {
@@ -20,9 +20,9 @@ public class ObstaclePropulseur extends Obstacle {
 
     @Override
     public void eventAction(Projectile projectile) {
-
-        projectile.setVitesse(new Vecteur(this.direction));
-
+        Vecteur nouvelleVitesse = new Vecteur(this.direction);
+        nouvelleVitesse.multiplier(Projectile.vitesseSatellite); 
+        projectile.setVitesse(nouvelleVitesse);
     }
 
     @Override

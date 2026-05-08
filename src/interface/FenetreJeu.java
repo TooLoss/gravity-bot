@@ -12,10 +12,11 @@ public class FenetreJeu extends JFrame {
     private JLabel labelBudget;
     private JLabel labelTour;
     private Obstacle selectedObstacle;
+    private int prix;
 
     public FenetreJeu(Game engine) {
         this.engine = engine;
-        setTitle("Gravity-Bot - Arena");
+        setTitle("Gravity-Bot");
         setSize(1000, 750);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLocationRelativeTo(null);
@@ -88,9 +89,9 @@ public class FenetreJeu extends JFrame {
         sidebar.add(Box.createVerticalStrut(20));
 
         // Ajout des boutons avec style boutique
-        sidebar.add(creerBoutonElement("Planète", "200€", new ObstacleAimantPull(new Vecteur(.0f)), new Color(60, 60, 150)));
+        sidebar.add(creerBoutonElement("Planète", String.valueOf(ObstacleAimantPull.prix), new ObstacleAimantPull(new Vecteur(.0f)), new Color(60, 60, 150)));
         sidebar.add(Box.createVerticalStrut(15));
-        sidebar.add(creerBoutonElement("Propulseur", "150€", new ObstaclePropulseur(new Vecteur(.0f)), new Color(150, 60, 60)));
+        sidebar.add(creerBoutonElement("Propulseur", String.valueOf(ObstaclePropulseur.prix), new ObstaclePropulseur(new Vecteur(.0f)), new Color(150, 60, 60)));
 
         return sidebar;
     }
@@ -143,10 +144,10 @@ public class FenetreJeu extends JFrame {
             // On positionne avant de copier pour transmettre les coordonnées
             selectedObstacle.setPosition(x, y);
             Obstacle copy = selectedObstacle.copier();
-            engine.getMap().ajouterObstacle(copy);
-            
-            selectedObstacle = null; 
-            rafraichirLabels();
+            if (engine.getMap().ajouterObstacle(copy)) {
+                engine.getJoueurCourant().retirerBudget(copy.getPrix());
+                rafraichirLabels();
+            }
         }
     }
 

@@ -8,7 +8,7 @@ import utils.Vecteur;
 public abstract class Obstacle extends Acteur {
     
     private Collision collision;
-    private int prix;
+    public static final int prix = 100;
 
     public Obstacle() {
         super();

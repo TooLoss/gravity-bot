@@ -79,12 +79,15 @@ public class Map extends JPanel {
             this.cible = new ObstacleCible(cible_position);
     }
 
-    public void ajouterObstacle(Obstacle obstacle) {
+    public boolean ajouterObstacle(Obstacle obstacle) {
+        boolean estAjoute = false;
         if (estDansEcran(obstacle)) {
             System.out.println("Obstacle register : " + obstacle.getPosition().toString());
             obstacles.add(obstacle);
             repaint();
+            estAjoute = true;
         }
+        return estAjoute;
     }
 
     /** Méthode appelé chaque frame correspondant à la game loop.
