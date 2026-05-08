@@ -27,6 +27,8 @@ public class FenetreJeu extends JFrame {
     public FenetreJeu() {}
 
     private void construireInterface() {
+        // Fond global sombre
+        getContentPane().setBackground(new Color(10, 10, 15));
         setLayout(new BorderLayout(5, 5));
 
         // NORD : Infos (Budget / Tour)
@@ -40,6 +42,8 @@ public class FenetreJeu extends JFrame {
                 placerObstacle(e.getX(), e.getY());
             }
         });
+        // Bordure stylisée pour délimiter la zone de jeu
+        mapPanel.setBorder(BorderFactory.createLineBorder(new Color(60, 60, 120), 2));
         add(mapPanel, BorderLayout.CENTER);
 
         // EST : Boutique
@@ -50,13 +54,17 @@ public class FenetreJeu extends JFrame {
     }
 
     private JPanel construireBandeauNord() {
-        JPanel bandeau = new JPanel(new FlowLayout(FlowLayout.CENTER, 40, 8));
-        bandeau.setBackground(new Color(30, 30, 30));
+        JPanel bandeau = new JPanel(new FlowLayout(FlowLayout.CENTER, 50, 10));
+        bandeau.setBackground(new Color(25, 25, 30));
         
         labelBudget = new JLabel();
         labelTour = new JLabel();
-        labelBudget.setForeground(Color.WHITE);
-        labelTour.setForeground(Color.LIGHT_GRAY);
+        
+        Font f = new Font("SansSerif", Font.BOLD, 18);
+        labelBudget.setFont(f);
+        labelBudget.setForeground(new Color(100, 255, 100)); // Vert budget
+        labelTour.setFont(f);
+        labelTour.setForeground(new Color(180, 180, 255)); // Bleu clair
         
         rafraichirLabels();
 
@@ -68,22 +76,32 @@ public class FenetreJeu extends JFrame {
     private JPanel construireSidebar() {
         JPanel sidebar = new JPanel();
         sidebar.setLayout(new BoxLayout(sidebar, BoxLayout.Y_AXIS));
-        sidebar.setBackground(new Color(25, 25, 50));
+        sidebar.setBackground(new Color(20, 20, 40));
         sidebar.setPreferredSize(new Dimension(200, 0));
-        sidebar.setBorder(BorderFactory.createEmptyBorder(15, 10, 15, 10));
+        sidebar.setBorder(BorderFactory.createEmptyBorder(20, 15, 20, 15));
 
-        sidebar.add(creerBoutonElement("Planète", "200€", new ObstacleAimantPull(new Vecteur(.0f))));
-        sidebar.add(Box.createVerticalStrut(10));
-        sidebar.add(creerBoutonElement("Propulseur", "150€", new ObstaclePropulseur(new Vecteur(.0f))));
+        JLabel titre = new JLabel("ÉLÉMENTS");
+        titre.setFont(new Font("SansSerif", Font.BOLD, 16));
+        titre.setForeground(Color.WHITE);
+        titre.setAlignmentX(Component.CENTER_ALIGNMENT);
+        sidebar.add(titre);
+        sidebar.add(Box.createVerticalStrut(20));
+
+        // Ajout des boutons avec style boutique
+        sidebar.add(creerBoutonElement("Planète", "200€", new ObstacleAimantPull(new Vecteur(.0f)), new Color(60, 60, 150)));
+        sidebar.add(Box.createVerticalStrut(15));
+        sidebar.add(creerBoutonElement("Propulseur", "150€", new ObstaclePropulseur(new Vecteur(.0f)), new Color(150, 60, 60)));
 
         return sidebar;
     }
 
     private JPanel construireFooter() {
-        JPanel footer = new JPanel(new FlowLayout(FlowLayout.CENTER, 20, 8));
-        footer.setBackground(new Color(20, 20, 20));
+        JPanel footer = new JPanel(new FlowLayout(FlowLayout.CENTER, 20, 12));
+        footer.setBackground(new Color(15, 15, 20));
 
-        JButton btnLancer = new JButton("Lancer la simulation");
+        JButton btnLancer = new JButton("LANCER LA SIMULATION");
+        styliserBoutonAction(btnLancer, new Color(40, 140, 80));
+        
         btnLancer.addActionListener(e -> {
             engine.executerTour();
             rafraichirLabels();
@@ -93,17 +111,40 @@ public class FenetreJeu extends JFrame {
         return footer;
     }
 
-    private JButton creerBoutonElement(String nom, String prix, Obstacle type) {
-        JButton btn = new JButton("<html><b>" + nom + "</b><br>" + prix + "</html>");
+    private JButton creerBoutonElement(String nom, String prix, Obstacle type, Color c) {
+        JButton btn = new JButton("<html><center><b>" + nom + "</b><br>" + prix + "</center></html>");
+        btn.setMaximumSize(new Dimension(170, 65));
+        btn.setAlignmentX(Component.CENTER_ALIGNMENT);
+        btn.setFocusPainted(false);
+        btn.setCursor(new Cursor(Cursor.HAND_CURSOR));
+        
+        btn.setBackground(c);
+        btn.setForeground(Color.WHITE);
+        btn.setBorder(BorderFactory.createRaisedBevelBorder());
+
         btn.addActionListener(e -> selectedObstacle = type);
         return btn;
     }
 
+    private void styliserBoutonAction(JButton btn, Color c) {
+        btn.setBackground(c);
+        btn.setForeground(Color.WHITE);
+        btn.setFont(new Font("SansSerif", Font.BOLD, 15));
+        btn.setFocusPainted(false);
+        btn.setCursor(new Cursor(Cursor.HAND_CURSOR));
+        btn.setBorder(BorderFactory.createCompoundBorder(
+            BorderFactory.createLineBorder(c.brighter(), 2),
+            BorderFactory.createEmptyBorder(10, 25, 10, 25)
+        ));
+    }
+
     private void placerObstacle(int x, int y) {
         if (selectedObstacle != null) {
+            // On positionne avant de copier pour transmettre les coordonnées
             selectedObstacle.setPosition(x, y);
             Obstacle copy = selectedObstacle.copier();
             engine.getMap().ajouterObstacle(copy);
+            
             selectedObstacle = null; 
             rafraichirLabels();
         }
