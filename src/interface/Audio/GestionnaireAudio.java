@@ -40,7 +40,6 @@ public class GestionnaireAudio {
         
             // Petit délai de sécurité pour laisser le thread audio démarrer
             Thread.sleep(50); 
-            System.out.println("✅ État du clip : " + musiqueFond.isActive());
 
         } catch (Exception e) {
             System.err.println("Erreur de ligne audio : " + e.getMessage());
