@@ -105,6 +105,17 @@ public class FenetreJeu extends JFrame {
         JPanel footer = new JPanel(new FlowLayout(FlowLayout.CENTER, 20, 12));
         footer.setBackground(new Color(15, 15, 20));
 
+        // Bouton retour
+        JButton btnRetour = new JButton("RETOUR MENU");
+        styliserBoutonAction(btnRetour, new Color(100, 100, 100)); // Gris pour le retour
+        btnRetour.addActionListener(e -> {
+        // On arrête la musique du jeu si nécessaire
+        // Audio.GestionnaireAudio.stopMusique(); 
+        this.dispose(); // On ferme la fenêtre actuelle
+        new MenuPrincipal(); // On rouvre le menu
+        });
+
+
         JButton btnLancer = new JButton("LANCER LA SIMULATION");
         styliserBoutonAction(btnLancer, new Color(40, 140, 80));
         
@@ -112,7 +123,19 @@ public class FenetreJeu extends JFrame {
             engine.executerTour(() -> SwingUtilities.invokeLater(this::rafraichirLabels));
      } );
 
+        // Bouton Arrêter
+        JButton btnArreter = new JButton("STOP");
+        styliserBoutonAction(btnArreter, new Color(160, 40, 40)); // Rouge
+        btnArreter.addActionListener(e -> {
+            if (engine.getMap() != null) {
+                // On force l'arrêt du Timer de simulation dans Map
+                engine.getMap().stopperSimulation();
+            }
+        });
+
+        footer.add(btnRetour);
         footer.add(btnLancer);
+        footer.add(btnArreter);
         return footer;
     }
 

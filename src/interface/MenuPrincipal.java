@@ -1,24 +1,46 @@
-import java.awt.BasicStroke;
 import java.awt.image.BufferedImage;
+import java.io.File;
 import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
-
+/**
+ * La classe MenuPrincipal représente l'interface d'accueil du jeu GravityBOT.
+ * Elle permet de naviguer entre le jeu, l'éditeur, les paramètres, et les crédits.
+ * Cette classe gère également l'ambiance sonore de fond et l'affichage d'un fond animé.
+*/
 public class MenuPrincipal extends JFrame {
-    // Variables de résolution
+    /** Largeur par défaut de la fenêtre du menu. */
     static int boardWidth = 700;
+    /** Hauteur par défaut de la fenêtre du menu. */
     static int boardHeight = 600;
 
     // Couleurs du thème
     private static final Color loganGlow = new Color(170, 169, 205);
     private static final Color white = new Color(246, 246, 246);
 
+    /** Libellés des options disponibles dans le menu. */
     private static final String[] menuOptions = {"Jouer", "Paramètres", "Crédits", "Éditeur", "Quitter"};
     
+    /** Fenêtre principale du menu. */
     JFrame frame = new JFrame("GravityBot");
+    /** Gestionnaire Audio pour la musique d'ambiance. */
+    private Audio.GestionnaireAudio gameAudio;
 
-    // Constructeur
+    /**
+     * Constructeur de la classe MenuPrincipal.
+     * Initialise la musique, charge les ressources graphiques (GIF, curseur)
+     * et construit l'interface utilisateur.
+     */
     public MenuPrincipal() {
+        // Initialisation de la musique.
+        File f = new File("src/interface/Audio/GalacticWAV.wav");
+        System.out.println("Fichier trouvé : " + f.exists());
+            System.out.println("Chemin absolu : " + f.getAbsolutePath());
+
+        this.gameAudio = new Audio.GestionnaireAudio();
+        this.gameAudio.jouerMusique("src/interface/Audio/GalacticWAV.wav");
+        
+        // Chargement du fond animé.
         ImageIcon bgIcon = new ImageIcon("src/interface/gifGravity.gif");
         JPanel buttonsPanel = new JPanel();
         JLabel backgroundLabel = new JLabel(bgIcon);
@@ -72,7 +94,11 @@ public class MenuPrincipal extends JFrame {
 
         frame.setVisible(true);
     }
-
+    /**
+     * Crée et stylise un bouton de menu stylisé.
+     * @param text Le texte à afficher sur le bouton (détermine aussi l'action associée).
+     * @return Un JButton configuré avec les polices, bordures et écouteurs du thème.
+     */
     private JButton createMenuButton(String text) {
         JButton btn = new JButton(text);
         btn.setFont(new Font("Monospaced", Font.PLAIN, 25));
@@ -118,7 +144,7 @@ public class MenuPrincipal extends JFrame {
             }
         });
         
-        // Gestion des actions
+        // Gestion des actions lors du clic.
         btn.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 if (text.equals("Jouer")) {
@@ -150,7 +176,10 @@ public class MenuPrincipal extends JFrame {
         
         return btn;
     }
-
+    /**
+     * Point d'entrée principal de l'application.
+     * @param args Arguments de la ligne de commande (non utilisés).
+     */
     public static void main(String[] args) {
         SwingUtilities.invokeLater(() -> new MenuPrincipal());
     }
