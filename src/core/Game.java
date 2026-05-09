@@ -18,14 +18,13 @@ public class Game {
         this.map = new Map();
     }
 
-    public void executerTour() {
-        boolean aGagne = map.lancerSimulation();
-        
-        if (!aGagne) {
-            passerTour();
-        } else {
-            /* TODO faire gagner */
-        }
+    public void executerTour(Runnable onTermine) {
+        map.lancerSimulation(() -> {
+            if (!map.estGagne()) {
+                passerTour();
+            }
+            if (onTermine != null) onTermine.run();
+        });
     }
 
     private void passerTour() {
