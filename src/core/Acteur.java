@@ -1,4 +1,7 @@
 package core;
+
+import java.awt.Image;
+import javax.swing.ImageIcon;
 import utils.Vecteur;
 
 /** Classe acteur.
@@ -13,11 +16,24 @@ public abstract class Acteur {
     /** Constructeur de l'acteur en fonction d'une position.
      * @param position Position sur l'écran.
      */
+     
+    protected Image texture; 
     public Acteur(Vecteur position) {
         this();
         this.position = new Vecteur(position);
     }
+    /**
+     * Charge une image à partir d'un chemin de fichier.
+     * @param chemin Le chemin vers l'image (ex: "ressources/mur.png")
+     */
+    public void setTexture(String chemin) {
+        // ImageIcon est un moyen de charger une image
+        this.texture = new ImageIcon(chemin).getImage();
+    }
 
+    public Image getTexture() {
+        return this.texture;
+    }
     /** Constructeur de l'acteur avec une position nulle. */
     public Acteur() {
         Vecteur pos = new Vecteur(0);
