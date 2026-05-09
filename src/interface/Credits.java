@@ -3,6 +3,12 @@ import java.awt.event.*;
 import java.awt.image.BufferedImage;
 import javax.swing.*;
 
+/**
+ * La classe Credits affiche la liste des membres de l'équipage ayant participé 
+ * au développement du projet GravityBot.
+ * Elle présente un affichage stylisé avec un défilement (scroll) transparent 
+ * et personnalisé sur un fond animé.
+ */
 public class Credits {
     // Variables de résolution
     static int boardWidth = 700;
@@ -28,8 +34,14 @@ public class Credits {
             "ENSEEIHT - 2026"
     };
 
+    /** Fenêtre principale affichant les crédits. */
     JFrame frame = new JFrame("GravityBot");
 
+    /**
+     * Constructeur de la classe Credits.
+     * Initialise l'interface, charge les ressources graphiques, 
+     * et configure le système de défilement personnalisé pour la liste des noms.
+     */
     public Credits() {
         ImageIcon bgIcon = new ImageIcon("src/interface/gifGravity.gif");
         JLabel backgroundLabel = new JLabel(bgIcon);
@@ -141,7 +153,11 @@ public class Credits {
         frame.setVisible(true);
     }
 
-    // Méthode de création de bouton
+    /**
+     * Crée et configure un bouton stylisé selon la charte graphique du jeu.
+     * @param text Le texte à afficher sur le bouton.
+     * @return Un JButton avec bordures arrondies et gestion d'animation au survol.
+     */
     private JButton createMenuButton(String text) {
         JButton btn = new JButton(text);
         btn.setFont(new Font("Monospaced", Font.PLAIN, 25));
@@ -153,6 +169,7 @@ public class Credits {
 
         int radius = 30; 
         
+        // Bordure personnalisée
         btn.setBorder(new javax.swing.border.Border() {
             @Override
             public void paintBorder(Component c, Graphics g, int x, int y, int width, int height) {
