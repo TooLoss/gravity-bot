@@ -12,10 +12,12 @@ public class ObstacleTeleporteurTest {
     private ObstacleTeleporteur portailA;
     private ObstacleTeleporteur portailB;
 
+    // portailA : centre (100,100), rayon = distance((100,100),(120,100)) = 20
+    // portailB : centre (400,400), rayon = distance((400,400),(420,400)) = 20
     @Before
     public void setUp() {
-        portailA = new ObstacleTeleporteur(new Vecteur(100, 100));
-        portailB = new ObstacleTeleporteur(new Vecteur(400, 400));
+        portailA = new ObstacleTeleporteur(new Vecteur(100, 100), new Vecteur(120, 100));
+        portailB = new ObstacleTeleporteur(new Vecteur(400, 400), new Vecteur(420, 400));
         portailA.lier(portailB);
     }
 
@@ -23,15 +25,14 @@ public class ObstacleTeleporteurTest {
 
     @Test
     public void lier_rendLaLiaisonReciproque() {
-        // lier() sur A doit aussi lier B vers A
-        assertSame("portailA doit pointer vers portailB", portailB, portailA.getPartenaire());
-        assertSame("portailB doit pointer vers portailA", portailA, portailB.getPartenaire());
+        assertSame(portailB, portailA.getPartenaire());
+        assertSame(portailA, portailB.getPartenaire());
     }
 
     @Test
     public void portailNonLie_estLieFaux() {
-        ObstacleTeleporteur seul = new ObstacleTeleporteur(new Vecteur(0, 0));
-        assertFalse("Un portail sans partenaire ne doit pas être lié", seul.estLie());
+        ObstacleTeleporteur seul = new ObstacleTeleporteur(new Vecteur(0, 0), new Vecteur(20, 0));
+        assertFalse(seul.estLie());
     }
 
     @Test(expected = IllegalArgumentException.class)
@@ -44,73 +45,92 @@ public class ObstacleTeleporteurTest {
         portailA.lier(portailA);
     }
 
+    // ── Collision (zone circulaire) ───────────────────────────────────────────
+
+    @Test
+    public void projectileAuCentre_estDetecte() {
+        Projectile p = new Projectile(new Vecteur(100, 100), new Vecteur(1, 0));
+        assertTrue(portailA.estDansObstacle(p));
+    }
+
+    @Test
+    public void projectileDansLeRayon_estDetecte() {
+        // Distance 10 du centre, rayon = 20 → dedans
+        Projectile p = new Projectile(new Vecteur(110, 100), new Vecteur(1, 0));
+        assertTrue(portailA.estDansObstacle(p));
+    }
+
+    @Test
+    public void projectileHorsRayon_nonDetecte() {
+        Projectile p = new Projectile(new Vecteur(200, 200), new Vecteur(1, 0));
+        assertFalse(portailA.estDansObstacle(p));
+    }
+
     // ── Téléportation A → B ──────────────────────────────────────────────────
 
     @Test
-    public void teleportation_deplaceLePprojectileVersLePartenaire() {
-        // Projectile entrant dans le portail A, se dirigeant vers la droite
-        Projectile projectile = new Projectile(new Vecteur(100, 100), new Vecteur(1, 0));
+    public void teleportation_deplaceLePprojectileVersPortailB() {
+        Projectile p = new Projectile(new Vecteur(100, 100), new Vecteur(1, 0));
+        portailA.eventAction(p);
 
-        portailA.eventAction(projectile);
-
-        Vecteur posApresTeleportation = projectile.getPosition();
-
-        // Il doit se retrouver autour du portail B (400, 400)
-        // On vérifie qu'il est "loin" du portail A et "proche" du portail B
-        double distanceDeA = posApresTeleportation.distance(portailA.getPosition());
-        double distanceDeB = posApresTeleportation.distance(portailB.getPosition());
-
-        assertTrue("Le projectile doit être loin du portail A après téléportation",
-                   distanceDeA > 50);
-        assertTrue("Le projectile doit être proche du portail B après téléportation",
-                   distanceDeB <= ObstacleTeleporteur.RAYON + 5);
+        double distanceDeB = p.getPosition().distance(portailB.getPointA());
+        assertTrue("Le projectile doit être proche du portail B", distanceDeB <= 50);
     }
 
     @Test
     public void teleportation_BversA_fonctionne() {
-        // La téléportation dans l'autre sens doit aussi marcher
-        Projectile projectile = new Projectile(new Vecteur(400, 400), new Vecteur(-1, 0));
+        Projectile p = new Projectile(new Vecteur(400, 400), new Vecteur(-1, 0));
+        portailB.eventAction(p);
 
-        portailB.eventAction(projectile);
-
-        Vecteur pos = projectile.getPosition();
-        double distanceDeA = pos.distance(portailA.getPosition());
-
-        assertTrue("Le projectile doit se retrouver près du portail A",
-                   distanceDeA <= ObstacleTeleporteur.RAYON + 5);
+        double distanceDeA = p.getPosition().distance(portailA.getPointA());
+        assertTrue("Le projectile doit être proche du portail A", distanceDeA <= 50);
     }
 
-    // ── Sortie hors de la zone de collision ──────────────────────────────────
-
     @Test
-    public void apresTeleporation_projectileEstHorsZoneDeCollisionDeSortie() {
-        // Après téléportation, le projectile ne doit plus être dans la zone
-        // du portail de sortie (évite la re-téléportation immédiate)
-        Projectile projectile = new Projectile(new Vecteur(100, 100), new Vecteur(1, 0));
+    public void apresTeleporation_projectileEstHorsDeLaZoneDeSortie() {
+        Projectile p = new Projectile(new Vecteur(100, 100), new Vecteur(1, 0));
+        portailA.eventAction(p);
 
-        portailA.eventAction(projectile);
-
-        // Le portail B ne doit plus détecter de collision
-        assertFalse("Le projectile ne doit pas être encore en collision avec le portail de sortie",
-                    portailB.estDansObstacle(projectile));
+        assertFalse("Le projectile ne doit plus être dans la zone du portail de sortie",
+                    portailB.estDansObstacle(p));
     }
 
     // ── Portail sans partenaire ───────────────────────────────────────────────
 
     @Test
     public void portailSansPartenaire_neBougePasLeProjectile() {
-        ObstacleTeleporteur seul = new ObstacleTeleporteur(new Vecteur(200, 200));
+        ObstacleTeleporteur seul = new ObstacleTeleporteur(new Vecteur(0, 0), new Vecteur(20, 0));
+        Projectile p = new Projectile(new Vecteur(50, 50), new Vecteur(1, 0));
+        seul.eventAction(p);
 
-        Vecteur positionAvant = new Vecteur(50, 50);
-        Projectile projectile = new Projectile(positionAvant, new Vecteur(1, 0));
+        assertEquals("Position X ne doit pas changer", 50.0, p.getPosition().getX(), 0.001);
+        assertEquals("Position Y ne doit pas changer", 50.0, p.getPosition().getY(), 0.001);
+    }
 
-        seul.eventAction(projectile);
+    // ── Rayon défini par pointB ───────────────────────────────────────────────
 
-        // La position ne doit pas avoir changé
-        assertEquals("Position X ne doit pas changer", positionAvant.getX(),
-                     projectile.getPosition().getX(), 0.001);
-        assertEquals("Position Y ne doit pas changer", positionAvant.getY(),
-                     projectile.getPosition().getY(), 0.001);
+    @Test
+    public void rayonDefiniParPointB_grandeZone() {
+        // rayon = 100
+        ObstacleTeleporteur grand = new ObstacleTeleporteur(new Vecteur(0, 0), new Vecteur(100, 0));
+        ObstacleTeleporteur sortie = new ObstacleTeleporteur(new Vecteur(300, 300), new Vecteur(400, 300));
+        grand.lier(sortie);
+
+        // Distance 80 du centre → dedans
+        Projectile p = new Projectile(new Vecteur(80, 0), new Vecteur(1, 0));
+        assertTrue(grand.estDansObstacle(p));
+    }
+
+    @Test
+    public void rayonDefiniParPointB_petiteZone() {
+        // rayon = 5
+        ObstacleTeleporteur petit = new ObstacleTeleporteur(new Vecteur(0, 0), new Vecteur(5, 0));
+        ObstacleTeleporteur sortie = new ObstacleTeleporteur(new Vecteur(300, 300), new Vecteur(305, 300));
+        petit.lier(sortie);
+
+        // Distance 10 du centre → dehors
+        Projectile p = new Projectile(new Vecteur(10, 0), new Vecteur(1, 0));
+        assertFalse(petit.estDansObstacle(p));
     }
 
     // ── copier() ─────────────────────────────────────────────────────────────
@@ -118,17 +138,19 @@ public class ObstacleTeleporteurTest {
     @Test
     public void copier_retourneUnPortailNonLie() {
         ObstacleTeleporteur copie = (ObstacleTeleporteur) portailA.copier();
-
-        assertFalse("La copie ne doit pas être liée", copie.estLie());
+        assertFalse(copie.estLie());
     }
 
     @Test
     public void copier_conserveLaPosition() {
         ObstacleTeleporteur copie = (ObstacleTeleporteur) portailA.copier();
+        assertEquals(portailA.getPointA().getX(), copie.getPointA().getX(), 0.001);
+        assertEquals(portailA.getPointA().getY(), copie.getPointA().getY(), 0.001);
+    }
 
-        assertEquals("La copie doit avoir la même position X",
-                     portailA.getPosition().getX(), copie.getPosition().getX(), 0.001);
-        assertEquals("La copie doit avoir la même position Y",
-                     portailA.getPosition().getY(), copie.getPosition().getY(), 0.001);
+    @Test
+    public void copier_conserveLeRayon() {
+        ObstacleTeleporteur copie = (ObstacleTeleporteur) portailA.copier();
+        assertEquals(portailA.getLongueur(), copie.getLongueur(), 0.001);
     }
 }
