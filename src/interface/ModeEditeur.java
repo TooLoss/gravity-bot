@@ -13,9 +13,12 @@ import java.awt.*;
 public class ModeEditeur extends JFrame {
     /** Le budget de départ. **/
     private int budgetDepart = 1000;
-    
+
     /**Le label du budget de départ. **/
     private JLabel labelBudgetDepart;
+
+    /** L'outil selectionné.**/
+    private String outilSelectionne = null; // "obstacle", "objectif", "depart"
 
     public ModeEditeur() {
         setTitle("Gravity-Bot - Editeur de niveaux");
@@ -62,7 +65,21 @@ public class ModeEditeur extends JFrame {
         centre.setBackground(new Color(20, 15, 5));
         centre.setBorder(BorderFactory.createLineBorder(new Color(120, 80, 20), 2));
 
-        centre.add(new AfficherGrille(), BorderLayout.CENTER);
+        AfficherGrille grille = new AfficherGrille();
+        grille.addMouseListener(new java.awt.event.MouseAdapter() {
+            @Override
+            public void mouseClicked(java.awt.event.MouseEvent e) {
+                if (outilSelectionne != null) {
+                    int x = e.getX() ;
+                    int y = e.getY();
+                    System.out.println(outilSelectionne + " placé en (" + x + ", " + y + ")");
+                    // TODO : transmettre à la logique métier
+                }
+            }
+        
+        });    
+
+        centre.add(grille, BorderLayout.CENTER);
 
         return centre;
     }
