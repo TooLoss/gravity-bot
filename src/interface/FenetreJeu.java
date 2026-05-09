@@ -155,7 +155,7 @@ public class FenetreJeu extends JFrame {
         if (selectedObstacle == null) return;
 
         if (selectedObstacle instanceof ObstaclePropulseur) {
-            ObstaclePropulseur p = new ObstaclePropulseur(new Vecteur(x, y));
+            ObstaclePropulseur p = new ObstaclePropulseur(new Vecteur(x, y), new Vecteur(x + 50, y));
             if (engine.getMap().ajouterObstacle(p)) {
                 engine.getJoueurCourant().retirerBudget(p.getPrix());
                 rafraichirLabels();
