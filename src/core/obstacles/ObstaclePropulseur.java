@@ -4,26 +4,23 @@ import core.Projectile;
 import utils.Vecteur;
 import core.collisions.CollisionSegment;
 
-public class ObstaclePropulseur extends Obstacle {
+public class ObstaclePropulseur extends ObstacleSegment {
 
     private Vecteur direction;
-    private Vecteur directeur = new Vecteur(50.f);
-    private double epaisseur = 50.f;
 
-    public ObstaclePropulseur(Vecteur position)
-    {
-        this.setPosition(position);
-        this.setCollision(new CollisionSegment(this.getPosition(), directeur, epaisseur));
-        this.direction = new Vecteur(directeur);
+    public ObstaclePropulseur(Vecteur pointA, Vecteur pointB) {
+        super(pointA, pointB);
+        this.setCollision(new CollisionSegment(this.pointA, getDirecteur(), 50.0));
+        this.direction = getDirecteur();
         this.direction.normaliser();
     }
 
     public void setDirection(Vecteur dir) {
         this.direction = new Vecteur(dir);
         this.direction.normaliser();
-        this.directeur = new Vecteur(this.direction);
-        this.directeur.multiplier(50.f);
-        this.setCollision(new CollisionSegment(this.getPosition(), this.directeur, this.epaisseur));
+        Vecteur newDirecteur = new Vecteur(this.direction);
+        newDirecteur.multiplier(getLongueur());
+        this.setCollision(new CollisionSegment(this.pointA, newDirecteur, 50.0));
     }
 
     public Vecteur getDirection() {
@@ -44,7 +41,7 @@ public class ObstaclePropulseur extends Obstacle {
 
     @Override
     public Obstacle copier() {
-        ObstaclePropulseur copy = new ObstaclePropulseur(new Vecteur(this.getPosition()));
+    	ObstaclePropulseur copy = new ObstaclePropulseur(new Vecteur(this.pointA), new Vecteur(this.pointB));
         copy.setDirection(this.direction);
         return copy;
     }
