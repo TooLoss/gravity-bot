@@ -6,7 +6,7 @@ import utils.Vecteur;
  * pour interragir avec lui (estDedans).
  */
 public abstract class Obstacle extends Acteur {
-    
+
     private Collision collision;
     public static final int prix = 100;
 
@@ -35,12 +35,20 @@ public abstract class Obstacle extends Acteur {
         return collision.estEnCollision(acteur);
     }
 
+    /**
+     * Définit ou modifie la forme de collision de l'obstacle.
+     * @param collision L'implémentation de la zone de collision.
+     */
     public void setCollision(Collision collision) {
         this.collision = collision;
     }
 
+    /**
+     * Récupère le prix de l'obstacle pour les mécaniques d'achat du jeu.
+     * @return La valeur entière du prix.
+     */
     public int getPrix() {
         return this.prix;
     }
-    
+
 }
