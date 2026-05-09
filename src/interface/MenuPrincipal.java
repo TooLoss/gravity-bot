@@ -4,7 +4,7 @@ import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
 
-public class MenuPrincipal {
+public class MenuPrincipal extends JFrame {
     // Variables de résolution
     static int boardWidth = 700;
     static int boardHeight = 600;
