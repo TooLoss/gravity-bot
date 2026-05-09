@@ -2,8 +2,6 @@ package core;
 
 /**
  * Contrat définissant les capacités de détection de contact.
- * Toute forme géométrique de collision doit implémenter
- * cette interface.
  */
 public interface Collision {
 
