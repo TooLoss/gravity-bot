@@ -102,29 +102,35 @@ public class Map extends JPanel {
     }
 
     public boolean lancerSimulation() {
-        long previous = System.nanoTime();
-        long accumulator = 0;
-
-        initialiserParametres();
-
-        while (estDansEcran(projectile) && !estGagne) {
-            long current = System.nanoTime();
-            long elapsed = current - previous;
-            previous = current;
-            accumulator += elapsed;
-
-            while (accumulator >= GAME_TICK) {
-                testerCollisions();
-                projectile.actualiser(GAME_TICK*10e-9);
-                accumulator -= GAME_TICK;
-                Vecteur sat_pos = projectile.getPosition();
-                Vecteur sat_speed = projectile.getVitesse();
-                System.out.println("Satellite speed : " + sat_speed.getX() + " - " + sat_speed.getY());
-                System.out.println("Satellite position : " + sat_pos.getX() + " - " + sat_pos.getY());
-                paintImmediately(0, 0, getWidth(), getHeight());
-            }
+    	// Arrêter une simulation déjà en cours avant d'en lancer une nouvelle.
+        if (simulationTimer != null && simulationTimer.isRunning()) {
+            simulationTimer.stop();
         }
-        return estGagne;
+ 
+        initialiserParametres();
+ 
+        // Le Timer tire sur l'EDT toutes les ~16 ms → l'interface reste réactive.
+        int delayMs = (int) (GAME_TICK / 1_000_000);
+ 
+        simulationTimer = new Timer(delayMs, e -> {
+            testerCollisions();
+ 
+            // FIX : 1e-9 (= 10⁻⁹) pour convertir des nanosecondes en secondes.
+            // Avant : 10e-9 (= 10⁻⁸) donnait un dt 10× trop grand.
+            projectile.actualiser(GAME_TICK * 1e-9);
+ 
+            repaint();
+ 
+            if (!estDansEcran(projectile) || estGagne) {
+                simulationTimer.stop();
+                if (onTermine != null) {
+                    onTermine.run();
+                }
+            }
+        });
+ 
+        simulationTimer.start();
+
     }
 
     public void testerCollisions() {
