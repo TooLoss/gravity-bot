@@ -16,6 +16,9 @@ public class ObstacleMur extends Obstacle {
 
         this.setPosition(pointA);
         this.setCollision(new CollisionRectangle(this.pointA, this.pointB));
+        
+        //chercher l'image'
+        this.setTexture("ressources/mur.png");
     }
 
     @Override
