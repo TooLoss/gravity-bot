@@ -109,9 +109,8 @@ public class FenetreJeu extends JFrame {
         styliserBoutonAction(btnLancer, new Color(40, 140, 80));
         
         btnLancer.addActionListener(e -> {
-            engine.executerTour();
-            rafraichirLabels();
-        });
+            engine.executerTour(() -> SwingUtilities.invokeLater(this::rafraichirLabels))
+        );
 
         footer.add(btnLancer);
         return footer;
