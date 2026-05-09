@@ -102,7 +102,7 @@ public class Map extends JPanel {
         return estAjoute;
     }
 
-    public boolean lancerSimulation() {
+    public void lancerSimulation(Runnable onTermine) {
     	// Arrêter une simulation déjà en cours avant d'en lancer une nouvelle.
         if (simulationTimer != null && simulationTimer.isRunning()) {
             simulationTimer.stop();
@@ -147,6 +147,10 @@ public class Map extends JPanel {
 
     public void gagne() {
         this.estGagne = true;
+    }
+
+    public boolean estGagne() {
+    return this.estGagne;
     }
 
 }

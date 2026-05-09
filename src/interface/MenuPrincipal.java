@@ -123,7 +123,10 @@ public class MenuPrincipal {
             public void actionPerformed(ActionEvent e) {
                 if (text.equals("Jouer")) {
                     frame.dispose(); // Fermer la fenetre du menu
-                    FenetreJeu jeu = new FenetreJeu();
+                    core.joueurs.Joueur j1 = new core.joueurs.Joueur("Joueur 1");
+                    core.joueurs.Joueur j2 = new core.joueurs.Joueur("Joueur 2");
+                    core.Game engine = new core.Game(j1, j2);
+                    FenetreJeu jeu = new FenetreJeu(engine);
                     jeu.setVisible(true); // Afficher la fenetre du jeu
                 }
                 else if (text.equals("Paramètres")) {

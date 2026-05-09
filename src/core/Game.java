@@ -18,12 +18,12 @@ public class Game {
         this.map = new Map();
     }
 
-    public void executerTour(Runnable onTermine) {
+    public void executerTour(Runnable callback) {
         map.lancerSimulation(() -> {
             if (!map.estGagne()) {
                 passerTour();
             }
-            if (onTermine != null) onTermine.run();
+            if (callback != null) callback.run();
         });
     }
 
