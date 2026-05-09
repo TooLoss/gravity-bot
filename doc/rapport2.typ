@@ -100,7 +100,10 @@ de la map ou si il a pas atteind la cible. Si c'est le cas, il arrête la
 simulation et return `true` ou `false` si le tour est gagnant ou perdant. \
 La map est un `JPanel` et affiche des carrés aux positions du projectile, des
 obstacles et de la cible. C'est une mesure temporaire pour visualiser le jeu car
-les `Acteur` ne gère pas encore leur propre affichage.
+les `Acteur` ne gère pas encore leur propre affichage. \
+Pour l'instant, la map est initialisé avec des paramètres par défaut. A terme,
+il faudrait qu'elle soit construit à l'aide d'un fichier et place les obstacles
+déjà présent sur la map. \
 
 = Placement des obstacles
 
