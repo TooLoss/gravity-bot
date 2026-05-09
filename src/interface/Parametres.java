@@ -3,25 +3,45 @@ import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
 
+/**
+ * La classe Parametres gère l'interface de configuration du jeu GravityBot.
+ * Elle permet principalement de régler le volume sonore via un curseur (JSlider)
+ * et de sauvegarder ces changements de manière persistante durant la session.
+ */
 public class Parametres {
-    // Rendus non-private pour permettre de les modifier via une option de résolution(TODO)
+    /** Largeur de la fenêtre des paramètres. */
     static int boardWidth = 700;
+    /** Hauteur de la fenêtre des paramètres. */
     static int boardHeight = 600;
-    
+
+    /** Couleur violette pour l'effet de survol (glow). */
     private static final Color loganGlow = new Color(170, 169, 205);
+    /** Couleur blanche pour le texte par défaut. */
     private static final Color white = new Color(246, 246, 246);
+    /** Couleur grise utilisée lorsque le bouton Sauvegarder est désactivé. */
     private static final Color customGrey = new Color(92, 93, 95);
+
+    /** Options de navigation du menu. */
     private static final String[] menuOptions = {"Retour"};
     
+    /** Valeur actuelle du volume sélectionnée sur le slider. */
     private static int volumeJeu = 50;
+    /** Ancienne valeur du volume (utilisée pour détecter s'il y a des changements à sauvegarder). */
     private static int volumeOld = volumeJeu;
+    /** Étiquette affichant dynamiquement le pourcentage du volume. */
     private final JLabel afficherVol = new JLabel("Volume : " + volumeJeu + "%");
     
+    /** Bouton permettant d'appliquer les modifications de volume. */
     JButton btnSauvegarder = createMenuButton("Sauvegarder");
     
+    /** Fenêtre principale des paramètres. */
     JFrame frame = new JFrame("GravityBot");
     
-    // Constructeur
+    /**
+     * Constructeur de la classe Parametres.
+     * Initialise l'interface graphique, le fond animé, le curseur personnalisé
+     * et le JSlider pour le contrôle du volume.
+     */
     public Parametres() {
         ImageIcon bgIcon = new ImageIcon("src/interface/gifGravity.gif");
         JPanel buttonsPanel = new JPanel();
@@ -117,6 +137,12 @@ public class Parametres {
         frame.setVisible(true);
     }
 
+    /**
+     * Crée un bouton stylisé avec des bords arrondis et une gestion spécifique du survol.
+     * Pour le bouton "Sauvegarder", l'interactivité dépend de la modification du volume.
+     * @param text Le libellé du bouton.
+     * @return Le JButton configuré.
+     */
     private JButton createMenuButton(String text) {
         JButton btn = new JButton(text);
         btn.setFont(new Font("Monospaced", Font.PLAIN, 25));
