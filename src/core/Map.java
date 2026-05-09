@@ -64,7 +64,8 @@ public class Map extends JPanel {
 
     private Projectile projectile;
     private Vecteur position_initiale = new Vecteur(10.f);
-    private Vecteur vitesse_initiale = new Vecteur(10.f);
+    // TODO public que pour les tests
+    private Vecteur vitesse_initiale = new Vecteur(10.f, .0f);
     private Vecteur cible_position = new Vecteur(450.f, 450.f);
     private ObstacleCible cible;
     
