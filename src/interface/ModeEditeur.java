@@ -174,16 +174,14 @@ public class ModeEditeur extends JFrame {
         });
 
         btnTester.addActionListener(e -> {
-            // Ferme l'editeur et ouvre la fenetre de jeu pour tester le niveau cree
-            this.dispose();
-            FenetreJeu jeu = new FenetreJeu();
-            jeu.setVisible(true);
+            JOptionPane.showMessageDialog(this,
+                "Fonctionnalite de test non disponible pour l'instant.",
+                "Tester", JOptionPane.INFORMATION_MESSAGE);
         });
 
         btnRetour.addActionListener(e -> {
             this.dispose();
-            MenuPrincipal menu = new MenuPrincipal();
-            menu.setVisible(true);
+            new MenuPrincipal();
         });
 
         footer.add(btnSauvegarder);
