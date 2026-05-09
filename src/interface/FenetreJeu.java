@@ -6,16 +6,28 @@ import core.Game;
 import core.Map;
 import core.Obstacle;
 import utils.Vecteur;
-
+/**
+ * La classe FenetreJeu constitue l'interface principale de la simulation.
+ * Elle affiche la carte de jeu, les contrôles de placement d'obstacles,
+ * ainsi que les informations de budget et de tour des joueurs.
+ */
 public class FenetreJeu extends JFrame {
+    /** Moteur logique du jeu gérant les règles et les tours. */
     private Game engine;
+    /** Étiquette affichant le budget restant du joueur courant. */
     private JLabel labelBudget;
+    /** Étiquette affichant le numéro du tour et le nom du joueur actif. */
     private JLabel labelTour;
+    /** Type d'obstacle actuellement sélectionné dans la barre latérale. */
     private Obstacle selectedObstacle;
     private int prix;
-
+    /** Référence vers un propulseur en cours de placement (pour définir sa direction). */
     private ObstaclePropulseur propulseurEnAttente;
 
+    /**
+     * Constructeur de la fenêtre de jeu.
+     * @param engine Le moteur de jeu (Game) à associer à cette interface.
+     */
     public FenetreJeu(Game engine) {
         this.engine = engine;
         setTitle("Gravity-Bot");
@@ -26,9 +38,16 @@ public class FenetreJeu extends JFrame {
         construireInterface();
         setVisible(true);
     }
-
+    /**
+     * Constructeur par défaut (vide).
+     */
     public FenetreJeu() {}
 
+    /**
+     * Initialise et assemble les différents composants de l'interface graphique.
+     * Utilise un BorderLayout pour organiser le bandeau, la barre latérale, 
+     * la carte et le footer.
+     */
     private void construireInterface() {
         getContentPane().setBackground(new Color(10, 10, 15));
         setLayout(new BorderLayout(5, 5));
@@ -59,7 +78,10 @@ public class FenetreJeu extends JFrame {
         add(construireSidebar(), BorderLayout.EAST);
         add(construireFooter(), BorderLayout.SOUTH);
     }
-
+    /**
+     * Crée le panneau supérieur affichant le budget et le tour actuel.
+     * @return Le JPanel configuré pour le haut de l'écran.
+     */
     private JPanel construireBandeauNord() {
         JPanel bandeau = new JPanel(new FlowLayout(FlowLayout.CENTER, 50, 10));
         bandeau.setBackground(new Color(25, 25, 30));
@@ -79,7 +101,10 @@ public class FenetreJeu extends JFrame {
         bandeau.add(labelTour);
         return bandeau;
     }
-
+    /**
+     * Crée la barre latérale contenant les boutons de sélection d'obstacles.
+     * @return Le JPanel de la sidebar.
+     */
     private JPanel construireSidebar() {
         JPanel sidebar = new JPanel();
         sidebar.setLayout(new BoxLayout(sidebar, BoxLayout.Y_AXIS));
@@ -100,7 +125,10 @@ public class FenetreJeu extends JFrame {
 
         return sidebar;
     }
-
+    /**
+     * Crée le panneau de contrôle inférieur (Footer) avec les actions globales.
+     * @return Le JPanel du footer.
+     */
     private JPanel construireFooter() {
         JPanel footer = new JPanel(new FlowLayout(FlowLayout.CENTER, 20, 12));
         footer.setBackground(new Color(15, 15, 20));
@@ -109,10 +137,8 @@ public class FenetreJeu extends JFrame {
         JButton btnRetour = new JButton("RETOUR MENU");
         styliserBoutonAction(btnRetour, new Color(100, 100, 100)); // Gris pour le retour
         btnRetour.addActionListener(e -> {
-        // On arrête la musique du jeu si nécessaire
-        // Audio.GestionnaireAudio.stopMusique(); 
-        this.dispose(); // On ferme la fenêtre actuelle
-        new MenuPrincipal(); // On rouvre le menu
+        this.dispose(); // ferme la fenêtre actuelle
+        new MenuPrincipal(); // rouvre le menu
         });
 
 
@@ -138,7 +164,14 @@ public class FenetreJeu extends JFrame {
         footer.add(btnArreter);
         return footer;
     }
-
+    /**
+     * Utilitaire pour créer un bouton d'élément (boutique) stylisé.
+     * @param nom Le nom de l'obstacle.
+     * @param prix Le prix affiché.
+     * @param type L'instance modèle d'obstacle à sélectionner.
+     * @param c La couleur de fond du bouton.
+     * @return Le JButton configuré.
+     */
     private JButton creerBoutonElement(String nom, String prix, Obstacle type, Color c) {
         JButton btn = new JButton("<html><center><b>" + nom + "</b><br>" + prix + "</center></html>");
         btn.setMaximumSize(new Dimension(170, 65));
@@ -156,7 +189,11 @@ public class FenetreJeu extends JFrame {
         });
         return btn;
     }
-
+    /**
+     * Applique un style visuel cohérent aux boutons d'actions principaux.
+     * @param btn Le bouton à styliser.
+     * @param c La couleur thématique du bouton.
+     */
     private void styliserBoutonAction(JButton btn, Color c) {
         btn.setBackground(c);
         btn.setForeground(Color.WHITE);
@@ -168,7 +205,12 @@ public class FenetreJeu extends JFrame {
             BorderFactory.createEmptyBorder(10, 25, 10, 25)
         ));
     }
-
+    /**
+     * Gère la logique de placement d'un obstacle sur la carte.
+     * Vérifie le budget du joueur et traite le cas particulier du propulseur.
+     * @param x Coordonnée X du clic.
+     * @param y Coordonnée Y du clic.
+     */
     private void placerObstacle(int x, int y) {
         if (propulseurEnAttente != null) {
             propulseurEnAttente = null;
@@ -194,7 +236,9 @@ public class FenetreJeu extends JFrame {
             rafraichirLabels();
         }
     }
-
+    /**
+     * Met à jour les textes des étiquettes (budget et tour) avec les données du moteur.
+     */
     private void rafraichirLabels() {
         labelBudget.setText("Budget : " + engine.getJoueurCourant().getBudget() + "€");
         labelTour.setText("Tour : " + engine.getTour() + " (" + engine.getJoueurCourant().getNom() + ")");
