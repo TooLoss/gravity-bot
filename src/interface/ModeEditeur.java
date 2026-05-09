@@ -1,4 +1,5 @@
 import javax.swing.*;
+import java.awt.BasicStroke;
 import java.awt.*;
 
 /** Fenetre du mode Editeur de Gravity-Bot.

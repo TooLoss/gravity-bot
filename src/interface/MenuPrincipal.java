@@ -19,7 +19,7 @@ public class MenuPrincipal {
 
     // Constructeur
     public MenuPrincipal() {
-        ImageIcon bgIcon = new ImageIcon("interface/gifGravity.gif");
+        ImageIcon bgIcon = new ImageIcon("src/interface/gifGravity.gif");
         JPanel buttonsPanel = new JPanel();
         JLabel backgroundLabel = new JLabel(bgIcon);
         
@@ -34,7 +34,7 @@ public class MenuPrincipal {
 
         // Gestion du curseur
         try {
-            ImageIcon icon = new ImageIcon("interface/cursor.png");
+            ImageIcon icon = new ImageIcon("src/interface/cursor.png");
             Image originalImg = icon.getImage();
             int cursorSize = 32;
             BufferedImage resizedImg = new BufferedImage(cursorSize, cursorSize, BufferedImage.TYPE_INT_ARGB);

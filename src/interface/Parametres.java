@@ -23,7 +23,7 @@ public class Parametres {
     
     // Constructeur
     public Parametres() {
-        ImageIcon bgIcon = new ImageIcon("interface/gifGravity.gif");
+        ImageIcon bgIcon = new ImageIcon("src/interface/gifGravity.gif");
         JPanel buttonsPanel = new JPanel();
         JPanel Volume = new JPanel();
         JLabel backgroundLabel = new JLabel(bgIcon);
@@ -39,7 +39,7 @@ public class Parametres {
 
         // Gestion du curseur
         try {
-            ImageIcon icon = new ImageIcon("interface/cursor.png");
+            ImageIcon icon = new ImageIcon("src/interface/cursor.png");
             Image originalImg = icon.getImage();
             int cursorSize = 32;
             BufferedImage resizedImg = new BufferedImage(cursorSize, cursorSize, BufferedImage.TYPE_INT_ARGB);
@@ -186,7 +186,7 @@ public class Parametres {
                 else if (text.equals("Sauvegarder")) { 
                     // On ne sauvegarde que si c'est nécessaire
                     if (volumeJeu != volumeOld) {
-                        audio.GestionnaireAudio.setVolume(volumeJeu);
+                        Audio.GestionnaireAudio.setVolume(volumeJeu);
                         volumeOld = volumeJeu;
                         btnSauvegarder.setForeground(customGrey); // On le regrise après sauvegarde
                     }
