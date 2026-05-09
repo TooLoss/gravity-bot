@@ -101,10 +101,9 @@ public class ModeEditeur extends JFrame {
 
         // Bouton pour placer un obstacle sur le plateau
         JButton btnObstacle = creerBoutonOutil("Obstacle", "Bloquer la trajectoire");
+        // Selectionner l'outil obstacle pour le prochain clic sur la grille
         btnObstacle.addActionListener(e -> {
-            JOptionPane.showMessageDialog(this,
-                "Obstacle selectionne.\nCliquez sur le plateau pour le placer.",
-                "Obstacle", JOptionPane.INFORMATION_MESSAGE);
+            outilSelectionne = "obstacle";
             // TODO : appeler la logique de placement
         });
         sidebar.add(btnObstacle);
@@ -112,10 +111,9 @@ public class ModeEditeur extends JFrame {
 
         // Bouton pour definir la position de l'objectif sur le plateau
         JButton btnObjectif = creerBoutonOutil("Objectif", "Definir la destination");
+        // Selectionner l'outil objectif pour le prochain clic sur la grille
         btnObjectif.addActionListener(e -> {
-            JOptionPane.showMessageDialog(this,
-                "Objectif selectionne.\nCliquez sur le plateau pour le positionner.",
-                "Objectif", JOptionPane.INFORMATION_MESSAGE);
+            outilSelectionne = "objectif";
             // TODO : appeler la logique de placement de l'objectif
         });
         sidebar.add(btnObjectif);
@@ -123,10 +121,9 @@ public class ModeEditeur extends JFrame {
 
         // Bouton pour definir le point de depart du satellite
         JButton btnDepart = creerBoutonOutil("Depart satellite", "Definir le point de depart");
+        // Selectionner l'outil depart pour le prochain clic sur la grille
         btnDepart.addActionListener(e -> {
-            JOptionPane.showMessageDialog(this,
-                "Point de depart selectionne.\nCliquez sur le plateau pour le positionner.",
-                "Depart", JOptionPane.INFORMATION_MESSAGE);
+            outilSelectionne = "depart";
             // TODO : appeler la logique de placement du satellite
         });
         sidebar.add(btnDepart);
