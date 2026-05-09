@@ -96,7 +96,7 @@ public class FenetreJeu extends JFrame {
 
         sidebar.add(creerBoutonElement("Planète", String.valueOf(ObstacleAimantPull.prix), new ObstacleAimantPull(new Vecteur(.0f)), new Color(60, 60, 150)));
         sidebar.add(Box.createVerticalStrut(15));
-        sidebar.add(creerBoutonElement("Propulseur", String.valueOf(ObstaclePropulseur.prix), new ObstaclePropulseur(new Vecteur(.0f)), new Color(150, 60, 60)));
+        sidebar.add(creerBoutonElement("Propulseur", String.valueOf(ObstaclePropulseur.prix), new ObstaclePropulseur(new Vecteur(0, 0), new Vecteur(50, 0)), new Color(150, 60, 60)));
 
         return sidebar;
     }
