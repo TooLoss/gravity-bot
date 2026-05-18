@@ -61,17 +61,6 @@ public class FenetreJeu extends JFrame {
                 placerObstacle(e.getX(), e.getY());
             }
         });
-        mapPanel.addMouseMotionListener(new MouseMotionAdapter() {
-            @Override
-            public void mouseMoved(MouseEvent e) {
-                if (propulseurEnAttente != null) {
-                    Vecteur pos = propulseurEnAttente.getPosition();
-                    Vecteur dir = new Vecteur(e.getX() - pos.getX(), e.getY() - pos.getY());
-                    propulseurEnAttente.setDirection(dir);
-                    mapPanel.repaint();
-                }
-            }
-        });
         mapPanel.setBorder(BorderFactory.createLineBorder(new Color(60, 60, 120), 2));
         add(mapPanel, BorderLayout.CENTER);
 
@@ -86,12 +75,12 @@ public class FenetreJeu extends JFrame {
                     mapPanel.repaint();
                 }
                 
-                if (propulseurEnAttente != null) {
-                    Vecteur pos = propulseurEnAttente.getPosition();
-                    Vecteur dir = new Vecteur(e.getX() - pos.getX(), e.getY() - pos.getY());
-                    propulseurEnAttente.setDirection(dir);
-                    mapPanel.repaint();
-                }
+                // if (propulseurEnAttente != null) {
+                //     Vecteur pos = propulseurEnAttente.getPosition();
+                //     Vecteur dir = new Vecteur(e.getX() - pos.getX(), e.getY() - pos.getY());
+                //     propulseurEnAttente.setDirection(dir);
+                //     mapPanel.repaint();
+                // }
             }
         });
     }
