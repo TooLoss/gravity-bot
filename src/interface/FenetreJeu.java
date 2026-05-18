@@ -146,8 +146,9 @@ public class FenetreJeu extends JFrame {
         styliserBoutonAction(btnLancer, new Color(40, 140, 80));
         
         btnLancer.addActionListener(e -> {
-            engine.executerTour(() -> SwingUtilities.invokeLater(this::rafraichirLabels));
-     } );
+            engine.executerTour();
+            rafraichirLabels();
+        });
 
         // Bouton Arrêter
         JButton btnArreter = new JButton("STOP");
