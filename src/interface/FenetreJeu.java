@@ -4,7 +4,7 @@ import java.awt.event.*;
 import core.obstacles.*;
 import core.Game;
 import core.Map;
-import core.Obstacle;
+import core.obstacles.Obstacle;
 import utils.Vecteur;
 /**
  * La classe FenetreJeu constitue l'interface principale de la simulation.

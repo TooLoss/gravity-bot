@@ -5,7 +5,7 @@ import utils.Vecteur;
 import utils.Vecteur;
 import core.Acteur;
 import core.Collision;
-import core.Obstacle;
+import core.obstacles.Obstacle;
 
 public class CollisionCirculaire implements Collision {
     private Vecteur centre;

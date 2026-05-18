@@ -1,5 +1,6 @@
-package core;
+package core.obstacles;
 import utils.Vecteur;
+import core.*;
 
 /** Classe abstraite de l'obstacle.
  * L'obstacle véfifie à chaque instant si le projectile vérifie les conditions

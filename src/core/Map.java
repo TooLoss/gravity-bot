@@ -5,7 +5,7 @@ import java.awt.Graphics;
 import java.awt.Color;
 import utils.Vecteur;
 import core.obstacles.*;
-import core.Obstacle;
+import core.obstacles.Obstacle;
 import java.util.HashSet;
 
 /** Classe Map contient référence aux obstacles et projectiles. */
@@ -21,6 +21,7 @@ public class Map extends JPanel {
         g.setColor(new Color(0, 0, 100));
         g.fillRect(0, 0, 500, 500);
 
+        // TODO temporaire
         for (Obstacle obs : obstacles) {
             int x = (int) obs.getPosition().getX();
             int y = (int) obs.getPosition().getY();
@@ -64,7 +65,6 @@ public class Map extends JPanel {
 
     private Projectile projectile;
     private Vecteur position_initiale = new Vecteur(10.f);
-    // TODO public que pour les tests
     private Vecteur vitesse_initiale = new Vecteur(10.f, .0f);
     private Vecteur cible_position = new Vecteur(450.f, 450.f);
     private ObstacleCible cible;
@@ -140,5 +140,22 @@ public class Map extends JPanel {
 
     public boolean estGagne() {
         return this.estGagne;
+    }
+
+    public void setPositionInitiale(Vecteur pos) {
+        this.position_initiale = pos;
+    }
+
+    public void setVitesseInitiale(Vecteur vit) {
+        this.vitesse_initiale = vit;
+    }
+
+    public void setCiblePosition(Vecteur pos) { 
+        this.cible_position = pos; 
+        this.cible = new ObstacleCible(pos);
+    }
+
+    public void viderCarte() {
+        this.obstacles.clear();
     }
 }

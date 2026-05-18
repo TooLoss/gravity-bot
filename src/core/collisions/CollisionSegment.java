@@ -2,7 +2,7 @@ package core.collisions;
 import utils.Vecteur;
 import core.Acteur;
 import core.Collision;
-import core.Obstacle;
+import core.obstacles.Obstacle;
 public class CollisionSegment implements Collision {
 
     /** Position d'origine du segment. */

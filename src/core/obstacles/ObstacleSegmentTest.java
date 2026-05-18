@@ -6,7 +6,7 @@ import static org.junit.Assert.*;
 
 import utils.Vecteur;
 import core.Projectile;
-import core.Obstacle;
+import core.obstacles.Obstacle;
 
 public class ObstacleSegmentTest {
 

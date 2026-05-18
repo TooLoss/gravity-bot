@@ -1,7 +1,7 @@
 package core.obstacles;
 
 import core.Acteur;
-import core.Obstacle;
+import core.obstacles.Obstacle;
 import core.Projectile;
 import utils.Vecteur;
 import core.collisions.CollisionCirculaire; 
