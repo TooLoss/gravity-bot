@@ -2,6 +2,7 @@ package core;
 
 import core.joueurs.Joueur;
 import java.util.ArrayList;
+import core.ChargeurMap;
 
 public class Game {
     private Map map;
@@ -9,6 +10,7 @@ public class Game {
     private Joueur joueur2;
     private Joueur joueurCourant;
     private int tour;
+    private ChargeurMap chargeur;
 
     public Game(Joueur j1, Joueur j2) {
         this.joueur1 = j1;
@@ -17,6 +19,8 @@ public class Game {
         this.tour = 1;
         Audio.GestionnaireAudio audio = new Audio.GestionnaireAudio();
         this.map = new Map();
+        this.chargeur = new ChargeurMap();
+        chargeur.chargerDepuisFichier("./src/core/maps/map1.txt", this.map);
         map.setGestionnaireAudio(audio);
     }
 

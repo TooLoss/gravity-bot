@@ -1,5 +1,7 @@
 package core.obstacles;
 
+import java.awt.Graphics;
+import java.awt.Color;
 import core.obstacles.Obstacle;
 import core.Projectile;
 import core.collisions.CollisionRectangle;
@@ -56,5 +58,11 @@ public class ObstacleMur extends Obstacle {
     public Obstacle copier() {
         ObstacleMur copy = new ObstacleMur(pointA, pointB);
         return copy;
+    }
+
+    @Override
+    public void afficher(Graphics g) {
+        g.setColor(Color.GRAY);
+        g.fillRect((int) pointA.getX(), (int) pointA.getY(), (int) pointB.getX(), (int) pointB.getY());
     }
 }

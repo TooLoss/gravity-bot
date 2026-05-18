@@ -52,6 +52,11 @@ public class Map extends JPanel {
             int py = (int) cible.getPosition().getY();
             g.fillOval(px - 3, py - 3, 6, 6);
         }
+
+        for (Obstacle obs : obstacles) {
+            System.out.println("A affichier l'obstacle");
+            obs.afficher(g);
+        }
     }
 
     public static final Vecteur SCREEN_SIZE = new Vecteur(500.f);

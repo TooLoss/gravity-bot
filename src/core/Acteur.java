@@ -1,6 +1,8 @@
 package core;
 
 import java.awt.Image;
+import java.awt.Graphics;
+import java.awt.Color;
 import javax.swing.ImageIcon;
 import utils.Vecteur;
 
@@ -83,5 +85,7 @@ public abstract class Acteur {
     public void translater(Vecteur v) {
     	this.position.translater(v.getX(), v.getY());
     }
+
+    public void afficher(Graphics g) {}
 
 }
