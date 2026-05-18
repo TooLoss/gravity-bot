@@ -1,7 +1,6 @@
 package core;
 
 import javax.swing.JPanel;
-import javax.swing.Timer;
 import java.awt.Graphics;
 import java.awt.Color;
 import utils.Vecteur;
@@ -69,11 +68,9 @@ public class Map extends JPanel {
     private Vecteur vitesse_initiale = new Vecteur(10.f, .0f);
     private Vecteur cible_position = new Vecteur(450.f, 450.f);
     private ObstacleCible cible;
-    
+
     private boolean estGagne;
-    
-    private Timer simulationTimer;
-    
+
     public Map() {
         this.estGagne = false;
         initialiserParametres();
@@ -82,8 +79,6 @@ public class Map extends JPanel {
         this.gestionnaireAudio = ga;
     } 
     public void initialiserParametres() {
-    	this.estGagne = false;
-    	
         if (this.projectile == null) {
             this.projectile = new Projectile(position_initiale, vitesse_initiale);
         } else {
