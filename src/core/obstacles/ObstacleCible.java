@@ -1,4 +1,8 @@
 package core.obstacles;
+
+
+import java.awt.Graphics;
+import java.awt.Color;
 import utils.Vecteur;
 import core.obstacles.Obstacle;
 import core.collisions.*;
@@ -28,5 +32,15 @@ public class ObstacleCible extends Obstacle {
     public Obstacle copier() {
         ObstacleCible copy = new ObstacleCible(new Vecteur(this.getPosition()));
         return copy;
+    }
+
+    @Override
+    public void afficher(Graphics g) {
+        g.setColor(Color.YELLOW);
+        g.fillOval(
+                (int) (this.getPosition().getX() - rayon / 2),
+                (int) (this.getPosition().getY() - rayon / 2),
+                (int) rayon,
+                (int) rayon);
     }
 }

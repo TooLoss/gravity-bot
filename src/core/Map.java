@@ -18,40 +18,40 @@ public class Map extends JPanel {
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
 
-        g.setColor(new Color(0, 0, 100));
-        g.fillRect(0, 0, 500, 500);
-
-        // TODO temporaire
-        for (Obstacle obs : obstacles) {
-            int x = (int) obs.getPosition().getX();
-            int y = (int) obs.getPosition().getY();
-            if (obs instanceof ObstaclePropulseur) {
-                Vecteur dir = ((ObstaclePropulseur) obs).getDirection();
-                int x2 = x + (int)(dir.getX() * 40);
-                int y2 = y + (int)(dir.getY() * 40);
-                g.setColor(Color.CYAN);
-                g.drawLine(x, y, x2, y2);
-                g.fillOval(x - 4, y - 4, 8, 8);
-                g.fillOval(x2 - 4, y2 - 4, 8, 8);
-            } else {
-                g.setColor(Color.RED);
-                g.fillRect(x - 5, y - 5, 10, 10);
-            }
-        }
-
-        if (projectile != null) {
-            g.setColor(Color.YELLOW);
-            int px = (int) projectile.getPosition().getX();
-            int py = (int) projectile.getPosition().getY();
-            g.fillOval(px - 3, py - 3, 6, 6);
-        }
-
-        if (cible != null) {
-            g.setColor(Color.GREEN);
-            int px = (int) cible.getPosition().getX();
-            int py = (int) cible.getPosition().getY();
-            g.fillOval(px - 3, py - 3, 6, 6);
-        }
+        // g.setColor(new Color(0, 0, 100));
+        // g.fillRect(0, 0, 500, 500);
+        //
+        // // TODO temporaire
+        // for (Obstacle obs : obstacles) {
+        //     int x = (int) obs.getPosition().getX();
+        //     int y = (int) obs.getPosition().getY();
+        //     if (obs instanceof ObstaclePropulseur) {
+        //         Vecteur dir = ((ObstaclePropulseur) obs).getDirection();
+        //         int x2 = x + (int)(dir.getX() * 40);
+        //         int y2 = y + (int)(dir.getY() * 40);
+        //         g.setColor(Color.CYAN);
+        //         g.drawLine(x, y, x2, y2);
+        //         g.fillOval(x - 4, y - 4, 8, 8);
+        //         g.fillOval(x2 - 4, y2 - 4, 8, 8);
+        //     } else {
+        //         g.setColor(Color.RED);
+        //         g.fillRect(x - 5, y - 5, 10, 10);
+        //     }
+        // }
+        //
+        // if (projectile != null) {
+        //     g.setColor(Color.YELLOW);
+        //     int px = (int) projectile.getPosition().getX();
+        //     int py = (int) projectile.getPosition().getY();
+        //     g.fillOval(px - 3, py - 3, 6, 6);
+        // }
+        //
+        // if (cible != null) {
+        //     g.setColor(Color.GREEN);
+        //     int px = (int) cible.getPosition().getX();
+        //     int py = (int) cible.getPosition().getY();
+        //     g.fillOval(px - 3, py - 3, 6, 6);
+        // }
 
         for (Obstacle obs : obstacles) {
             System.out.println("A affichier l'obstacle");
