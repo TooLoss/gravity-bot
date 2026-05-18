@@ -77,6 +77,23 @@ public class FenetreJeu extends JFrame {
 
         add(construireSidebar(), BorderLayout.EAST);
         add(construireFooter(), BorderLayout.SOUTH);
+
+        mapPanel.addMouseMotionListener(new MouseMotionAdapter() {
+            @Override
+            public void mouseMoved(MouseEvent e) {
+                if (selectedObstacle != null) {
+                    selectedObstacle.setPosition(e.getX(), e.getY());
+                    mapPanel.repaint();
+                }
+                
+                if (propulseurEnAttente != null) {
+                    Vecteur pos = propulseurEnAttente.getPosition();
+                    Vecteur dir = new Vecteur(e.getX() - pos.getX(), e.getY() - pos.getY());
+                    propulseurEnAttente.setDirection(dir);
+                    mapPanel.repaint();
+                }
+            }
+        });
     }
     /**
      * Crée le panneau supérieur affichant le budget et le tour actuel.
