@@ -20,13 +20,14 @@ public class Game {
         map.setGestionnaireAudio(audio);
     }
 
-    public void executerTour(Runnable callback) {
-        map.lancerSimulation(() -> {
-            if (!map.estGagne()) {
-                passerTour();
-            }
-            if (callback != null) callback.run();
-        });
+    public void executerTour() {
+        boolean aGagne = map.lancerSimulation();
+        
+        if (!aGagne) {
+            passerTour();
+        } else {
+            /* TODO faire gagner */
+        }
     }
 
     private void passerTour() {
