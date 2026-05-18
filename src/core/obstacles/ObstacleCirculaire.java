@@ -1,5 +1,7 @@
 package core.obstacles;
 
+import java.awt.Graphics;
+import java.awt.Color;
 import core.Acteur;
 import core.obstacles.Obstacle;
 import core.Projectile;
@@ -47,5 +49,15 @@ public class ObstacleCirculaire extends Obstacle {
     public Obstacle copier() {
         ObstacleCirculaire copy = new ObstacleCirculaire(this.getPosition(), this.rayon);
         return copy;
+    }
+
+    @Override
+    public void afficher(Graphics g) {
+        g.setColor(Color.GRAY);
+        g.fillOval(
+                (int) (this.getPosition().getX() - rayon / 2),
+                (int) (this.getPosition().getY() - rayon / 2),
+                (int) rayon,
+                (int) rayon);
     }
 }

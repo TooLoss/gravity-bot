@@ -19,8 +19,7 @@ public class ObstacleMur extends Obstacle {
         this.setPosition(pointA);
         this.setCollision(new CollisionRectangle(this.pointA, this.pointB));
         
-        //chercher l'image'
-        this.setTexture("ressources/mur.png");
+        // this.setTexture("ressources/mur.png");
     }
 
     @Override
@@ -63,6 +62,7 @@ public class ObstacleMur extends Obstacle {
     @Override
     public void afficher(Graphics g) {
         g.setColor(Color.GRAY);
-        g.fillRect((int) pointA.getX(), (int) pointA.getY(), (int) pointB.getX(), (int) pointB.getY());
+        g.fillRect((int)pointA.getX(), (int)pointA.getY(), (int)(pointB.getX()
+                    - pointA.getX()), (int)(pointB.getY() - pointA.getY()));
     }
 }

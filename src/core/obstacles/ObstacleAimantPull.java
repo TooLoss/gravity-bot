@@ -1,11 +1,13 @@
 package core.obstacles;
+
+import java.awt.Graphics;
+import java.awt.Color;
 import utils.Vecteur;
 import core.Acteur;
 import core.Collision;
 import core.obstacles.Obstacle;
 import core.Projectile;
 import core.collisions.CollisionCirculaire;
-
 
 public class ObstacleAimantPull extends Obstacle {
 
@@ -45,4 +47,14 @@ public class ObstacleAimantPull extends Obstacle {
         return copy;
     }
 
+    @Override
+    public void afficher(Graphics g) {
+        g.setColor(Color.RED);
+        g.fillRect((int) this.getPosition().getX() - 5, (int) this.getPosition().getY() - 5, 10, 10);
+        g.drawOval(
+                (int) (this.getPosition().getX() - rayon / 2),
+                (int) (this.getPosition().getY() - rayon / 2),
+                (int) rayon,
+                (int) rayon);
+    }
 }
