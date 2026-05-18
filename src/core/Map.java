@@ -128,7 +128,7 @@ public class Map extends JPanel {
 
     public void testerCollisions() {
         if (cible.estDansObstacle(this.projectile)) {
-            gagne();
+            estGagne();
         }
         for (Obstacle obs : obstacles) {
             if (obs.estDansObstacle(this.projectile)) {
@@ -138,21 +138,7 @@ public class Map extends JPanel {
         }
     }
 
-    public void gagne() {
-        this.estGagne = true;
-    }
-
     public boolean estGagne() {
-    return this.estGagne;
+        return this.estGagne;
     }
-    public void stopperSimulation() {
-        if (simulationTimer != null && simulationTimer.isRunning()) {
-            simulationTimer.stop();
-            System.out.println("Simulation interrompue par l'utilisateur.");
-            // Optionnel : On peut réinitialiser le projectile à sa position de départ
-            initialiserParametres();
-            repaint();
-        }
-    }
-
 }

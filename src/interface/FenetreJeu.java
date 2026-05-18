@@ -151,18 +151,18 @@ public class FenetreJeu extends JFrame {
         });
 
         // Bouton Arrêter
-        JButton btnArreter = new JButton("STOP");
-        styliserBoutonAction(btnArreter, new Color(160, 40, 40)); // Rouge
-        btnArreter.addActionListener(e -> {
-            if (engine.getMap() != null) {
-                // On force l'arrêt du Timer de simulation dans Map
-                engine.getMap().stopperSimulation();
-            }
-        });
+        // JButton btnArreter = new JButton("STOP");
+        // styliserBoutonAction(btnArreter, new Color(160, 40, 40)); // Rouge
+        // btnArreter.addActionListener(e -> {
+        //     if (engine.getMap() != null) {
+        //         // On force l'arrêt du Timer de simulation dans Map
+        //         engine.getMap().stopperSimulation();
+        //     }
+        // });
 
         footer.add(btnRetour);
         footer.add(btnLancer);
-        footer.add(btnArreter);
+        // footer.add(btnArreter);
         return footer;
     }
     /**
