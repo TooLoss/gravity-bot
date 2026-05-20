@@ -82,7 +82,7 @@ public class Map extends JPanel {
 
         initialiserParametres();
 
-        while (estDansEcran(projectile) && !estGagne && this.projectile.getVitesse().getNorme() > 5.f) {
+        while (estDansEcran(projectile) && !estGagne && this.projectile.getVitesse().getNorme() > 2.f) {
             long current = System.nanoTime();
             long elapsed = current - previous;
             previous = current;

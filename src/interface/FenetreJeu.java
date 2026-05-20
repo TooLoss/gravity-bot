@@ -20,9 +20,8 @@ public class FenetreJeu extends JFrame {
     private JLabel labelTour;
     /** Type d'obstacle actuellement sélectionné dans la barre latérale. */
     private Obstacle selectedObstacle;
+    private Vecteur clickedPosition;
     private int prix;
-    /** Référence vers un propulseur en cours de placement (pour définir sa direction). */
-    private ObstaclePropulseur propulseurEnAttente;
 
     /**
      * Constructeur de la fenêtre de jeu.
@@ -56,9 +55,33 @@ public class FenetreJeu extends JFrame {
 
         Map mapPanel = engine.getMap();
         mapPanel.addMouseListener(new MouseAdapter() {
+            private int startX;
+            private int startY;
+            private long tempsPression;
+            private static final long SEUIL_HOLD_MS = 300; 
+
             @Override
-            public void mouseClicked(MouseEvent e) {
-                placerObstacle(e.getX(), e.getY());
+            public void mousePressed(MouseEvent e) {
+                startX = e.getX();
+                startY = e.getY();
+                tempsPression = System.currentTimeMillis();
+            }
+
+            @Override
+            public void mouseReleased(MouseEvent e) {
+                int endX = e.getX();
+                int endY = e.getY();
+
+                long dureeClic = System.currentTimeMillis() - tempsPression;
+
+                placerObstacleDirection(startX, startY, endX, endY);
+                // if (dureeClic >= SEUIL_HOLD_MS) {
+                //     // Click Hold
+                //     placerObstacleDirection(startX, startY, endX, endY);
+                // } else {
+                //     // Click rapide
+                //     placerObstacle(startX, startY);
+                // }
             }
         });
         mapPanel.setBorder(BorderFactory.createLineBorder(new Color(60, 60, 120), 2));
@@ -66,23 +89,6 @@ public class FenetreJeu extends JFrame {
 
         add(construireSidebar(), BorderLayout.EAST);
         add(construireFooter(), BorderLayout.SOUTH);
-
-        mapPanel.addMouseMotionListener(new MouseMotionAdapter() {
-            @Override
-            public void mouseMoved(MouseEvent e) {
-                if (selectedObstacle != null) {
-                    selectedObstacle.setPosition(e.getX(), e.getY());
-                    mapPanel.repaint();
-                }
-                
-                // if (propulseurEnAttente != null) {
-                //     Vecteur pos = propulseurEnAttente.getPosition();
-                //     Vecteur dir = new Vecteur(e.getX() - pos.getX(), e.getY() - pos.getY());
-                //     propulseurEnAttente.setDirection(dir);
-                //     mapPanel.repaint();
-                // }
-            }
-        });
     }
     /**
      * Crée le panneau supérieur affichant le budget et le tour actuel.
@@ -135,10 +141,25 @@ public class FenetreJeu extends JFrame {
                     new ObstacleAimant(new Vecteur(.0f), -10.0, 50.0),
                     new Color(215, 25, 60)));
         sidebar.add(Box.createVerticalStrut(15));
-        sidebar.add(creerBoutonElement("Propulseur",
+        sidebar.add(creerBoutonElement("Propulseur Legacy Tech",
+                    String.valueOf(ObstaclePropulseurFaible.prix), new
+                    ObstaclePropulseurFaible(new Vecteur(0, 0), new Vecteur(50, 0), 0.005f, 8.f, 50.f),
+                    new Color(35, 30, 35)));
+        sidebar.add(Box.createVerticalStrut(15));
+        sidebar.add(creerBoutonElement("Teleporteur Legacy Tech",
+                    String.valueOf(ObstacleTeleporteur.prix), new
+                    ObstacleTeleporteur(new Vecteur(0, 0), new Vecteur(50, 0), 15.f, 50.f),
+                    new Color(35, 30, 35)));
+        sidebar.add(Box.createVerticalStrut(15));
+        sidebar.add(creerBoutonElement("Propulseur Neon",
                     String.valueOf(ObstaclePropulseur.prix), new
-                    ObstaclePropulseur(new Vecteur(0, 0), new Vecteur(50, 0)),
-                    new Color(150, 60, 60)));
+                    ObstaclePropulseur(new Vecteur(0, 0), new Vecteur(50, 0), 0.1f, 20.f, 100.f),
+                    new Color(160, 25, 215)));
+        sidebar.add(Box.createVerticalStrut(15));
+        sidebar.add(creerBoutonElement("Teleporteur Neon",
+                    String.valueOf(ObstacleTeleporteurNeon.prix), new
+                    ObstacleTeleporteurNeon(new Vecteur(0, 0), new Vecteur(50, 0), 8.f, 150.f),
+                    new Color(160, 25, 215)));
 
         return sidebar;
     }
@@ -203,7 +224,6 @@ public class FenetreJeu extends JFrame {
 
         btn.addActionListener(e -> {
             selectedObstacle = type;
-            propulseurEnAttente = null;
         });
         return btn;
     }
@@ -225,27 +245,12 @@ public class FenetreJeu extends JFrame {
     }
     /**
      * Gère la logique de placement d'un obstacle sur la carte.
-     * Vérifie le budget du joueur et traite le cas particulier du propulseur.
+     * Vérifie le budget du joueur
      * @param x Coordonnée X du clic.
      * @param y Coordonnée Y du clic.
      */
     private void placerObstacle(int x, int y) {
-        if (propulseurEnAttente != null) {
-            propulseurEnAttente = null;
-            return;
-        }
-
         if (selectedObstacle == null) return;
-
-        if (selectedObstacle instanceof ObstaclePropulseur) {
-            ObstaclePropulseur p = new ObstaclePropulseur(new Vecteur(x, y), new Vecteur(x + 50, y));
-            if (engine.getMap().ajouterObstacle(p)) {
-                engine.getJoueurCourant().retirerBudget(p.getPrix());
-                rafraichirLabels();
-                propulseurEnAttente = p;
-            }
-            return;
-        }
 
         selectedObstacle.setPosition(x, y);
         Obstacle copy = selectedObstacle.copier();
@@ -253,7 +258,17 @@ public class FenetreJeu extends JFrame {
             engine.getJoueurCourant().retirerBudget(copy.getPrix());
             rafraichirLabels();
         }
+
+        this.clickedPosition = new Vecteur(x, y);
     }
+
+    private void placerObstacleDirection(int bx, int by, int ex, int ey) {
+        if (selectedObstacle == null) return;
+
+        selectedObstacle.setPointFinal(new Vecteur(ex, ey));
+        placerObstacle(bx, by);
+    }
+
     /**
      * Met à jour les textes des étiquettes (budget et tour) avec les données du moteur.
      */

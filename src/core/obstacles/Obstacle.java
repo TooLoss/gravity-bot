@@ -9,7 +9,8 @@ import core.*;
 public abstract class Obstacle extends Acteur {
 
     private Collision collision;
-    public static final int prix = 100;
+    public static final int prix = 0;
+    protected Vecteur pointFinal;
 
     public Obstacle() {
         super();
@@ -52,4 +53,11 @@ public abstract class Obstacle extends Acteur {
         return this.prix;
     }
 
+    public void setPointFinal(Vecteur point) {
+        this.pointFinal = new Vecteur(point);
+    }
+
+    public Vecteur getPointFinal() {
+        return this.pointFinal;
+    }
 }

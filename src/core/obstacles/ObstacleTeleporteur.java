@@ -1,74 +1,118 @@
 package core.obstacles;
 
-import core.obstacles.Obstacle;
+import java.awt.Graphics;
+import java.awt.Graphics2D;
+import java.awt.BasicStroke;
+import java.awt.Color;
+import core.obstacles.ObstacleSegment;
 import core.Projectile;
-import core.collisions.CollisionCirculaire;
 import utils.Vecteur;
 
-/**
- * Téléporteur : zone circulaire centrée sur pointA.
- * pointB définit le rayon (distance A→B).
- * Deux instances doivent être liées via {@link #lier(ObstacleTeleporteur)}.
- *
- * Quand le projectile entre dans le portail, il est téléporté au centre
- * du portail partenaire, décalé dans la direction de sa vitesse pour
- * éviter une re-téléportation immédiate.
- */
 public class ObstacleTeleporteur extends ObstacleSegment {
 
-    private ObstacleTeleporteur partenaire;
+    public static final int prix = 3000;
+    private boolean used;
 
-    /**
-     * @param pointA Centre du portail.
-     * @param pointB Définit le rayon : rayon = distance(A, B).
-     */
-    public ObstacleTeleporteur(Vecteur pointA, Vecteur pointB) {
-        super(pointA, pointB);
-        this.setCollision(new CollisionCirculaire(this.pointA, getLongueur()));
+    public ObstacleTeleporteur(Vecteur pointA, Vecteur pointB, double
+            epaisseur, double distance) {
+        super(pointA, pointB, epaisseur, distance);
+        this.used = false;
     }
-
-    // ── Liaison ──────────────────────────────────────────────────────────────
-
-    /**
-     * Lie ce portail à {@code autre} (et réciproquement).
-     * Appeler sur l'un des deux suffit.
-     */
-    public void lier(ObstacleTeleporteur autre) {
-        if (autre == null) throw new IllegalArgumentException("Le partenaire ne peut pas être null.");
-        if (autre == this) throw new IllegalArgumentException("Un portail ne peut pas se lier à lui-même.");
-        this.partenaire = autre;
-        if (autre.partenaire != this) autre.partenaire = this;
-    }
-
-    public boolean estLie()                    { return partenaire != null; }
-    public ObstacleTeleporteur getPartenaire() { return partenaire; }
-
-    // ── Téléportation ────────────────────────────────────────────────────────
 
     @Override
     public void eventAction(Projectile projectile) {
-        if (partenaire == null) return;
+        if (!used) {
+            Vecteur end = new Vecteur(this.getPointFinal());
+            Vecteur direction = new Vecteur(this.getDirection());
+            direction.normaliser();
+            direction.multiplier(this.getEpaisseur());
+            end.ajouter(direction);
+            projectile.setPosition(end);
+            this.used = true;
 
-        Vecteur sortie = new Vecteur(partenaire.pointA);
-
-        Vecteur vitesse = new Vecteur(projectile.getVitesse());
-        if (vitesse.getNorme() > 0) {
-            vitesse.normaliser();
-            vitesse.multiplier(partenaire.getLongueur() + 1.0);
-            sortie.ajouter(vitesse);
+            javax.swing.Timer timer = new javax.swing.Timer(2000, e -> {
+                this.used = false;
+            });
+            timer.setRepeats(false);
+            timer.start();
         }
-
-        projectile.setPosition(sortie);
     }
 
     @Override
-    public void actualiser(double dt) { }
+    public void actualiser(double dt) {
+    }
 
-    /**
-     * Retourne une copie NON liée. Appelez {@link #lier} pour reconstituer la paire.
-     */
     @Override
     public Obstacle copier() {
-        return new ObstacleTeleporteur(new Vecteur(this.pointA), new Vecteur(this.pointB));
+        return new ObstacleTeleporteur(
+                this.getPosition(),
+                this.getPointFinal(), 
+                this.getEpaisseur(),
+                this.distanceMax);
+    }
+
+    @Override
+    public void afficher(Graphics g) {
+        /* Généré par IA */
+        Graphics2D g2 = (Graphics2D) g;
+        
+        int xA = (int) this.getPosition().getX();
+        int yA = (int) this.getPosition().getY();
+        int xB = (int) this.getPointFinal().getX();
+        int yB = (int) this.getPointFinal().getY();
+        
+        float epaisseurMax = (float) this.getEpaisseur();
+        java.awt.Stroke ancienneStroke = g2.getStroke();
+
+        // --- 1. RAYONNEMENT DE FUITE (Lueur violette très terne et hachée) ---
+        // Simule une distorsion magnétique instable de mauvaise qualité autour du téléporteur
+        g2.setColor(new Color(90, 40, 120, 100));
+        float[] patternDistorsion = {15.0f, 10.0f, 5.0f, 15.0f};
+        g2.setStroke(new BasicStroke(
+                epaisseurMax, 
+                BasicStroke.CAP_BUTT, 
+                BasicStroke.JOIN_MITER, 
+                1.0f, 
+                patternDistorsion, 
+                0.0f));
+        g2.drawLine(xA, yA, xB, yB);
+
+        // --- 2. CONTOUR GRIS "MÉTAL SOUFFRANT" ---
+        // Donne une délimitation au tube de téléportation, un peu asymétrique
+        g2.setColor(new Color(60, 60, 65, 200));
+        float[] patternMetal = {30.0f, 15.0f};
+        g2.setStroke(new BasicStroke(
+                epaisseurMax * 0.75f, 
+                BasicStroke.CAP_BUTT, 
+                BasicStroke.JOIN_ROUND, 
+                1.0f, 
+                patternMetal, 
+                0.0f));
+        g2.drawLine(xA, yA, xB, yB);
+
+        // --- 3. LE CŒUR : LE VIDE ABSOLU (Noir opaque version cheap) ---
+        // Une fente noire rectiligne et nette, sans dégradé, comme une coupure dans l'espace
+        g2.setColor(Color.BLACK);
+        g2.setStroke(new BasicStroke(epaisseurMax * 0.4f, BasicStroke.CAP_BUTT, BasicStroke.JOIN_MITER));
+        g2.drawLine(xA, yA, xB, yB);
+
+        // Restauration du tracé d'origine
+        g2.setStroke(ancienneStroke);
+
+        // --- 4. POIGNÉES "GÉNÉRATEURS BRUTALISTES" ---
+        // Des carrés gris foncés boulonnés, pour faire pièce de récupération industrielle
+        g2.setColor(new Color(50, 50, 50));
+        g2.fillRect(xA - 6, yA - 6, 12, 12);
+        g2.fillRect(xB - 6, yB - 6, 12, 12);
+        
+        // Un petit point rouge central sur les bornes pour faire "générateur sous tension"
+        g2.setColor(Color.RED);
+        g2.fillRect(xA - 2, yA - 2, 4, 4);
+        g2.fillRect(xB - 2, yB - 2, 4, 4);
+    }
+
+    @Override
+    public int getPrix() {
+        return prix;
     }
 }

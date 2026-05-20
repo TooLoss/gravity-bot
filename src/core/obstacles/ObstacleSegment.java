@@ -1,47 +1,63 @@
 package core.obstacles;
 
+import core.obstacles.ObstacleSegment;
 import core.obstacles.Obstacle;
+import core.collisions.CollisionSegment;
 import utils.Vecteur;
 
-/**
- * Obstacle défini par deux points A (origine) et B (extrémité).
- * La position de l'obstacle au sens de {@link core.Acteur} est toujours pointA.
- *
- * Fournit des méthodes utilitaires (directeur, longueur) que les sous-classes
- * utilisent pour construire leur zone de collision.
- *
- * Sous-classes : ObstacleMur, ObstaclePropulseur, ObstacleTeleporteur.
- */
 public abstract class ObstacleSegment extends Obstacle {
 
-    protected final Vecteur pointA;
-    protected final Vecteur pointB;
+    protected double epaisseur;
+    protected double distanceMax;
 
     /**
      * @param pointA Origine du segment (= position de l'obstacle).
      * @param pointB Extrémité du segment.
      */
-    public ObstacleSegment(Vecteur pointA, Vecteur pointB) {
+    public ObstacleSegment(Vecteur pointA, Vecteur pointB, double epaisseur, double distanceMax) {
         super(pointA);
-        this.pointA = new Vecteur(pointA);
-        this.pointB = new Vecteur(pointB);
+        this.epaisseur = epaisseur;
+        this.distanceMax = distanceMax;
+        this.setPointFinal(pointB);
+        this.setCollision(new CollisionSegment(this.getPosition(), this.getDirection(), epaisseur));
+        if (this.getLongueur() > distanceMax)
+            this.setLongueur(distanceMax);
     }
 
-    // ── Helpers partagés ────────────────────────────────────────────────────
-
-    /**
-     * Vecteur directeur A→B (non normalisé, sa norme est la longueur du segment).
-     * Utilisé par les sous-classes pour construire une CollisionSegment.
-     */
-    protected Vecteur getDirecteur() {
-        return new Vecteur(pointA, pointB); // = B - A
+    public Vecteur getDirection() {
+        Vecteur posA = this.getPosition();
+        Vecteur posB = this.getPointFinal();
+        return new Vecteur(posB.getX() - posA.getX(), posB.getY() - posA.getY());
     }
 
-    /** Longueur du segment (distance entre A et B). */
-    protected double getLongueur() {
-        return pointA.distance(pointB);
+    public void setLongueur(double longueur) {
+        Vecteur posA = this.getPosition();
+        Vecteur direction = this.getDirection();
+        
+        double longueurActuelle = posA.distance(this.getPointFinal());
+        
+        if (longueurActuelle == 0) {
+            Vecteur nouveauB = new Vecteur(posA.getX() + longueur, posA.getY());
+            this.setPointFinal(nouveauB);
+            return;
+        }
+
+        double dirX = direction.getX() / longueurActuelle;
+        double dirY = direction.getY() / longueurActuelle;
+
+        double nouveauX = posA.getX() + (dirX * longueur);
+        double nouveauY = posA.getY() + (dirY * longueur);
+
+        this.setPointFinal(new Vecteur(nouveauX, nouveauY));
     }
 
-    public Vecteur getPointA() { return new Vecteur(pointA); }
-    public Vecteur getPointB() { return new Vecteur(pointB); }
+    public double getLongueur() {
+        Vecteur posA = this.getPosition();
+        Vecteur posB = this.getPointFinal();
+        return posA.distance(posB);
+    }
+
+    public double getEpaisseur() {
+        return this.epaisseur;
+    }
 }

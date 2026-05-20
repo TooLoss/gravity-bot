@@ -182,6 +182,18 @@ public class Vecteur {
         this.ajouter(pivot);
     }
 
+    /** Modifie l'orientation du vecteur à un angle précis sans changer sa norme.
+     * @param theta le nouvel angle en radians.
+     */
+    public void setRotation(double theta) {
+        double norme = this.getNorme();
+        
+        if (norme != 0) {
+            this.x = norme * Math.cos(theta);
+            this.y = norme * Math.sin(theta);
+        }
+    }
+
     /** Projette orthogonalement ce vecteur sur un autre vecteur (axe).
      * @param axe le vecteur sur lequel on souhaite faire la projection
      */
@@ -199,6 +211,13 @@ public class Vecteur {
 
         this.x = axe.getX() * facteur;
         this.y = axe.getY() * facteur;
+    }
+
+    /** Calcule et retourne l'angle actuel du vecteur par rapport à l'axe X positif.
+     * @return l'angle en radians, compris entre -Math.PI et Math.PI.
+     */
+    public double getRotation() {
+        return Math.atan2(this.y, this.x);
     }
 
     /** Calcule et retourne un vecteur normal (perpendiculaire) au vecteur actuel.
