@@ -1,6 +1,8 @@
 package core;
 
 import java.awt.Graphics;
+import java.awt.Graphics2D;
+import java.awt.BasicStroke;
 import java.awt.Color;
 import utils.Vecteur;
 import java.util.ArrayList;
@@ -51,20 +53,66 @@ public class Projectile extends Acteur {
 
     @Override
     public void afficher(Graphics g) {
-        g.setColor(new Color(255, 255, 0, 150));
+        /* Généré par IA */
+        // 1. Dessin de la traînée (Orbite historique)
+        // Utilisation d'un orange/jaune semi-transparent plus fin (2x2 au lieu de 3x3)
+        g.setColor(new Color(255, 200, 0, 100));
         for (Vecteur point : historiquePositions) {
-            int dotX = (int) point.getX();
-            int dotY = (int) point.getY();
-            g.fillOval(dotX - 1, dotY - 1, 3, 3);
+            g.fillOval((int) point.getX() - 1, (int) point.getY() - 1, 2, 2);
         }
 
-        g.setColor(Color.GREEN);
-        int x1 = (int) this.getPosition().getX();
-        int y1 = (int) this.getPosition().getY();
-        int x2 = x1 + (int) (vitesse.getX() * 5);
-        int y2 = y1 + (int) (vitesse.getY() * 5);
-        g.drawLine(x1, y1, x2, y2);
-        g.fillRect((int) this.getPosition().getX() - 5, (int) this.getPosition().getY() - 5, 10, 10);
+        // Récupération de la position centrale
+        int posX = (int) this.getPosition().getX();
+        int posY = (int) this.getPosition().getY();
+
+        // 2. Calcul de l'orientation pour les panneaux solaires
+        if (vitesse.getNorme() > 0) {
+            // Création d'un vecteur direction unitaire basé sur la vitesse
+            Vecteur direction = new Vecteur(vitesse);
+            direction.normaliser();
+
+            // Vecteur perpendiculaire pour aligner les panneaux sur les côtés
+            Vecteur perpendiculaire = direction.vecteurNormal();
+
+            // Paramètres de distance pour les panneaux
+            int ecartPanneau = 8;  // Distance entre le centre et le début du panneau
+            int taillePanneau = 12; // Longueur du panneau solaire
+
+            // Dessin des bras/panneaux solaires (Bleu électrique)
+            g.setColor(new Color(0, 150, 255));
+            Graphics2D g2d = (Graphics2D) g;
+            g2d.setStroke(new BasicStroke(4)); // Panneaux plus épais
+
+            // Panneau Gauche
+            int p1x = posX + (int) (perpendiculaire.getX() * ecartPanneau);
+            int p1y = posY + (int) (perpendiculaire.getY() * ecartPanneau);
+            int p2x = posX + (int) (perpendiculaire.getX() * (ecartPanneau + taillePanneau));
+            int p2y = posY + (int) (perpendiculaire.getY() * (ecartPanneau + taillePanneau));
+            g2d.drawLine(p1x, p1y, p2x, p2y);
+
+            // Panneau Droit
+            int p3x = posX - (int) (perpendiculaire.getX() * ecartPanneau);
+            int p3y = posY - (int) (perpendiculaire.getY() * ecartPanneau);
+            int p4x = posX - (int) (perpendiculaire.getX() * (ecartPanneau + taillePanneau));
+            int p4y = posY - (int) (perpendiculaire.getY() * (ecartPanneau + taillePanneau));
+            g2d.drawLine(p3x, p3y, p4x, p4y);
+            
+            // Remettre l'épaisseur de ligne par défaut pour la suite
+            g2d.setStroke(new BasicStroke(1)); 
+        }
+
+        // 3. Dessin du corps central du satellite (Rond métallique/doré)
+        g.setColor(new Color(200, 200, 200)); // Gris métal
+        g.fillOval(posX - 5, posY - 5, 10, 10);
+        g.setColor(Color.WHITE); // Petit reflet au centre
+        g.fillOval(posX - 2, posY - 2, 4, 4);
+
+        // 4. Vecteur Vitesse (Ligne de direction)
+        // Conservé en vert, mais légèrement plus discret pour ne pas cacher le satellite
+        g.setColor(new Color(0, 255, 0, 180));
+        int x2 = posX + (int) (vitesse.getX() * 5);
+        int y2 = posY + (int) (vitesse.getY() * 5);
+        g.drawLine(posX, posY, x2, y2);
     }
 
 }

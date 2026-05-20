@@ -131,25 +131,35 @@ public class FenetreJeu extends JFrame {
         sidebar.add(titre);
         sidebar.add(Box.createVerticalStrut(20));
 
-        sidebar.add(creerBoutonElement("Aimant Pull",
+        sidebar.add(creerBoutonElement("Aimant Pull LegacyTech",
                     String.valueOf(ObstacleAimant.prix),
-                    new ObstacleAimant(new Vecteur(.0f), 10.0, 50.0),
-                    new Color(25, 45, 215)));
-        sidebar.add(Box.createVerticalStrut(15));
-        sidebar.add(creerBoutonElement("Aimant Push",
-                    String.valueOf(ObstacleAimant.prix),
-                    new ObstacleAimant(new Vecteur(.0f), -10.0, 50.0),
-                    new Color(215, 25, 60)));
-        sidebar.add(Box.createVerticalStrut(15));
-        sidebar.add(creerBoutonElement("Propulseur Legacy Tech",
-                    String.valueOf(ObstaclePropulseurFaible.prix), new
-                    ObstaclePropulseurFaible(new Vecteur(0, 0), new Vecteur(50, 0), 0.005f, 8.f, 50.f),
+                    new ObstacleAimant(new Vecteur(.0f), 5.0, 30.0),
                     new Color(35, 30, 35)));
         sidebar.add(Box.createVerticalStrut(15));
-        sidebar.add(creerBoutonElement("Teleporteur Legacy Tech",
+        sidebar.add(creerBoutonElement("Aimant Push LegacyTech",
+                    String.valueOf(ObstacleAimant.prix),
+                    new ObstacleAimant(new Vecteur(.0f), -5.0, 30.0),
+                    new Color(35, 30, 35)));
+        sidebar.add(Box.createVerticalStrut(15));
+        sidebar.add(creerBoutonElement("Propulseur LegacyTech",
+                    String.valueOf(ObstaclePropulseurFaible.prix), new
+                    ObstaclePropulseurFaible(new Vecteur(0, 0), new Vecteur(50, 0), 0.03f, 10.f, 50.f),
+                    new Color(35, 30, 35)));
+        sidebar.add(Box.createVerticalStrut(15));
+        sidebar.add(creerBoutonElement("Teleporteur LegacyTech",
                     String.valueOf(ObstacleTeleporteur.prix), new
                     ObstacleTeleporteur(new Vecteur(0, 0), new Vecteur(50, 0), 15.f, 50.f),
                     new Color(35, 30, 35)));
+        sidebar.add(Box.createVerticalStrut(15));
+        sidebar.add(creerBoutonElement("Aimant Pull Neon",
+                    String.valueOf(ObstacleAimant.prix),
+                    new ObstacleAimant(new Vecteur(.0f), 50.0, 20.0),
+                    new Color(160, 25, 215)));
+        sidebar.add(Box.createVerticalStrut(15));
+        sidebar.add(creerBoutonElement("Aimant Push Neon",
+                    String.valueOf(ObstacleAimant.prix),
+                    new ObstacleAimant(new Vecteur(.0f), -50.0, 20.0),
+                    new Color(160, 25, 215)));
         sidebar.add(Box.createVerticalStrut(15));
         sidebar.add(creerBoutonElement("Propulseur Neon",
                     String.valueOf(ObstaclePropulseur.prix), new
