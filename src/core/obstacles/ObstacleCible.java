@@ -38,6 +38,7 @@ public class ObstacleCible extends Obstacle {
 
     @Override
     public void afficher(Graphics g) {
+        /* Généré par IA */
         int posX = (int) this.getPosition().getX();
         int posY = (int) this.getPosition().getY();
         
