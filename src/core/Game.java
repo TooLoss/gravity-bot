@@ -31,6 +31,7 @@ public class Game {
             passerTour();
         } else {
             /* TODO faire gagner */
+            System.out.println("Gagné");
         }
     }
 

@@ -55,9 +55,9 @@ public class ObstacleCirculaire extends Obstacle {
     public void afficher(Graphics g) {
         g.setColor(Color.GRAY);
         g.fillOval(
-                (int) (this.getPosition().getX() - rayon / 2),
-                (int) (this.getPosition().getY() - rayon / 2),
-                (int) rayon,
-                (int) rayon);
+                (int) (this.getPosition().getX() - rayon),
+                (int) (this.getPosition().getY() - rayon),
+                (int) rayon*2,
+                (int) rayon*2);
     }
 }

@@ -52,9 +52,9 @@ public class ObstacleAimantPull extends Obstacle {
         g.setColor(Color.RED);
         g.fillRect((int) this.getPosition().getX() - 5, (int) this.getPosition().getY() - 5, 10, 10);
         g.drawOval(
-                (int) (this.getPosition().getX() - rayon / 2),
-                (int) (this.getPosition().getY() - rayon / 2),
-                (int) rayon,
-                (int) rayon);
+                (int) (this.getPosition().getX() - rayon),
+                (int) (this.getPosition().getY() - rayon),
+                (int) rayon*2,
+                (int) rayon*2);
     }
 }

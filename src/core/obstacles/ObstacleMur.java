@@ -37,16 +37,20 @@ public class ObstacleMur extends Obstacle {
 
         double distGauche = Math.abs(x - minX);
         double distDroite = Math.abs(x - maxX);
-        double distHaut = Math.abs(y - minY);
-        double distBas = Math.abs(y - maxY);
+        double distBas = Math.abs(y - minY);
+        double distHaut = Math.abs(y - maxY);
 
         double minDist = Math.min(Math.min(distGauche, distDroite),
                                   Math.min(distHaut, distBas));
 
         if (minDist == distGauche || minDist == distDroite) {
-            vitesse.setX(-vitesse.getX());
+            vitesse.setX(0);
+            double gap = (minDist == distGauche) ? -0.1 : 0.1;
+            projectile.setPosition(new Vecteur(x + gap, y));
         } else {
-            vitesse.setY(-vitesse.getY());
+            vitesse.setY(0);
+            double gap = (minDist == distBas) ? -0.1 : 0.1;
+            projectile.setPosition(new Vecteur(x, y + gap));
         }
 
         projectile.setVitesse(vitesse);
