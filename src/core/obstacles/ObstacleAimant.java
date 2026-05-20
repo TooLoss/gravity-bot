@@ -9,19 +9,16 @@ import core.obstacles.Obstacle;
 import core.Projectile;
 import core.collisions.CollisionCirculaire;
 
-public class ObstacleAimantPull extends Obstacle {
+public class ObstacleAimant extends Obstacle {
 
-    private static final double puissance = 10.f;
-    private static final double rayon = 50.f;
+    private double puissance;
+    private double rayon;
 
-    public ObstacleAimantPull() {
-        this.setCollision(new CollisionCirculaire(this.getPosition(), rayon));
-    }
-
-    // TODO le mettre dans le constructeur Obstacle de base
-    public ObstacleAimantPull(Vecteur position) {
+    public ObstacleAimant(Vecteur position, double puissance, double rayon) {
         super(position);
-        this.setCollision(new CollisionCirculaire(this.getPosition(), rayon));
+        this.puissance = puissance;
+        this.rayon = rayon;
+        this.setCollision(new CollisionCirculaire(this.getPosition(), this.rayon));
     }
 
     @Override
@@ -43,13 +40,20 @@ public class ObstacleAimantPull extends Obstacle {
 
     @Override
     public Obstacle copier() {
-        ObstacleAimantPull copy = new ObstacleAimantPull(new Vecteur(this.getPosition()));
+        ObstacleAimant copy = new ObstacleAimant(
+                new Vecteur(this.getPosition()),
+                this.puissance,
+                this.rayon);
         return copy;
     }
 
     @Override
     public void afficher(Graphics g) {
-        g.setColor(Color.RED);
+        if (this.puissance > 0) {
+            g.setColor(Color.BLUE);
+        } else {
+            g.setColor(Color.RED);
+        }
         g.fillRect((int) this.getPosition().getX() - 5, (int) this.getPosition().getY() - 5, 10, 10);
         g.drawOval(
                 (int) (this.getPosition().getX() - rayon),
