@@ -22,6 +22,8 @@ public class FenetreJeu extends JFrame {
     private Obstacle selectedObstacle;
     private Vecteur clickedPosition;
     private int prix;
+    private JLabel labelStatut;
+    private JButton btnLancer;
 
     /**
      * Constructeur de la fenêtre de jeu.
