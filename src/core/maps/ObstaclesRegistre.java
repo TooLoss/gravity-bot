@@ -1,6 +1,6 @@
-package core.map;
+package core.maps;
 
-import core.map.DonneesMap.ObstacleData;
+import core.maps.DonneesMap.ObstacleData;
 import core.obstacles.*;
 import java.util.HashMap;
 import core.Map;
