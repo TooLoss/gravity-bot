@@ -24,13 +24,15 @@ public class Game {
         map.setGestionnaireAudio(audio);
     }
 
-    public void executerTour(Runnable onFin) {
-        map.lancerSimulation(() -> {
-            if (!map.estGagne()) {
-                passerTour();
-            }
-            if (onFin != null) onFin.run();
-        });
+    public void executerTour() {
+        boolean aGagne = map.lancerSimulation();
+        
+        if (!aGagne) {
+            passerTour();
+        } else {
+            /* TODO faire gagner */
+            System.out.println("Gagné");
+        }
     }
 
     private void passerTour() {
