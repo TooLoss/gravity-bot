@@ -43,6 +43,8 @@ public class Map extends JPanel {
     private Vecteur vitesse_initiale = new Vecteur(10.f, .0f);
     private Vecteur cible_position = new Vecteur(450.f, 450.f);
     private ObstacleCible cible;
+    private int budgetInitial;
+    private int budgetParTour;
 
     private boolean estGagne;
 
@@ -50,9 +52,11 @@ public class Map extends JPanel {
         this.estGagne = false;
         initialiserParametres();
     }
+
     public void setGestionnaireAudio(Audio.GestionnaireAudio ga){
         this.gestionnaireAudio = ga;
     } 
+
     public void initialiserParametres() {
         if (this.projectile == null) {
             this.projectile = new Projectile(position_initiale, vitesse_initiale);

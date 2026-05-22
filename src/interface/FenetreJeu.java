@@ -6,6 +6,8 @@ import core.Game;
 import core.Map;
 import core.obstacles.Obstacle;
 import utils.Vecteur;
+import core.joueurs.Joueur;
+
 /**
  * La classe FenetreJeu constitue l'interface principale de la simulation.
  * Elle affiche la carte de jeu, les contrôles de placement d'obstacles,
@@ -69,21 +71,18 @@ public class FenetreJeu extends JFrame {
 
             @Override
             public void mouseReleased(MouseEvent e) {
+                if (selectedObstacle == null) return;
+                
                 int endX = e.getX();
                 int endY = e.getY();
 
                 long dureeClic = System.currentTimeMillis() - tempsPression;
 
-                placerObstacleDirection(startX, startY, endX, endY);
-                // if (dureeClic >= SEUIL_HOLD_MS) {
-                //     // Click Hold
-                //     placerObstacleDirection(startX, startY, endX, endY);
-                // } else {
-                //     // Click rapide
-                //     placerObstacle(startX, startY);
-                // }
+                if (aBudget(engine.getJoueurCourant(), selectedObstacle))
+                    placerObstacleDirection(startX, startY, endX, endY);
             }
         });
+
         mapPanel.setBorder(BorderFactory.createLineBorder(new Color(60, 60, 120), 2));
         add(mapPanel, BorderLayout.CENTER);
 
@@ -253,18 +252,25 @@ public class FenetreJeu extends JFrame {
             BorderFactory.createEmptyBorder(10, 25, 10, 25)
         ));
     }
+    
+    private boolean aBudget(Joueur joueur, Obstacle obstacle) {
+        return joueur.getBudget() >= obstacle.getPrix();
+    }
+
     /**
      * Gère la logique de placement d'un obstacle sur la carte.
-     * Vérifie le budget du joueur
      * @param x Coordonnée X du clic.
      * @param y Coordonnée Y du clic.
+     * @return true si le joueur à le budget, false sinon.
      */
     private void placerObstacle(int x, int y) {
-        if (selectedObstacle == null) return;
+        if (this.selectedObstacle == null) return;
 
         selectedObstacle.setPosition(x, y);
         Obstacle copy = selectedObstacle.copier();
+
         if (engine.getMap().ajouterObstacle(copy)) {
+            // le placement est autorisé
             engine.getJoueurCourant().retirerBudget(copy.getPrix());
             rafraichirLabels();
         }

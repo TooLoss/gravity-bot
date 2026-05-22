@@ -3,7 +3,7 @@ import core.Map;
 
 public class Joueur {
 
-    public static final int BUDGET_INITIALE = 5000;
+    public static final int BUDGET_INITIALE = 1000;
 
     private int budget;
     private String nom;
@@ -23,5 +23,9 @@ public class Joueur {
 
     public void retirerBudget(int prix) {
         this.budget -= prix;
+    }
+
+    public void ajouterBudget(int prix) {
+        this.budget += prix;
     }
 }
