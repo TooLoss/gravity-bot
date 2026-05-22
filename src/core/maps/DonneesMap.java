@@ -1,4 +1,4 @@
-package core.maps;
+package core.map;
 
 import utils.Vecteur;
 import java.util.List;

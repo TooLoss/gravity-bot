@@ -6,8 +6,8 @@ import java.io.IOException;
 import utils.Vecteur;
 import core.Map;
 import core.obstacles.Obstacle;
-import core.maps.DonneesMap.ObstacleData;
-import core.maps.ObstaclesRegistre;
+import core.map.DonneesMap.ObstacleData;
+import core.map.ObstaclesRegistre;
 
 public class ChargeurMap {
 
