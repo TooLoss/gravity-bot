@@ -194,13 +194,8 @@ public class FenetreJeu extends JFrame {
         styliserBoutonAction(btnLancer, new Color(40, 140, 80));
         
         btnLancer.addActionListener(e -> {
-            btnLancer.setEnabled(false);
-            labelStatut.setText("En cours...");
-            engine.executerTour(() -> {
-                rafraichirLabels();
-                btnLancer.setEnabled(true);
-                labelStatut.setText(engine.getMap().estGagne() ? "GAGNÉ !" : "Perdu – replacez vos obstacles");
-            });
+            engine.executerTour();
+            rafraichirLabels();
         });
 
         // Bouton Arrêter
