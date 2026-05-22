@@ -11,7 +11,7 @@ import java.util.HashSet;
 /** Classe Map contient référence aux obstacles et projectiles. */
 public class Map extends JPanel {
     private Audio.GestionnaireAudio gestionnaireAudio;
-    private volatile boolean simulationEnCours = false;
+
     private HashSet<Obstacle> obstacles = new HashSet<>();
 
     @Override
@@ -54,8 +54,7 @@ public class Map extends JPanel {
         this.gestionnaireAudio = ga;
     } 
     public void initialiserParametres() {
-    	this.estGagne = false;
-    	if (this.projectile == null) {
+        if (this.projectile == null) {
             this.projectile = new Projectile(position_initiale, vitesse_initiale);
         } else {
             this.projectile.setPosition(position_initiale);
@@ -77,43 +76,30 @@ public class Map extends JPanel {
         return estAjoute;
     }
 
-    public void lancerSimulation(Runnable onFin) {
-        if (simulationEnCours) return;
-        simulationEnCours = true;
+    public boolean lancerSimulation() {
+        long previous = System.nanoTime();
+        long accumulator = 0;
+
         initialiserParametres();
 
-        new Thread(() -> {
-            long previous = System.nanoTime();
-            long accumulator = 0;
+        while (estDansEcran(projectile) && !estGagne && this.projectile.getVitesse().getNorme() > 2.f) {
+            long current = System.nanoTime();
+            long elapsed = current - previous;
+            previous = current;
+            accumulator += elapsed;
 
-            while (simulationEnCours
-                    && estDansEcran(projectile)
-                    && !estGagne
-                    && projectile.getVitesse().getNorme() > 2.f) {
-
-                long current = System.nanoTime();
-                long elapsed = current - previous;
-                previous = current;
-                accumulator += elapsed;
-
-                while (accumulator >= GAME_TICK) {
-                    testerCollisions();
-                    projectile.actualiser(GAME_TICK * 10e-9);
-                    accumulator -= GAME_TICK;
-                }
-
-                javax.swing.SwingUtilities.invokeLater(this::repaint);
-                try { Thread.sleep(16); } catch (InterruptedException ignored) {}
+            while (accumulator >= GAME_TICK) {
+                testerCollisions();
+                projectile.actualiser(GAME_TICK*10e-9);
+                accumulator -= GAME_TICK;
+                Vecteur sat_pos = projectile.getPosition();
+                Vecteur sat_speed = projectile.getVitesse();
+                System.out.println("Satellite speed : " + sat_speed.getX() + " - " + sat_speed.getY());
+                System.out.println("Satellite position : " + sat_pos.getX() + " - " + sat_pos.getY());
+                paintImmediately(0, 0, getWidth(), getHeight());
             }
-
-            simulationEnCours = false;
-            if (onFin != null) javax.swing.SwingUtilities.invokeLater(onFin);
-
-        }, "SimulationThread").start();
-    }
-
-    public void stopperSimulation() {
-        simulationEnCours = false;
+        }
+        return estGagne;
     }
 
     public void testerCollisions() {
@@ -123,9 +109,7 @@ public class Map extends JPanel {
         for (Obstacle obs : obstacles) {
             if (obs.estDansObstacle(this.projectile)) {
                 obs.eventAction(this.projectile);
-                if (gestionnaireAudio != null) {
                 gestionnaireAudio.jouerSFX("src/interface/Audio/collision.wav");
-                }
             }
         }
     }
