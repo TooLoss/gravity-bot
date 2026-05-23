@@ -267,6 +267,7 @@ public class ModeEditeur extends JFrame {
     map.setPositionInitiale(positionDepart);
     map.setVitesseInitiale(new Vecteur(0.0, 10.0));
     map.setCiblePosition(ciblePosition);
+    map.setBudgetInitial(budgetDepart);
 
     for (int i = 0; i < grille.getObstacles().size(); i++) {
         Point p = grille.getObstacles().get(i);
@@ -355,6 +356,7 @@ public class ModeEditeur extends JFrame {
             writer.write("positionInitiale = " + positionDepart.getX() + " " + positionDepart.getY() + "\n");
             writer.write("vitesseInitiale = 0.0 10.0\n");
             writer.write("ciblePosition = " + ciblePosition.getX() + " " + ciblePosition.getY() + "\n");
+            writer.write("budgetInitiale = " + budgetDepart + "\n");
 
             for (int i = 0; i < grille.getObstacles().size(); i++) {
                 Point p = grille.getObstacles().get(i);
