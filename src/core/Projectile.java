@@ -8,16 +8,51 @@ import utils.Vecteur;
 import java.util.ArrayList;
 import java.util.List;
 
+/** Class projectile (satellite) qui se déplace sur la map. */
 public class Projectile extends Acteur {
 
+    /** Vitesse du satellite. */
     public Vecteur vitesse;
-
-    public static final double vitesseSatellite = 10.f;
+    /** Norme maximale de la vitesse du satellite. */
+    public static final double VITESSE_MAX = 10.f;
+    /** Liste des points parcouru par le satellite pour l'affichage. */
     private final List<Vecteur> historiquePositions = new ArrayList<>();
 
+    /** Constructeur du projectile.
+     * @param position Vecteur position initiale.
+     * @param vitesse Vecteur vitesse initiale.
+     */
     public Projectile(Vecteur position, Vecteur vitesse) {
         this.setVitesse(vitesse);
         this.setPosition(position);
+    }
+
+    /** Ajoute à la vitesse du projecteur v.
+     * @param v Vecteur à ajouter.
+     */
+    public void ajouterVitesse(Vecteur v) {
+        this.vitesse.ajouter(v);
+        vitesse.normaliser();
+        vitesse.multiplier(VITESSE_MAX);
+    }
+
+    /** Setter de la vitesse du satellite.
+     * @param v Vecteur nouveau.
+     */
+    public void setVitesse(Vecteur v) {
+        this.vitesse = new Vecteur(v);
+    }
+
+    /** Getter de la vitesse du satellite.
+     * @return Vecteur vitesse.
+     */
+    public Vecteur getVitesse() {
+        return this.vitesse;
+    }
+
+    /** Reset le satellite à la fin d'un tour. */
+    public void reset() {
+        historiquePositions.clear();
     }
 
     @Override
@@ -28,27 +63,6 @@ public class Projectile extends Acteur {
         double y = vitesse.getY();
         Vecteur vecteurTranslation = new Vecteur(x * dt, y * dt);
         this.translater(vecteurTranslation);
-    }
-
-    /** Ajoute à la vitesse du projecteur v.
-     * @param v Vecteur à ajouter.
-     */
-    public void ajouterVitesse(Vecteur v) {
-        this.vitesse.ajouter(v);
-        vitesse.normaliser();
-        vitesse.multiplier(vitesseSatellite);
-    }
-
-    public void setVitesse(Vecteur v) {
-        this.vitesse = new Vecteur(v);
-    }
-
-    public Vecteur getVitesse() {
-        return this.vitesse;
-    }
-
-    public void reset() {
-        historiquePositions.clear();
     }
 
     @Override
