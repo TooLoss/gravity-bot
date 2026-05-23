@@ -18,7 +18,7 @@ public class Map extends JPanel {
         super.paintComponent(g);
 
         g.setColor(new Color(0, 0, 100));
-        g.fillRect(0, 0, 500, 500);
+        g.fillRect(0, 0, getWidth(), getHeight());
 
         for (Obstacle obs : obstacles) {
             System.out.println("A affichier l'obstacle");
