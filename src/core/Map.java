@@ -50,6 +50,7 @@ public class Map extends JPanel {
     /** Constructeur de la map. */
     public Map() {
         this.estGagne = false;
+        this.budgetInitial = 0;
         initialiserParametres();
     }
 
@@ -261,6 +262,20 @@ public class Map extends JPanel {
     public void setCiblePosition(Vecteur pos) { 
         this.cible_position = pos; 
         this.cible = new ObstacleCible(pos);
+    }
+    
+    /** Setter budget initial.
+     * @param budget int.
+     */
+    public void setBudgetInitial(int budget) {
+        this.budgetInitial = budget;
+    }
+
+    /** Getter budget initial.
+     * @return int budget.
+     */
+    public int getBudgetInitial() {
+        return this.budgetInitial;
     }
 
     /** Méthode vider la carte. */

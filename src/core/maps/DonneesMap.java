@@ -8,6 +8,7 @@ public class DonneesMap{
     public Vecteur positionInitiale;
     public Vecteur vitesseInitiale;
     public Vecteur ciblePosition;
+    public int budget;
     public List<ObstacleData> obstacles;
 
     /** Classe anonyme pour les obstacles en particuliers. */

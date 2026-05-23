@@ -39,6 +39,13 @@ public class Joueur {
         return this.budget;
     }
 
+    /** Setter budget.
+     * @param int budget.
+     */
+    public void setBudget(int budget) {
+        this.budget = budget;
+    }
+
     /** Méthode pour retirer le budget.
      * @param prix int à supprimer du budget.
      */

@@ -72,6 +72,9 @@ public class ChargeurMap {
             case "CIBLEPOSITION":
                 map.setCiblePosition(extraireVecteur(tokens, 0));
                 break;
+            case "BUDGETINITIALE":
+                map.setBudgetInitial(Integer.valueOf(tokens[0]));
+                break;
             case "OBSTACLE":
                 parserEtAjouterObstacle(tokens, map);
             default:

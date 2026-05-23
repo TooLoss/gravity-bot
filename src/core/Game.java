@@ -34,13 +34,15 @@ public class Game {
      * @param cheminMap Chemin vers le fichier de map (ex: "src/core/maps/map2.txt").
      */
     public Game(Joueur j1, Joueur j2, String cheminMap) {
+        this.map = new Map();
+        this.chargeur = new ChargeurMap();
+        ChargeurMap.chargerDepuisFichier(cheminMap, this.map);
         this.joueur1 = j1;
         this.joueur2 = j2;
         this.joueurCourant = j1;
         this.tour = 1;
-        this.map = new Map();
-        this.chargeur = new ChargeurMap();
-        ChargeurMap.chargerDepuisFichier(cheminMap, this.map);
+        this.joueur1.setBudget(this.map.getBudgetInitial());
+        this.joueur2.setBudget(this.map.getBudgetInitial());
     }
 
     /**
