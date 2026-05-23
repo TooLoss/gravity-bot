@@ -22,15 +22,6 @@ public class ObstacleCirculaire extends Obstacle {
 
     private double rayon;
     
-    private static BufferedImage image;
-    static {
-        try {
-            image = ImageIO.read(new File("src/interface/moon.png"));
-        } catch (IOException e) {
-            System.err.println("Impossible de charger moon.png: " + e.getMessage());
-        }
-    }
-
     public ObstacleCirculaire(Vecteur position, double rayon) {
         this.setPosition(position);
         this.rayon = rayon;
