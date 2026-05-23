@@ -273,8 +273,8 @@ public class ModeEditeur extends JFrame {
         int rayon = grille.getRayonsObstacles().get(i);
         boolean mur = grille.getEstUnMur().get(i);
 
-        int mapX = (int)(p.x * 500.0 / grille.getWidth());
-        int mapY = (int)(p.y * 500.0 / grille.getHeight());
+        int mapX = (int)(p.x * 800.0 / grille.getWidth());
+        int mapY = (int)(p.y * 700.0 / grille.getHeight());
 
         if (mur) {
             map.ajouterObstacle(new core.obstacles.ObstacleMur(
