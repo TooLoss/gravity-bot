@@ -44,7 +44,7 @@ public class Map extends JPanel {
     private Vecteur cible_position = new Vecteur(450.f, 450.f);
     private ObstacleCible cible;
     private int budgetInitial;
-    private int budgetParTour;
+    private int budgetParTour = 500;
 
     private boolean estGagne;
 
@@ -120,6 +120,10 @@ public class Map extends JPanel {
 
     public boolean estGagne() {
         return this.estGagne;
+    }
+
+    public int getBudgetParTour(){
+        return this.budgetParTour;
     }
 
     public void setPositionInitiale(Vecteur pos) {
