@@ -40,7 +40,7 @@ public class Joueur {
     }
 
     /** Setter budget.
-     * @param int budget.
+     * @param budget int budget.
      */
     public void setBudget(int budget) {
         this.budget = budget;
