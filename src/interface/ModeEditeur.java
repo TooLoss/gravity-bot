@@ -77,7 +77,7 @@ public class ModeEditeur extends JFrame {
         centre.setBackground(new Color(20, 15, 5));
         centre.setBorder(BorderFactory.createLineBorder(new Color(120, 80, 20), 2));
 
-        AfficherGrille grille = new AfficherGrille();
+        grille = new AfficherGrille();
         grille.addMouseListener(new java.awt.event.MouseAdapter() {
             @Override
             public void mouseClicked(java.awt.event.MouseEvent e) {
