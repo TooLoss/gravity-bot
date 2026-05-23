@@ -195,6 +195,14 @@ public class FenetreJeu extends JFrame {
         btnLancer.addActionListener(e -> {
             engine.executerTour();
             rafraichirLabels();
+            if (engine.estGagne()) {
+                JOptionPane.showMessageDialog(this,
+                    engine.getJoueurCourant().getNom() + " a atteint la cible !",
+                    "Victoire !",
+                    JOptionPane.INFORMATION_MESSAGE);
+                this.dispose();
+                new MenuPrincipal();
+            }
         });
 
         // Bouton Arrêter
