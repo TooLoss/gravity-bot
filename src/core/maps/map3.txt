@@ -1,5 +1,5 @@
 positionInitiale = 25.0 250.0
 vitesseInitiale = 12.0 0.0
-ciblePosition = 475.0 250.0
+ciblePosition = 700.0 250.0
 
-OBSTACLE = MUR 220.0 180.0 300.0 320.0
+OBSTACLE = MUR 280.0 60.0 400.0 520.0

@@ -1,5 +1,5 @@
 positionInitiale = 50.0 450.0
 vitesseInitiale = 12.0 0.0
-ciblePosition = 450.0 50.0
+ciblePosition = 720.0 50.0
 
-OBSTACLE = SPHERE 250.0 250.0 80.0 0.0
+OBSTACLE = SPHERE 395.0 330.0 140.0 0.0
