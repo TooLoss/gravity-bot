@@ -81,14 +81,29 @@ public class ModeEditeur extends JFrame {
         grille.addMouseListener(new java.awt.event.MouseAdapter() {
             @Override
             public void mouseClicked(java.awt.event.MouseEvent e) {
-                if (outilSelectionne != null) {
-                    int x = e.getX() ;
-                    int y = e.getY();
-                    System.out.println(outilSelectionne + " placé en (" + x + ", " + y + ")");
-                    // TODO : transmettre à la logique métier
+                if (outilSelectionne == null) return;
+
+                int px = (e.getX() / grille.tailleCase) * grille.tailleCase;
+                int py = (e.getY() / grille.tailleCase) * grille.tailleCase;
+                int mapX = (int)(e.getX()* 500.0 / grille.getWidth());
+                int mapY = (int)(e.getY()* 500.0 / grille.getHeight());
+
+                switch (outilSelectionne) {
+                    case "objectif":
+                        ciblePosition = new Vecteur(mapX,mapY);
+                        grille.setCible(px,py);
+                        grille.repaint();
+                        break;
+                    case "depart":
+                        positionDepart = new Vecteur(mapX,mapY);
+                        grille.setDepart(px,py);
+                        grille.repaint();
+                        break;
+                    default:
+                        System.out.println(outilSelectionne + " placé en (" + px + ", " + py + ")");
+                        break;
                 }
             }
-        
         });    
 
         centre.add(grille, BorderLayout.CENTER);
@@ -189,6 +204,8 @@ public class ModeEditeur extends JFrame {
             Joueur j1 = new Joueur("Joueur 1", budgetDepart);
             Joueur j2 = new Joueur("Joueur 2", budgetDepart);
             Game game = new Game(j1, j2);
+            game.getMap().setCiblePosition(ciblePosition);
+            game.getMap().setPositionInitiale(positionDepart);
             this.dispose();
             new FenetreJeu(game);
         });
