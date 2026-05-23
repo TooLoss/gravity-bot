@@ -1,8 +1,31 @@
 import javax.swing.JPanel;
 import java.awt.Graphics;
 import java.awt.Color;
+import java.util.ArrayList;
+import java.awt.Point;
 
 public class AfficherGrille extends JPanel {
+    
+    // Variables pour l'éditeur
+    private ArrayList<Point> obstacles = new ArrayList<>();
+
+    public void setPointDepart(int x, int y) { 
+        this.setDepart(x, y); 
+    }
+    
+    public void setPointCible(int x, int y) { 
+        this.setCible(x, y); 
+    }
+    
+    public void ajouterObstacle(int x, int y) { 
+        this.obstacles.add(new Point(x, y)); 
+        repaint(); 
+    }
+    
+    public Point getPointDepart() { return new Point(departX, departY); }
+    public Point getPointCible() { return new Point(cibleX, cibleY); }
+    public ArrayList<Point> getObstacles() { return obstacles; }
+    
     public final int tailleCase = 30;
 
     private int departX = tailleCase * 2;
@@ -41,6 +64,10 @@ public class AfficherGrille extends JPanel {
             g.fillOval(cibleX, cibleY, tailleCase, tailleCase);
             g.setColor(Color.WHITE);
             g.drawOval(cibleX, cibleY, tailleCase, tailleCase);
+        }
+        g.setColor(Color.GRAY);
+        for (Point p : obstacles) {
+            g.fillOval(p.x, p.y, tailleCase, tailleCase);
         }
     }
 }
