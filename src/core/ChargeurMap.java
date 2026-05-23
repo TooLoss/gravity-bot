@@ -9,7 +9,7 @@ import core.obstacles.Obstacle;
 import core.map.DonneesMap.ObstacleData;
 import core.map.ObstaclesRegistre;
 
-/** Class pour charger des maps depuis un fichier texte. */
+/** Classe pour charger des maps depuis un fichier texte. */
 public class ChargeurMap {
 
     /** Méthode pour charger une map depuis un fichier.
