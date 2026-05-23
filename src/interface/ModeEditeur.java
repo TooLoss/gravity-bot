@@ -1,6 +1,8 @@
 import javax.swing.*;
 import java.awt.BasicStroke;
 import java.awt.*;
+import core.Game;
+import core.joueurs.Joueur;
 
 /** Fenetre du mode Editeur de Gravity-Bot.
  * Permet au joueur de construire son propre contrat en :
@@ -174,9 +176,11 @@ public class ModeEditeur extends JFrame {
         });
 
         btnTester.addActionListener(e -> {
-            JOptionPane.showMessageDialog(this,
-                "Fonctionnalite de test non disponible pour l'instant.",
-                "Tester", JOptionPane.INFORMATION_MESSAGE);
+            Joueur j1 = new Joueur("Joueur 1", budgetDepart);
+            Joueur j2 = new Joueur("Joueur 2", budgetDepart);
+            Game game = new Game(j1, j2);
+            this.dispose();
+            new FenetreJeu(game);
         });
 
         btnRetour.addActionListener(e -> {
