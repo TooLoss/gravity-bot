@@ -1,12 +1,12 @@
 import javax.swing.*;
-import java.awt.BasicStroke;
+
 import java.awt.*;
 import core.Game;
 import core.joueurs.Joueur;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.File;
-import java.awt.Point;
+
 import utils.Vecteur;
 
 /** Fenetre du mode Editeur de Gravity-Bot.
@@ -267,6 +267,26 @@ public class ModeEditeur extends JFrame {
     map.setPositionInitiale(positionDepart);
     map.setVitesseInitiale(new Vecteur(0.0, 10.0));
     map.setCiblePosition(ciblePosition);
+
+    for (int i = 0; i < grille.getObstacles().size(); i++) {
+        Point p = grille.getObstacles().get(i);
+        int rayon = grille.getRayonsObstacles().get(i);
+        boolean mur = grille.getEstUnMur().get(i);
+
+        int mapX = (int)(p.x * 500.0 / grille.getWidth());
+        int mapY = (int)(p.y * 500.0 / grille.getHeight());
+
+        if (mur) {
+            map.ajouterObstacle(new core.obstacles.ObstacleMur(
+                new Vecteur(mapX, mapY),
+                new Vecteur(mapX + 50, mapY + 50)
+            ));
+        } else {
+            map.ajouterObstacle(new core.obstacles.ObstacleCirculaire(
+                new Vecteur(mapX, mapY), rayon
+            ));
+        }
+    }
 
     Joueur testeur = new Joueur("Test");
     Game engine = new Game(testeur, testeur, map);
