@@ -59,6 +59,8 @@ public class Game {
         this.tour = 1;
         this.map = mapPreChargee;
         this.chargeur = new ChargeurMap();
+        this.joueur1.setBudget(this.map.getBudgetInitial());
+        this.joueur2.setBudget(this.map.getBudgetInitial());
     }
 
     /** Executer le tour actuelle, enregistre si la simulation est gagnante. */
