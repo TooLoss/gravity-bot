@@ -237,15 +237,7 @@ public class ModeEditeur extends JFrame {
             sauvegarderMapDansFichier();
         });
 
-        btnTester.addActionListener(e -> {
-            Joueur j1 = new Joueur("Joueur 1", budgetDepart);
-            Joueur j2 = new Joueur("Joueur 2", budgetDepart);
-            Game game = new Game(j1, j2);
-            game.getMap().setCiblePosition(ciblePosition);
-            game.getMap().setPositionInitiale(positionDepart);
-            this.dispose();
-            new FenetreJeu(game);
-        });
+        btnTester.addActionListener(e -> testerNiveau());
 
         btnRetour.addActionListener(e -> {
             this.dispose();
@@ -257,6 +249,34 @@ public class ModeEditeur extends JFrame {
         footer.add(btnRetour);
 
         return footer;
+    }
+    
+    private void testerNiveau() {
+    Point depart = grille.getPointDepart();
+    Point cible = grille.getPointCible();
+
+    if (depart == null || cible == null) {
+        JOptionPane.showMessageDialog(this,
+            "Placez au moins un Depart et un Objectif avant de tester !",
+            "Erreur", JOptionPane.ERROR_MESSAGE);
+        return;
+    }
+
+    // Construire la Map à partir de l'état de l'éditeur
+    core.Map map = new core.Map();
+    map.setPositionInitiale(positionDepart);
+    map.setVitesseInitiale(new Vecteur(0.0, 10.0));
+    map.setCiblePosition(ciblePosition);
+
+    Joueur testeur = new Joueur("Test");
+    Game engine = new Game(testeur, testeur, map);
+
+    // Cacher l'éditeur, ouvrir la fenêtre de jeu
+    setVisible(false);
+    SwingUtilities.invokeLater(() -> {
+        FenetreJeu jeu = new FenetreJeu(engine);
+        jeu.setVisible(true);
+    });
     }
 
     // Cree un bouton stylise pour la sidebar de l'editeur
