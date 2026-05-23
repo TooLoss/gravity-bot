@@ -1,6 +1,8 @@
 package core.obstacles;
 
 import java.awt.Graphics;
+import java.awt.Graphics2D;
+import java.awt.RenderingHints;
 import java.awt.Color;
 import core.Acteur;
 import core.obstacles.Obstacle;
@@ -66,16 +68,27 @@ public class ObstacleCirculaire extends Obstacle {
 
     @Override
     public void afficher(Graphics g) {
-        int diametre = (int)(rayon * 2);
+        Graphics2D g2d = (Graphics2D) g;
+        g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+
         int x = (int)(this.getPosition().getX() - rayon);
         int y = (int)(this.getPosition().getY() - rayon);
-        
-        if (image != null) {
-            g.drawImage(image, x, y, diametre, diametre, null);
-        } else {
-            // Si l'image n'a pas pu être chargée, on garde l'ancien rendu
-            g.setColor(Color.GRAY);
-            g.fillOval(x, y, diametre, diametre);
-        }
+        int d = (int)(rayon * 2);
+
+        // Dégradé radial effet 3D
+        java.awt.RadialGradientPaint gradient = new java.awt.RadialGradientPaint(
+            (float)(this.getPosition().getX() - rayon * 0.3),
+            (float)(this.getPosition().getY() - rayon * 0.3),
+            (float)(rayon),
+            new float[]{0f, 1f},
+            new Color[]{new Color(180, 180, 200), new Color(50, 50, 80)}
+        );
+        g2d.setPaint(gradient);
+        g2d.fillOval(x, y, d, d);
+
+        // Contour lumineux
+        g2d.setColor(new Color(150, 150, 255, 180));
+        g2d.setStroke(new java.awt.BasicStroke(2));
+        g2d.drawOval(x, y, d, d);
     }
-}
+} 
