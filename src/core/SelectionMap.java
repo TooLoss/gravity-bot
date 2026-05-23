@@ -32,7 +32,10 @@ public class SelectionMap extends JFrame {
     }
 
     /* ── Chargement des fichiers map ──────────────────────────────────── */
-
+    /**
+     * Scanne le répertoire et filtre les fichiers valides.
+     * * @return Une List d'objets File pointant vers les fichiers de configuration.
+     */
     private List<File> chargerMaps() {
         List<File> maps = new ArrayList<>();
         File dir = new File(MAPS_DIR);
@@ -166,7 +169,9 @@ public class SelectionMap extends JFrame {
 
 
     /* ── Lancement du jeu ────────────────────────────────────────────── */
-
+    /**
+     * * @param cheminMap Le chemin d'accès système vers le fichier de carte à charger.
+     */
     private void lancerJeu(String cheminMap) {
         dispose();
         Joueur j1 = new Joueur("Joueur 1");
@@ -176,7 +181,11 @@ public class SelectionMap extends JFrame {
     }
 
     /* ── Utilitaires visuels ─────────────────────────────────────────── */
-
+    /**
+     * Fabrique un bouton personnalisé aux coins arrondis doté d'animations au survol.
+     * * @param texte Le libellé textuel à afficher sur le bouton.
+     * @return Un objet JButton stylisé prêt à être intégré.
+     */
     private JButton creerBouton(String texte) {
         JButton btn = new JButton(texte);
         btn.setFont(new Font("Monospaced", Font.PLAIN, 20));
