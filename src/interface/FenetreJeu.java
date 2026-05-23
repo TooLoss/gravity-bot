@@ -164,6 +164,7 @@ public class FenetreJeu extends JFrame {
                     String.valueOf(aimantPullNeon.getPrix()),
                     aimantPullNeon,
                     new Color(160, 25, 215)));
+        sidebar.add(Box.createVerticalStrut(15));
         ObstacleAimant aimantPushNeon = new ObstacleAimant(new Vecteur(.0f), -50.0, 20.0, 150);
         sidebar.add(creerBoutonElement("Aimant Push Neon",
                     String.valueOf(aimantPushNeon.getPrix()),
