@@ -27,7 +27,7 @@ public class Map extends JPanel {
     /** Liste d'obstacle de la map. */
     private HashSet<Obstacle> obstacles = new HashSet<>();
     /** Taille fixe de la Map. */
-    public static final Vecteur SCREEN_SIZE = new Vecteur(500.f, 500.f);
+    public static final Vecteur SCREEN_SIZE = new Vecteur(800.f, 700.f);
     /** Tick pour le rafraichissement des acteurs. */
     public static final double GAME_TICK = 1000000000L / 60;
     /** Classe projectile satellite. */
@@ -62,7 +62,7 @@ public class Map extends JPanel {
         // Activer l'anticrénelage pour des étoiles bien lisses
         g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
 
-        Vecteur dimensions = new Vecteur(500, 500);
+        Vecteur dimensions = new Vecteur(800, 700);
         this.setPreferredSize(new Dimension((int) dimensions.getX(), (int) dimensions.getY()));
 
         // --- 1. Gradient Bleu Foncé Spatial ---
