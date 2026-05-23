@@ -8,14 +8,20 @@ import core.*;
  */
 public abstract class Obstacle extends Acteur {
 
+    /** Collision utilisé par l'obstacle. */
     private Collision collision;
     public static final int prix = 0;
+    /** Point final de l'obstacle pour l'orientation. */
     protected Vecteur pointFinal;
 
+    /** Constructeur d'obstacle par défaut. */
     public Obstacle() {
         super();
     }
 
+    /** Constructeur d'obstacle par position.
+     * @param position Vecteur.
+     */
     public Obstacle(Vecteur position) {
         super(position);
     }
@@ -25,7 +31,9 @@ public abstract class Obstacle extends Acteur {
      */
     public abstract void eventAction(Projectile projectile);
 
-    // TODO peut être le mettre dans Acteur car on a besoin de les copier ?
+    /** Méthode abstraite pour copier l'Obstacle.
+     * @return Obstacle retourné par la position.
+     */
     public abstract Obstacle copier();
 
     /** Vérification des conditions de l'acteur pour intéragit avec l'obstacle.
@@ -53,10 +61,12 @@ public abstract class Obstacle extends Acteur {
         return this.prix;
     }
 
+    /** Setter position finale de l'obstacle. */
     public void setPointFinal(Vecteur point) {
         this.pointFinal = new Vecteur(point);
     }
 
+    /** Getter point final de l'obstacle. */
     public Vecteur getPointFinal() {
         return this.pointFinal;
     }
