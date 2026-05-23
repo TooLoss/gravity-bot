@@ -26,41 +26,39 @@ public class Game {
     public Game(Joueur j1, Joueur j2) {
         this(j1, j2, "./src/core/maps/map1.txt");
     }
- 
- 
+
     /**
      * Charge une map depuis un fichier .txt.
      * @param cheminMap Chemin vers le fichier de map (ex: "src/core/maps/map2.txt").
      */
     public Game(Joueur j1, Joueur j2, String cheminMap) {
-        this.joueur1       = j1;
-        this.joueur2       = j2;
+        this.joueur1 = j1;
+        this.joueur2 = j2;
         this.joueurCourant = j1;
-        this.tour          = 1;
-        this.map     = new Map();
+        this.tour = 1;
+        this.map = new Map();
         this.chargeur = new ChargeurMap();
         ChargeurMap.chargerDepuisFichier(cheminMap, this.map);
     }
- 
- 
+
     /**
      * Utilise une Map déjà configurée (ex : depuis l'éditeur de niveaux).
      * L'audio doit avoir été injecté sur la map avant l'appel.
      * @param mapPreChargee Map configurée avec obstacles, position et cible.
      */
     public Game(Joueur j1, Joueur j2, Map mapPreChargee) {
-        this.joueur1       = j1;
-        this.joueur2       = j2;
+        this.joueur1 = j1;
+        this.joueur2 = j2;
         this.joueurCourant = j1;
-        this.tour          = 1;
-        this.map           = mapPreChargee;
-        this.chargeur      = new ChargeurMap();
+        this.tour = 1;
+        this.map = mapPreChargee;
+        this.chargeur = new ChargeurMap();
     }
 
     /** Executer le tour actuelle, enregistre si la simulation est gagnante. */
     public void executerTour() {
         boolean aGagne = map.lancerSimulation();
-        
+
         if (!aGagne) {
             passerTour();
         } else {
