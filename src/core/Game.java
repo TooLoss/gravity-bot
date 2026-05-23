@@ -40,7 +40,7 @@ public class Game {
         joueurCourant = (tour % 2 != 0) ? joueur1 : joueur2;
         joueurCourant.ajouterBudget(map.getBudgetParTour());
     }
-
+    public boolean estGagne() {return map.estGagne();}
     public Map getMap() { return map; }
     public Joueur getJoueurCourant() { return joueurCourant; }
     public int getTour() { return tour; }
