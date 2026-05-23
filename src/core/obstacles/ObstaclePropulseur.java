@@ -20,19 +20,9 @@ public class ObstaclePropulseur extends ObstacleSegment {
 
     @Override
     public void eventAction(Projectile projectile) {
-        Vecteur vitesse = projectile.getVitesse();
-
         Vecteur direction = new Vecteur(this.getDirection());
-        direction.normaliser();
-
-        double vitesseNorme = vitesse.getNorme();
-        direction.multiplier(vitesseNorme);
-
-        double x = (vitesse.getX() * (1.0 - forceDeviation)) + (direction.getX() * forceDeviation);
-        double y = (vitesse.getY() * (1.0 - forceDeviation)) + (direction.getY() * forceDeviation);
-
-        Vecteur newVitesse = new Vecteur(x, y);
-        projectile.setVitesse(newVitesse);
+        direction.multiplier(forceDeviation/4);
+        projectile.ajouterVitesse(direction);
     }
 
     @Override
