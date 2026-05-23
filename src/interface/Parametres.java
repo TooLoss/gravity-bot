@@ -1,3 +1,5 @@
+package ihm;
+
 import java.awt.image.BufferedImage;
 import java.awt.*;
 import java.awt.event.*;

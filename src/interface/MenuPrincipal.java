@@ -1,8 +1,12 @@
+package ihm;
+
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
+import ihm.*;
+
 /**
  * La classe MenuPrincipal représente l'interface d'accueil du jeu GravityBOT.
  * Elle permet de naviguer entre le jeu, l'éditeur, les paramètres, et les crédits.

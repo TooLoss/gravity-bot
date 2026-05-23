@@ -1,11 +1,13 @@
-import javax.swing.*;
+package ihm;
 
+import javax.swing.*;
 import java.awt.*;
 import core.Game;
 import core.joueurs.Joueur;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.File;
+import ihm.controleur.ControleurEditeur;
 
 import utils.Vecteur;
 
@@ -26,11 +28,11 @@ public class ModeEditeur extends JFrame {
 
     /** L'outil selectionné.**/
     private String outilSelectionne = null; // "obstacle", "objectif", "depart"
-    
+
     /** Configuration de l'obstacle courant choisi par l'utilisateur **/
     private boolean obstacleEstMur = false;
     private int obstacleRayon = 15;
-    
+
     /**Référence à la grille pour la mettre à jour visuellement. **/
     private AfficherGrille grille;
 
@@ -59,7 +61,7 @@ public class ModeEditeur extends JFrame {
         add(construireFooter(), BorderLayout.SOUTH);
 
     }
-    
+
     // Bandeau nord : affiche le budget de départ que le joueur est en train de configurer
     private JPanel construireBandeauNord() {
         JPanel bandeau = new JPanel(new FlowLayout(FlowLayout.CENTER, 40, 8));
@@ -78,51 +80,65 @@ public class ModeEditeur extends JFrame {
 
         return bandeau;
     }
-    
-    // Zone Centrale : liée à AfficherGrille
+
+    // Dans construireCentre() :
     private JPanel construireCentre() {
         JPanel centre = new JPanel(new BorderLayout());
         centre.setBackground(new Color(20, 15, 5));
         centre.setBorder(BorderFactory.createLineBorder(new Color(120, 80, 20), 2));
 
         grille = new AfficherGrille();
-        grille.addMouseListener(new java.awt.event.MouseAdapter() {
-            @Override
-            public void mouseClicked(java.awt.event.MouseEvent e) {
-                if (outilSelectionne == null) return;
 
-                int px = (e.getX() / grille.tailleCase) * grille.tailleCase;
-                int py = (e.getY() / grille.tailleCase) * grille.tailleCase;
-                int mapX = (int)(e.getX()* 800.0 / grille.getWidth());
-                int mapY = (int)(e.getY()* 700.0 / grille.getHeight());
-
-                switch (outilSelectionne) {
-                    case "objectif":
-                        ciblePosition = new Vecteur(mapX,mapY);
-                        grille.setCible(px,py);
-                        grille.repaint();
-                        break;
-                    case "depart":
-                        positionDepart = new Vecteur(mapX,mapY);
-                        grille.setDepart(px,py);
-                        grille.repaint();
-                        break;
-                    case "obstacle": 
-                        // Utilise la configuration choisie (Mur ou Cercle avec son rayon)
-                        grille.ajouterObstacle(px, py, obstacleEstMur, obstacleRayon);
-                        break;
-                    default:
-                        System.out.println(outilSelectionne + " placé en (" + px + ", " + py + ")");
-                        break;
-                }
-            }
-        });    
+        // BRANCHEMENT AU CONTRÔLEUR ICI
+        ControleurEditeur controleur = new ControleurEditeur(this);
+        grille.addMouseListener(controleur.getGrilleMouseListener());    
 
         centre.add(grille, BorderLayout.CENTER);
-
         return centre;
     }
-    
+
+    /**
+     * @return L'outil actuellement sélectionné par l'utilisateur.
+     */
+    public String getOutilSelectionne() {
+        return this.outilSelectionne;
+    }
+
+    /**
+     * @return Le composant graphique de rendu de la grille.
+     */
+    public AfficherGrille getGrille() {
+        return this.grille;
+    }
+
+    /**
+     * @param pos La nouvelle position de la cible.
+     */
+    public void setCiblePosition(Vecteur pos) {
+        this.ciblePosition = pos;
+    }
+
+    /**
+     * @param pos La nouvelle position de départ du satellite.
+     */
+    public void setPositionDepart(Vecteur pos) {
+        this.positionDepart = pos;
+    }
+
+    /**
+     * @return True si l'obstacle configuré est un mur.
+     */
+    public boolean isObstacleEstMur() {
+        return this.obstacleEstMur;
+    }
+
+    /**
+     * @return Le rayon choisi pour l'obstacle.
+     */
+    public int getObstacleRayon() {
+        return this.obstacleRayon;
+    }
+
     // Barre laterale : outils de construction du niveau (obstacles, objectif, budget
     private JPanel construireSidebar() {
         JPanel sidebar = new JPanel();
@@ -142,26 +158,26 @@ public class ModeEditeur extends JFrame {
         JButton btnObstacle = creerBoutonOutil("Obstacle", "Choisir le type d'obstacle");
         btnObstacle.addActionListener(e -> {
             outilSelectionne = "obstacle";
-            
+
             // Choix entre Mur et Cercle 
             String[] options = {"Obstacle Cercle", "Obstacle Mur"};
             int choix = JOptionPane.showOptionDialog(this, 
-                "Quel type d'obstacle voulez-vous placer ?", 
-                "Selection de l'obstacle", 
-                JOptionPane.DEFAULT_OPTION, JOptionPane.QUESTION_MESSAGE, 
-                null, options, options[0]);
-                
+                    "Quel type d'obstacle voulez-vous placer ?", 
+                    "Selection de l'obstacle", 
+                    JOptionPane.DEFAULT_OPTION, JOptionPane.QUESTION_MESSAGE, 
+                    null, options, options[0]);
+
             if (choix == 1) {
                 obstacleEstMur = true;
                 obstacleRayon = 15; // Valeur par défaut non critique pour un mur rectangle
             } else if (choix == 0) {
                 obstacleEstMur = false;
-                
+
                 // Si c'est un cercle, on demande sa taille (son rayon)
                 String tailleSaisie = JOptionPane.showInputDialog(this, 
-                    "Entrez le rayon du cercle (ex: 15, 25, 40) :", 
-                    "Taille de l'obstacle", JOptionPane.QUESTION_MESSAGE);
-                
+                        "Entrez le rayon du cercle (ex: 15, 25, 40) :", 
+                        "Taille de l'obstacle", JOptionPane.QUESTION_MESSAGE);
+
                 if (tailleSaisie != null && !tailleSaisie.trim().isEmpty()) {
                     try {
                         obstacleRayon = Integer.parseInt(tailleSaisie.trim());
@@ -250,54 +266,54 @@ public class ModeEditeur extends JFrame {
 
         return footer;
     }
-    
+
     private void testerNiveau() {
-    Point depart = grille.getPointDepart();
-    Point cible = grille.getPointCible();
+        Point depart = grille.getPointDepart();
+        Point cible = grille.getPointCible();
 
-    if (depart == null || cible == null) {
-        JOptionPane.showMessageDialog(this,
-            "Placez au moins un Depart et un Objectif avant de tester !",
-            "Erreur", JOptionPane.ERROR_MESSAGE);
-        return;
-    }
-
-    // Construire la Map à partir de l'état de l'éditeur
-    core.Map map = new core.Map();
-    map.setPositionInitiale(positionDepart);
-    map.setVitesseInitiale(new Vecteur(0.0, 10.0));
-    map.setCiblePosition(ciblePosition);
-    map.setBudgetInitial(budgetDepart);
-
-    for (int i = 0; i < grille.getObstacles().size(); i++) {
-        Point p = grille.getObstacles().get(i);
-        int rayon = grille.getRayonsObstacles().get(i);
-        boolean mur = grille.getEstUnMur().get(i);
-
-        int mapX = (int)(p.x * 800.0 / grille.getWidth());
-        int mapY = (int)(p.y * 700.0 / grille.getHeight());
-
-        if (mur) {
-            map.ajouterObstacle(new core.obstacles.ObstacleMur(
-                new Vecteur(mapX, mapY),
-                new Vecteur(mapX + 50, mapY + 50)
-            ));
-        } else {
-            map.ajouterObstacle(new core.obstacles.ObstacleCirculaire(
-                new Vecteur(mapX, mapY), rayon
-            ));
+        if (depart == null || cible == null) {
+            JOptionPane.showMessageDialog(this,
+                    "Placez au moins un Depart et un Objectif avant de tester !",
+                    "Erreur", JOptionPane.ERROR_MESSAGE);
+            return;
         }
-    }
 
-    Joueur testeur = new Joueur("Test");
-    Game engine = new Game(testeur, testeur, map);
+        // Construire la Map à partir de l'état de l'éditeur
+        core.Map map = new core.Map();
+        map.setPositionInitiale(positionDepart);
+        map.setVitesseInitiale(new Vecteur(0.0, 10.0));
+        map.setCiblePosition(ciblePosition);
+        map.setBudgetInitial(budgetDepart);
 
-    // Cacher l'éditeur, ouvrir la fenêtre de jeu
-    setVisible(false);
-    SwingUtilities.invokeLater(() -> {
-        FenetreJeu jeu = new FenetreJeu(engine,this);
-        jeu.setVisible(true);
-    });
+        for (int i = 0; i < grille.getObstacles().size(); i++) {
+            Point p = grille.getObstacles().get(i);
+            int rayon = grille.getRayonsObstacles().get(i);
+            boolean mur = grille.getEstUnMur().get(i);
+
+            int mapX = (int)(p.x * 800.0 / grille.getWidth());
+            int mapY = (int)(p.y * 700.0 / grille.getHeight());
+
+            if (mur) {
+                map.ajouterObstacle(new core.obstacles.ObstacleMur(
+                            new Vecteur(mapX, mapY),
+                            new Vecteur(mapX + 50, mapY + 50)
+                            ));
+            } else {
+                map.ajouterObstacle(new core.obstacles.ObstacleCirculaire(
+                            new Vecteur(mapX, mapY), rayon
+                            ));
+            }
+        }
+
+        Joueur testeur = new Joueur("Test");
+        Game engine = new Game(testeur, testeur, map);
+
+        // Cacher l'éditeur, ouvrir la fenêtre de jeu
+        setVisible(false);
+        SwingUtilities.invokeLater(() -> {
+            FenetreJeu jeu = new FenetreJeu(engine,this);
+            jeu.setVisible(true);
+        });
     }
 
     // Cree un bouton stylise pour la sidebar de l'editeur
@@ -312,7 +328,7 @@ public class ModeEditeur extends JFrame {
         btn.setBorder(BorderFactory.createLineBorder(new Color(180, 130, 20), 1));
         return btn;
     }
-    
+
     //Applique le meme style aux boutons du footer
     private void styliserBoutonControle(JButton btn, Color couleur) {
         btn.setBackground(couleur.darker());
@@ -321,8 +337,8 @@ public class ModeEditeur extends JFrame {
         btn.setFocusPainted(false);
         btn.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
         btn.setBorder(BorderFactory.createCompoundBorder(
-                BorderFactory.createLineBorder(couleur, 1),
-                BorderFactory.createEmptyBorder(6, 16, 6, 16)));
+                    BorderFactory.createLineBorder(couleur, 1),
+                    BorderFactory.createEmptyBorder(6, 16, 6, 16)));
 
     }
     private void sauvegarderMapDansFichier() {
@@ -331,14 +347,14 @@ public class ModeEditeur extends JFrame {
 
         if (depart == null || cible == null) {
             JOptionPane.showMessageDialog(this,
-                "Placez au moins un Depart et un Objectif avant de sauvegarder !",
-                "Erreur", JOptionPane.ERROR_MESSAGE);
+                    "Placez au moins un Depart et un Objectif avant de sauvegarder !",
+                    "Erreur", JOptionPane.ERROR_MESSAGE);
             return;
         }
 
         String nomFichier = JOptionPane.showInputDialog(this, 
-            "Entrez le nom du fichier pour sauvegarder le niveau (ex: map2) :", 
-            "Nom du niveau", JOptionPane.QUESTION_MESSAGE);
+                "Entrez le nom du fichier pour sauvegarder le niveau (ex: map2) :", 
+                "Nom du niveau", JOptionPane.QUESTION_MESSAGE);
 
         if (nomFichier == null || nomFichier.trim().isEmpty()) {
             return;
@@ -362,10 +378,10 @@ public class ModeEditeur extends JFrame {
                 Point p = grille.getObstacles().get(i);
                 int rayon = grille.getRayonsObstacles().get(i);
                 boolean mur = grille.getEstUnMur().get(i);
-                
+
                 int mapX = (int)(p.x * 800.0 / grille.getWidth());
                 int mapY = (int)(p.y * 700.0 / grille.getHeight());
-                
+
                 // Adapte l'écriture brute dans le fichier texte selon le choix de l'utilisateur
                 if (mur) {
                     writer.write("OBSTACLE = MUR " + mapX + ".0 " + mapY + ".0\n");
@@ -374,10 +390,10 @@ public class ModeEditeur extends JFrame {
                 }
             }
             writer.close();
-            
+
             JOptionPane.showMessageDialog(this,
-                "Niveau sauvegarde avec succes dans src/core/maps/" + nomFichier + " !",
-                "Succès", JOptionPane.INFORMATION_MESSAGE);
+                    "Niveau sauvegarde avec succes dans src/core/maps/" + nomFichier + " !",
+                    "Succès", JOptionPane.INFORMATION_MESSAGE);
 
         } catch (IOException ex) {
             System.out.println("Erreur de sauvegarde : " + ex.getMessage());

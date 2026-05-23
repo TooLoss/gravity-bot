@@ -1,37 +1,45 @@
+package ihm;
+
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.*;
-import core.obstacles.*;
+import core.obstacles.Obstacle;
 import core.Game;
 import core.Map;
-import utils.Vecteur;
-import core.joueurs.Joueur;
+import core.obstacles.*;
+import ihm.controleur.ControleurJeu;
+import ihm.*;
 
-/**
- * La classe FenetreJeu constitue l'interface principale de la simulation.
- * Elle affiche la carte de jeu, les contrôles de placement d'obstacles,
- * ainsi que les informations de budget et de tour des joueurs.
- */
+/** La classe FenetreJeu constitue la Vue principale de l'interface graphique (IHM). */
 public class FenetreJeu extends JFrame {
-    /** Moteur logique du jeu gérant les règles et les tours. */
-    private Game engine;
-    /** Étiquette affichant le budget restant du joueur courant. */
-    private JLabel labelBudget;
-    /** Étiquette affichant le numéro du tour et le nom du joueur actif. */
-    private JLabel labelTour;
-    /** Type d'obstacle actuellement sélectionné dans la barre latérale. */
-    private Obstacle selectedObstacle;
-    private Vecteur clickedPosition;
-    private int prix;
-    private ModeEditeur editeur;
 
-    /**
-     * Constructeur de la fenêtre de jeu.
-     * @param engine Le moteur de jeu (Game) à associer à cette interface.
+    /** Le moteur logique du jeu contenant l'état actuel (Modèle). */
+    private Game engine;
+
+    /** Étiquette textuelle affichant le budget disponible du joueur courant. */
+    private JLabel labelBudget;
+
+    /** Étiquette textuelle affichant le numéro du tour ainsi que le nom du joueur actif. */
+    private JLabel labelTour;
+
+    /** L'obstacle actuellement sélectionné par l'utilisateur dans la boutique de la barre latérale. */
+    private Obstacle selectedObstacle;
+
+    /** Référence vers le mode éditeur ayant lancé cette fenêtre, permettant un retour à celui-ci. */
+    private ModeEditeur editeur;
+    
+    /** Le contrôleur chargé d'intercepter et de traiter les interactions de l'utilisateur. */
+    private ControleurJeu controleur; 
+
+    /** Constructeur complet permettant d'initialiser la fenêtre de jeu depuis le mode éditeur.
+     * Instancie également le ControleurJeu associé à cette vue.
+     * @param engine Le moteur de jeu (Modèle) à associer à cette interface.
+     * @param editeur L'instance du mode éditeur parent pour permettre la navigation de retour.
      */
     public FenetreJeu(Game engine, ModeEditeur editeur) {
         this.engine = engine;
         this.editeur = editeur;
+        this.controleur = new ControleurJeu(engine, this); 
+
         setTitle("Gravity-Bot");
         setSize(1000, 750);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -40,22 +48,18 @@ public class FenetreJeu extends JFrame {
         construireInterface();
         setVisible(true);
     }
-    /**
-     * Constructeur sans mode editeur
+
+    /** Constructeur secondaire initialisant le jeu sans mode éditeur associé.
+     * @param engine Le moteur de jeu (Modèle) à associer à cette interface.
      */
     public FenetreJeu(Game engine) {
         this(engine, null);
     }
-    /**
-     * Constructeur par défaut (vide).
-     */
+
+    /** Constructeur par défaut (vide). */
     public FenetreJeu() {}
 
-    /**
-     * Initialise et assemble les différents composants de l'interface graphique.
-     * Utilise un BorderLayout pour organiser le bandeau, la barre latérale, 
-     * la carte et le footer.
-     */
+    /** Initialise et assemble les différents composants de l'IHM. */
     private void construireInterface() {
         getContentPane().setBackground(new Color(10, 10, 15));
         setLayout(new BorderLayout(5, 5));
@@ -63,32 +67,7 @@ public class FenetreJeu extends JFrame {
         add(construireBandeauNord(), BorderLayout.NORTH);
 
         Map mapPanel = engine.getMap();
-        mapPanel.addMouseListener(new MouseAdapter() {
-            private int startX;
-            private int startY;
-            private long tempsPression;
-            private static final long SEUIL_HOLD_MS = 300; 
-
-            @Override
-            public void mousePressed(MouseEvent e) {
-                startX = e.getX();
-                startY = e.getY();
-                tempsPression = System.currentTimeMillis();
-            }
-
-            @Override
-            public void mouseReleased(MouseEvent e) {
-                if (selectedObstacle == null) return;
-                
-                int endX = e.getX();
-                int endY = e.getY();
-
-                long dureeClic = System.currentTimeMillis() - tempsPression;
-
-                if (aBudget(engine.getJoueurCourant(), selectedObstacle))
-                    placerObstacleDirection(startX, startY, endX, endY);
-            }
-        });
+        mapPanel.addMouseListener(controleur.getMapMouseListener());
 
         mapPanel.setBorder(BorderFactory.createLineBorder(new Color(60, 60, 120), 2));
         add(mapPanel, BorderLayout.CENTER);
@@ -96,9 +75,9 @@ public class FenetreJeu extends JFrame {
         add(construireSidebar(), BorderLayout.EAST);
         add(construireFooter(), BorderLayout.SOUTH);
     }
-    /**
-     * Crée le panneau supérieur affichant le budget et le tour actuel.
-     * @return Le JPanel configuré pour le haut de l'écran.
+
+    /** Crée et configure le panneau supérieur affichant les informations textuelles (budget, tour).
+     * @return Un JPanel configuré contenant les étiquettes de suivi.
      */
     private JPanel construireBandeauNord() {
         JPanel bandeau = new JPanel(new FlowLayout(FlowLayout.CENTER, 50, 10));
@@ -119,9 +98,9 @@ public class FenetreJeu extends JFrame {
         bandeau.add(labelTour);
         return bandeau;
     }
-    /**
-     * Crée la barre latérale contenant les boutons de sélection d'obstacles.
-     * @return Le JPanel de la sidebar.
+
+    /** Crée et configure la barre latérale servant de boutique pour acheter et sélectionner les obstacles.
+     * @return Un JPanel structuré verticalement contenant la liste des boutons d'obstacles.
      */
     private JPanel construireSidebar() {
         JPanel sidebar = new JPanel();
@@ -137,118 +116,53 @@ public class FenetreJeu extends JFrame {
         sidebar.add(titre);
         sidebar.add(Box.createVerticalStrut(20));
 
-        ObstacleAimant aimantPullLegacy = new ObstacleAimant(new Vecteur(.0f), 5.0, 30.0, 50);
-        sidebar.add(creerBoutonElement("Aimant Pull LegacyTech",
-                    String.valueOf(aimantPullLegacy.getPrix()),
-                    aimantPullLegacy,
-                    new Color(35, 30, 35)));    
-        sidebar.add(Box.createVerticalStrut(15));
-        ObstacleAimant aimantPushLegacy = new ObstacleAimant(new Vecteur(.0f), -5.0, 30.0, 50);
-        sidebar.add(creerBoutonElement("Aimant Push LegacyTech",
-                    String.valueOf(aimantPushLegacy.getPrix()),
-                    aimantPushLegacy,
-                    new Color(35, 30, 35)));    
-        sidebar.add(Box.createVerticalStrut(15));
-        sidebar.add(creerBoutonElement("Propulseur LegacyTech",
-                    String.valueOf(ObstaclePropulseurFaible.prix), new
-                    ObstaclePropulseurFaible(new Vecteur(0, 0), new Vecteur(50, 0), 0.03f, 10.f, 50.f),
-                    new Color(35, 30, 35)));
-        sidebar.add(Box.createVerticalStrut(15));
-        sidebar.add(creerBoutonElement("Teleporteur LegacyTech",
-                    String.valueOf(ObstacleTeleporteur.prix), new
-                    ObstacleTeleporteur(new Vecteur(0, 0), new Vecteur(50, 0), 15.f, 50.f),
-                    new Color(35, 30, 35)));
-        sidebar.add(Box.createVerticalStrut(15));
-        ObstacleAimant aimantPullNeon = new ObstacleAimant(new Vecteur(.0f), 50.0, 20.0, 150);
-        sidebar.add(creerBoutonElement("Aimant Pull Neon",
-                    String.valueOf(aimantPullNeon.getPrix()),
-                    aimantPullNeon,
-                    new Color(160, 25, 215)));
-        sidebar.add(Box.createVerticalStrut(15));
-        ObstacleAimant aimantPushNeon = new ObstacleAimant(new Vecteur(.0f), -50.0, 20.0, 150);
-        sidebar.add(creerBoutonElement("Aimant Push Neon",
-                    String.valueOf(aimantPushNeon.getPrix()),
-                    aimantPushNeon,
-                    new Color(160, 25, 215)));  
-        sidebar.add(Box.createVerticalStrut(15));
-        sidebar.add(creerBoutonElement("Propulseur Neon",
-                    String.valueOf(ObstaclePropulseur.prix), new
-                    ObstaclePropulseur(new Vecteur(0, 0), new Vecteur(50, 0), 0.1f, 20.f, 100.f),
-                    new Color(160, 25, 215)));
-        sidebar.add(Box.createVerticalStrut(15));
-        sidebar.add(creerBoutonElement("Teleporteur Neon",
-                    String.valueOf(ObstacleTeleporteurNeon.prix), new
-                    ObstacleTeleporteurNeon(new Vecteur(0, 0), new Vecteur(50, 0), 8.f, 150.f),
-                    new Color(160, 25, 215)));
+        ObstacleAimant aimantPullNeon = new ObstacleAimant(new utils.Vecteur(.0f), 50.0, 20.0, 150);
+        sidebar.add(creerBoutonElement("Aimant Neon", String.valueOf(aimantPullNeon.getPrix()), aimantPullNeon, new Color(160, 25, 215)));
 
         return sidebar;
     }
-    /**
-     * Crée le panneau de contrôle inférieur (Footer) avec les actions globales.
-     * @return Le JPanel du footer.
+
+    /** Crée et configure le bandeau inférieur contenant la navigation (Retour Menu, Éditeur) 
+     * ainsi que le déclenchement de la simulation.
+     * @return Un JPanel contenant les boutons d'action globale.
      */
     private JPanel construireFooter() {
         JPanel footer = new JPanel(new FlowLayout(FlowLayout.CENTER, 20, 12));
         footer.setBackground(new Color(15, 15, 20));
 
-        //Bouton retour dans editeur
         if (editeur != null) {
             JButton btnRetourEditeur = new JButton("RETOUR ÉDITEUR");
             styliserBoutonAction(btnRetourEditeur, new Color(180, 130, 20));
             btnRetourEditeur.addActionListener(e -> {
                 this.dispose();
                 editeur.setVisible(true);
-        });
-        footer.add(btnRetourEditeur);
-    }
+            });
+            footer.add(btnRetourEditeur);
+        }
 
-        // Bouton retour
         JButton btnRetour = new JButton("RETOUR MENU");
-        styliserBoutonAction(btnRetour, new Color(100, 100, 100)); // Gris pour le retour
+        styliserBoutonAction(btnRetour, new Color(100, 100, 100));
         btnRetour.addActionListener(e -> {
-        this.dispose(); // ferme la fenêtre actuelle
-        new MenuPrincipal(); // rouvre le menu
+            this.dispose();
+            new MenuPrincipal();
         });
-
 
         JButton btnLancer = new JButton("LANCER LA SIMULATION");
         styliserBoutonAction(btnLancer, new Color(40, 140, 80));
         
-        btnLancer.addActionListener(e -> {
-            engine.executerTour();
-            rafraichirLabels();
-            if (engine.estGagne()) {
-                JOptionPane.showMessageDialog(this,
-                    engine.getJoueurCourant().getNom() + " a atteint la cible !",
-                    "Victoire !",
-                    JOptionPane.INFORMATION_MESSAGE);
-                this.dispose();
-                new MenuPrincipal();
-            }
-        });
-
-        // Bouton Arrêter
-        // JButton btnArreter = new JButton("STOP");
-        // styliserBoutonAction(btnArreter, new Color(160, 40, 40)); // Rouge
-        // btnArreter.addActionListener(e -> {
-        //     if (engine.getMap() != null) {
-        //         // On force l'arrêt du Timer de simulation dans Map
-        //         engine.getMap().stopperSimulation();
-        //     }
-        // });
+        btnLancer.addActionListener(controleur.getActionLancerSimulation());
 
         footer.add(btnRetour);
         footer.add(btnLancer);
-        // footer.add(btnArreter);
         return footer;
     }
-    /**
-     * Utilitaire pour créer un bouton d'élément (boutique) stylisé.
-     * @param nom Le nom de l'obstacle.
-     * @param prix Le prix affiché.
-     * @param type L'instance modèle d'obstacle à sélectionner.
-     * @param c La couleur de fond du bouton.
-     * @return Le JButton configuré.
+
+    /** Méthode utilitaire de fabrication des boutons d'achat de la boutique latérale.
+     * @param nom Le nom textuel à afficher sur le bouton.
+     * @param prix Le tarif sous forme de chaîne de caractères.
+     * @param type L'instance de l'obstacle servant de modèle de copie lors du futur placement.
+     * @param c La couleur de fond personnalisée du bouton.
+     * @return Un JButton stylisé prêt à être intégré.
      */
     private JButton creerBoutonElement(String nom, String prix, Obstacle type, Color c) {
         JButton btn = new JButton("<html><center><b>" + nom + "</b><br>" + prix + "</center></html>");
@@ -256,20 +170,19 @@ public class FenetreJeu extends JFrame {
         btn.setAlignmentX(Component.CENTER_ALIGNMENT);
         btn.setFocusPainted(false);
         btn.setCursor(new Cursor(Cursor.HAND_CURSOR));
-        
         btn.setBackground(c);
         btn.setForeground(Color.WHITE);
         btn.setBorder(BorderFactory.createRaisedBevelBorder());
 
         btn.addActionListener(e -> {
-            selectedObstacle = type;
+            this.selectedObstacle = type;
         });
         return btn;
     }
-    /**
-     * Applique un style visuel cohérent aux boutons d'actions principaux.
-     * @param btn Le bouton à styliser.
-     * @param c La couleur thématique du bouton.
+
+    /** Applique une charte visuelle standardisée et avancée aux boutons d'actions principaux.
+     * @param btn Le bouton sur lequel appliquer les bordures, couleurs et polices.
+     * @param c La couleur de base du thème pour ce bouton.
      */
     private void styliserBoutonAction(JButton btn, Color c) {
         btn.setBackground(c);
@@ -282,43 +195,17 @@ public class FenetreJeu extends JFrame {
             BorderFactory.createEmptyBorder(10, 25, 10, 25)
         ));
     }
-    
-    private boolean aBudget(Joueur joueur, Obstacle obstacle) {
-        return joueur.getBudget() >= obstacle.getPrix();
-    }
 
-    /**
-     * Gère la logique de placement d'un obstacle sur la carte.
-     * @param x Coordonnée X du clic.
-     * @param y Coordonnée Y du clic.
-     * @return true si le joueur à le budget, false sinon.
+    /** Fournit l'obstacle actuellement sélectionné dans la barre latérale.
+     * du choix de l'utilisateur afin de procéder au placement sur la carte.
+     * @return L'instance de l'Obstacle sélectionné, ou null si aucun choix n'a été fait.
      */
-    private void placerObstacle(int x, int y) {
-        if (this.selectedObstacle == null) return;
-
-        selectedObstacle.setPosition(x, y);
-        Obstacle copy = selectedObstacle.copier();
-
-        if (engine.getMap().ajouterObstacle(copy)) {
-            // le placement est autorisé
-            engine.getJoueurCourant().retirerBudget(copy.getPrix());
-            rafraichirLabels();
-        }
-
-        this.clickedPosition = new Vecteur(x, y);
+    public Obstacle getSelectedObstacle() {
+        return this.selectedObstacle;
     }
 
-    private void placerObstacleDirection(int bx, int by, int ex, int ey) {
-        if (selectedObstacle == null) return;
-
-        selectedObstacle.setPointFinal(new Vecteur(ex, ey));
-        placerObstacle(bx, by);
-    }
-
-    /**
-     * Met à jour les textes des étiquettes (budget et tour) avec les données du moteur.
-     */
-    private void rafraichirLabels() {
+    /** Interroge le modèle et met à jour les labels. */
+    public void rafraichirLabels() {
         labelBudget.setText("Budget : " + engine.getJoueurCourant().getBudget() + "€");
         labelTour.setText("Tour : " + engine.getTour() + " (" + engine.getJoueurCourant().getNom() + ")");
     }

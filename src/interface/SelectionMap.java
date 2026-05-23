@@ -1,3 +1,5 @@
+package ihm;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
@@ -8,6 +10,7 @@ import java.util.List;
 import java.util.Random;
 import core.Game;
 import core.joueurs.Joueur;
+import ihm.*;
 
 /**
  * Écran de sélection de map.
