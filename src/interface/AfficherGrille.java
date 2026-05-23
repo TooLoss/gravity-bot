@@ -8,6 +8,10 @@ public class AfficherGrille extends JPanel {
     
     // Variables pour l'éditeur
     private ArrayList<Point> obstacles = new ArrayList<>();
+    // Liste parallèle pour stocker le rayon de chaque obstacle (ex: 15 par défaut, ou personnalisé)
+    private ArrayList<Integer> rayonsObstacles = new ArrayList<>();
+    // Liste pour savoir si c'est un mur ou un cercle (true si Mur, false si Cercle)
+    private ArrayList<Boolean> estUnMur = new ArrayList<>();
 
     public void setPointDepart(int x, int y) { 
         this.setDepart(x, y); 
@@ -17,14 +21,19 @@ public class AfficherGrille extends JPanel {
         this.setCible(x, y); 
     }
     
-    public void ajouterObstacle(int x, int y) { 
+    // le type et le rayon personnalisé
+    public void ajouterObstacle(int x, int y, boolean duTypeMur, int rayon) { 
         this.obstacles.add(new Point(x, y)); 
+        this.rayonsObstacles.add(rayon);
+        this.estUnMur.add(duTypeMur);
         repaint(); 
     }
     
     public Point getPointDepart() { return new Point(departX, departY); }
     public Point getPointCible() { return new Point(cibleX, cibleY); }
     public ArrayList<Point> getObstacles() { return obstacles; }
+    public ArrayList<Integer> getRayonsObstacles() { return rayonsObstacles; }
+    public ArrayList<Boolean> getEstUnMur() { return estUnMur; }
     
     public final int tailleCase = 30;
 
@@ -65,9 +74,21 @@ public class AfficherGrille extends JPanel {
             g.setColor(Color.WHITE);
             g.drawOval(cibleX, cibleY, tailleCase, tailleCase);
         }
-        g.setColor(Color.GRAY);
-        for (Point p : obstacles) {
-            g.fillOval(p.x, p.y, tailleCase, tailleCase);
+        
+        // Dessin des obstacles selon leur type et leur taille
+        for (int i = 0; i < obstacles.size(); i++) {
+            Point p = obstacles.get(i);
+            int r = rayonsObstacles.get(i);
+            boolean mur = estUnMur.get(i);
+            
+            if (mur) {
+                g.setColor(new Color(180, 50, 50)); // Rouge foncé pour les murs
+                g.fillRect(p.x, p.y, tailleCase, tailleCase);
+            } else {
+                g.setColor(Color.GRAY); // Gris pour les sphères/cercles
+                // On centre le dessin selon le rayon fourni
+                g.fillOval(p.x + (tailleCase/2) - r, p.y + (tailleCase/2) - r, r * 2, r * 2);
+            }
         }
     }
 }
