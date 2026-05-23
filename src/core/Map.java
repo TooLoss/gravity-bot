@@ -8,10 +8,38 @@ import core.obstacles.*;
 import core.obstacles.Obstacle;
 import java.util.HashSet;
 
-/** Classe Map contient référence aux obstacles et projectiles. */
+/** Classe Map contient une liste d'obstacles, une position initiale, vitesse
+ * initiale et position finale, un budget et un budget par tour. */
 public class Map extends JPanel {
 
+    /** Liste d'obstacle de la map. */
     private HashSet<Obstacle> obstacles = new HashSet<>();
+    /** Taille fixe de la Map. */
+    public static final Vecteur SCREEN_SIZE = new Vecteur(500.f);
+    /** Tick pour le rafraichissement des acteurs. */
+    public static final double GAME_TICK = 1000000000L / 60;
+    /** Classe projectile satellite. */
+    private Projectile projectile;
+    /** Attribu position initiale du projectile. Lu dans un fichier. */
+    private Vecteur position_initiale = new Vecteur(10.f);
+    /** Attribu vitesse initiale du projectile. Lu dans un fichier. */
+    private Vecteur vitesse_initiale = new Vecteur(10.f, .0f);
+    /** Attribu position arrivé du projectile. Lu dans un fichier. */
+    private Vecteur cible_position = new Vecteur(450.f, 450.f);
+    /** Classe cible pour faire gagner le  joueur. */
+    private ObstacleCible cible;
+    /** Budget initiale de la map. Lu dans un fichier */
+    private int budgetInitial;
+    /** Budget ajouté par tour. */
+    private int budgetParTour = 500;
+    /** Définit si le joueur à gagné lors de la simulation ou non. */
+    private boolean estGagne;
+
+    /** Constructeur de la map. */
+    public Map() {
+        this.estGagne = false;
+        initialiserParametres();
+    }
 
     @Override
     protected void paintComponent(Graphics g) {
@@ -28,30 +56,20 @@ public class Map extends JPanel {
         projectile.afficher(g);
     }
 
-    public static final Vecteur SCREEN_SIZE = new Vecteur(500.f);
-    public static final double GAME_TICK = 1000000000L / 60;
-
+    /** Fonction vérifie si l'acteur est dans l'écran.
+     * @param acteur Acteur qui doit passer la vérification.
+     * @return true si il est dans l'écran.
+     */
     private boolean estDansEcran(Acteur acteur) {
-        boolean estX = acteur.getPosition().getX() >= 0 && acteur.getPosition().getX() <= SCREEN_SIZE.getX();
-        boolean estY = acteur.getPosition().getY() >= 0 && acteur.getPosition().getY() <= SCREEN_SIZE.getY();
+        boolean estX = acteur.getPosition().getX() >= 0 &&
+            acteur.getPosition().getX() <= SCREEN_SIZE.getX();
+        boolean estY = acteur.getPosition().getY() >= 0 &&
+            acteur.getPosition().getY() <= SCREEN_SIZE.getY();
         return estX && estY;
     }
 
-    private Projectile projectile;
-    private Vecteur position_initiale = new Vecteur(10.f);
-    private Vecteur vitesse_initiale = new Vecteur(10.f, .0f);
-    private Vecteur cible_position = new Vecteur(450.f, 450.f);
-    private ObstacleCible cible;
-    private int budgetInitial;
-    private int budgetParTour = 500;
-
-    private boolean estGagne;
-
-    public Map() {
-        this.estGagne = false;
-        initialiserParametres();
-    }
-
+    /** Initialise les paramètres pour lancer la simulation. Création du
+     * projectile, position et vitesse, cible d'arrivé. */
     public void initialiserParametres() {
         if (this.projectile == null) {
             this.projectile = new Projectile(position_initiale, vitesse_initiale);
@@ -64,10 +82,13 @@ public class Map extends JPanel {
             this.cible = new ObstacleCible(cible_position);
     }
 
+    /** Fonction pour ajouter obstacle.
+     * @param obstacle Obstacle à ajouter (doit être une copie).
+     * @return true si l'obstacle peut être placé.
+     */
     public boolean ajouterObstacle(Obstacle obstacle) {
         boolean estAjoute = false;
         if (estDansEcran(obstacle)) {
-            System.out.println("Obstacle register : " + obstacle.getPosition().toString());
             obstacles.add(obstacle);
             repaint();
             estAjoute = true;
@@ -75,13 +96,20 @@ public class Map extends JPanel {
         return estAjoute;
     }
 
+    /** Fonction pour lancer la simulation du projectile.
+     * Chaque frame le projectile est rafraichi. Les collisions sont testés
+     * pour l'obstacle.
+     * @return true si la simulation est gagnante.
+     */
     public boolean lancerSimulation() {
         long previous = System.nanoTime();
         long accumulator = 0;
 
         initialiserParametres();
 
-        while (estDansEcran(projectile) && !estGagne && this.projectile.getVitesse().getNorme() > 2.f) {
+        // Se stop si le projectile est trop lent (bloquage) = crash.
+        while (estDansEcran(projectile) && !estGagne &&
+                this.projectile.getVitesse().getNorme() > 2.f) {
             long current = System.nanoTime();
             long elapsed = current - previous;
             previous = current;
@@ -93,14 +121,14 @@ public class Map extends JPanel {
                 accumulator -= GAME_TICK;
                 Vecteur sat_pos = projectile.getPosition();
                 Vecteur sat_speed = projectile.getVitesse();
-                System.out.println("Satellite speed : " + sat_speed.getX() + " - " + sat_speed.getY());
-                System.out.println("Satellite position : " + sat_pos.getX() + " - " + sat_pos.getY());
                 paintImmediately(0, 0, getWidth(), getHeight());
             }
         }
         return estGagne;
     }
 
+    /** Fonction qui test les collistions entre le projectile et les obstacles.
+     * Si c'est le cas, la méthode eventAction est appelé. */
     public void testerCollisions() {
         if (cible.estDansObstacle(this.projectile)) {
             this.estGagne = true;
@@ -112,27 +140,33 @@ public class Map extends JPanel {
         }
     }
 
+    /** Getter de estGagne. */
     public boolean estGagne() {
         return this.estGagne;
     }
 
+    /** Getter budgetParTour. */
     public int getBudgetParTour(){
         return this.budgetParTour;
     }
 
+    /** Setter position initiale. */
     public void setPositionInitiale(Vecteur pos) {
         this.position_initiale = pos;
     }
 
+    /** Setter vitesse initiale. */
     public void setVitesseInitiale(Vecteur vit) {
         this.vitesse_initiale = vit;
     }
 
+    /** Setter position cible d'arrivé. */
     public void setCiblePosition(Vecteur pos) { 
         this.cible_position = pos; 
         this.cible = new ObstacleCible(pos);
     }
 
+    /** Méthode vider la carte. */
     public void viderCarte() {
         this.obstacles.clear();
     }
