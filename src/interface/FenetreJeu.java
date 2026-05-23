@@ -4,7 +4,6 @@ import java.awt.event.*;
 import core.obstacles.*;
 import core.Game;
 import core.Map;
-import core.obstacles.Obstacle;
 import utils.Vecteur;
 import core.joueurs.Joueur;
 
@@ -24,13 +23,15 @@ public class FenetreJeu extends JFrame {
     private Obstacle selectedObstacle;
     private Vecteur clickedPosition;
     private int prix;
+    private ModeEditeur editeur;
 
     /**
      * Constructeur de la fenêtre de jeu.
      * @param engine Le moteur de jeu (Game) à associer à cette interface.
      */
-    public FenetreJeu(Game engine) {
+    public FenetreJeu(Game engine, ModeEditeur editeur) {
         this.engine = engine;
+        this.editeur = editeur;
         setTitle("Gravity-Bot");
         setSize(1000, 750);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -38,6 +39,12 @@ public class FenetreJeu extends JFrame {
         
         construireInterface();
         setVisible(true);
+    }
+    /**
+     * Constructeur sans mode editeur
+     */
+    public FenetreJeu(Game engine) {
+        this(engine, null);
     }
     /**
      * Constructeur par défaut (vide).
@@ -182,6 +189,17 @@ public class FenetreJeu extends JFrame {
     private JPanel construireFooter() {
         JPanel footer = new JPanel(new FlowLayout(FlowLayout.CENTER, 20, 12));
         footer.setBackground(new Color(15, 15, 20));
+
+        //Bouton retour dans editeur
+        if (editeur != null) {
+            JButton btnRetourEditeur = new JButton("RETOUR ÉDITEUR");
+            styliserBoutonAction(btnRetourEditeur, new Color(180, 130, 20));
+            btnRetourEditeur.addActionListener(e -> {
+                this.dispose();
+                editeur.setVisible(true);
+        });
+        footer.add(btnRetourEditeur);
+    }
 
         // Bouton retour
         JButton btnRetour = new JButton("RETOUR MENU");

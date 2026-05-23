@@ -294,7 +294,7 @@ public class ModeEditeur extends JFrame {
     // Cacher l'éditeur, ouvrir la fenêtre de jeu
     setVisible(false);
     SwingUtilities.invokeLater(() -> {
-        FenetreJeu jeu = new FenetreJeu(engine);
+        FenetreJeu jeu = new FenetreJeu(engine,this);
         jeu.setVisible(true);
     });
     }
