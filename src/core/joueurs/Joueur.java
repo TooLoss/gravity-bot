@@ -8,9 +8,13 @@ public class Joueur {
     private int budget;
     private String nom;
 
-    public Joueur(String nom) {
+    public Joueur(String nom, int budget) {
         this.budget = Math.max(0, budget);
         this.nom = nom;
+    }
+    
+    public Joueur(String nom) {
+        this(nom, BUDGET_INITIALE);
     }
 
     public String getNom() {
