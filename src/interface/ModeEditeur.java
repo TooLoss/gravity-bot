@@ -93,8 +93,8 @@ public class ModeEditeur extends JFrame {
 
                 int px = (e.getX() / grille.tailleCase) * grille.tailleCase;
                 int py = (e.getY() / grille.tailleCase) * grille.tailleCase;
-                int mapX = (int)(e.getX()* 500.0 / grille.getWidth());
-                int mapY = (int)(e.getY()* 500.0 / grille.getHeight());
+                int mapX = (int)(e.getX()* 800.0 / grille.getWidth());
+                int mapY = (int)(e.getY()* 700.0 / grille.getHeight());
 
                 switch (outilSelectionne) {
                     case "objectif":
@@ -361,8 +361,8 @@ public class ModeEditeur extends JFrame {
                 int rayon = grille.getRayonsObstacles().get(i);
                 boolean mur = grille.getEstUnMur().get(i);
                 
-                int mapX = (int)(p.x * 500.0 / grille.getWidth());
-                int mapY = (int)(p.y * 500.0 / grille.getHeight());
+                int mapX = (int)(p.x * 800.0 / grille.getWidth());
+                int mapY = (int)(p.y * 700.0 / grille.getHeight());
                 
                 // Adapte l'écriture brute dans le fichier texte selon le choix de l'utilisateur
                 if (mur) {
