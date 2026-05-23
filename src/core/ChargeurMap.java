@@ -73,7 +73,7 @@ public class ChargeurMap {
                 map.setCiblePosition(extraireVecteur(tokens, 0));
                 break;
             case "OBSTACLE":
-                this.parserEtAjouterObstacle(tokens, map);
+                parserEtAjouterObstacle(tokens, map);
             default:
                 System.err.println("Clé inconnue ignorée : " + cle);
                 break;
