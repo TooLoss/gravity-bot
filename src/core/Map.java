@@ -5,7 +5,7 @@ import java.awt.Graphics;
 import java.awt.Color;
 import utils.Vecteur;
 import core.obstacles.*;
-import core.obstacles.Obstacle;
+
 import java.util.HashSet;
 
 /** Classe Map contient une liste d'obstacles, une position initiale, vitesse
@@ -15,7 +15,7 @@ public class Map extends JPanel {
     /** Liste d'obstacle de la map. */
     private HashSet<Obstacle> obstacles = new HashSet<>();
     /** Taille fixe de la Map. */
-    public static final Vecteur SCREEN_SIZE = new Vecteur(500.f);
+    public static final Vecteur SCREEN_SIZE = new Vecteur(800.f, 700.f);
     /** Tick pour le rafraichissement des acteurs. */
     public static final double GAME_TICK = 1000000000L / 60;
     /** Classe projectile satellite. */
@@ -46,7 +46,7 @@ public class Map extends JPanel {
         super.paintComponent(g);
 
         g.setColor(new Color(0, 0, 100));
-        g.fillRect(0, 0, getWidth(), getHeight());
+        g.fillRect(0, 0, 800, 700);
 
         for (Obstacle obs : obstacles) {
             System.out.println("A affichier l'obstacle");
@@ -87,6 +87,8 @@ public class Map extends JPanel {
      * @return true si l'obstacle peut être placé.
      */
     public boolean ajouterObstacle(Obstacle obstacle) {
+        System.out.println("getWidth: " + getWidth() + " getHeight: " + getHeight());
+        System.out.println("Position obstacle: " + obstacle.getPosition().getX() + " " + obstacle.getPosition().getY());
         boolean estAjoute = false;
         if (estDansEcran(obstacle)) {
             obstacles.add(obstacle);
