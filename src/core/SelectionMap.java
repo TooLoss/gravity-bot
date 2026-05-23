@@ -111,14 +111,41 @@ public class SelectionMap extends JFrame {
             }
         }
 
-        // ScrollPane transparent
+        // ScrollPane transparent, comme dans la classe Credits
         JScrollPane scroll = new JScrollPane(listePanel);
         scroll.setOpaque(false);
         scroll.getViewport().setOpaque(false);
         scroll.setBorder(BorderFactory.createEmptyBorder());
         scroll.setPreferredSize(new Dimension(540, 350));
-        scroll.getVerticalScrollBar().setUnitIncrement(16);
+        scroll.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
 
+        // Personnalisation de la barre de défilement
+        JScrollBar verticalBar = scroll.getVerticalScrollBar();
+        verticalBar.setOpaque(false);
+        verticalBar.setPreferredSize(new Dimension(8, 0));
+        verticalBar.setUnitIncrement(16);
+
+        verticalBar.setUI(new javax.swing.plaf.basic.BasicScrollBarUI() {
+            @Override
+            protected void configureScrollBarColors() {
+                this.thumbColor = LOGAN_GLOW;
+                this.trackColor = new Color(0, 0, 0, 0);
+            }
+
+            @Override
+            protected JButton createDecreaseButton(int orientation) { return createZeroButton(); }
+
+            @Override
+            protected JButton createIncreaseButton(int orientation) { return createZeroButton(); }
+
+            private JButton createZeroButton() {
+                JButton button = new JButton();
+                button.setPreferredSize(new Dimension(0, 0));
+                button.setMinimumSize(new Dimension(0, 0));
+                button.setMaximumSize(new Dimension(0, 0));
+                return button;
+            }
+        });
         JPanel wrapper = new JPanel(new GridBagLayout());
         wrapper.setOpaque(false);
         wrapper.add(scroll);
@@ -136,6 +163,7 @@ public class SelectionMap extends JFrame {
         footer.add(btnRetour);
         background.add(footer, BorderLayout.SOUTH);
     }
+
 
     /* ── Lancement du jeu ────────────────────────────────────────────── */
 
