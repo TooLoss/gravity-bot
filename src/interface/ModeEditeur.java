@@ -3,13 +3,17 @@ import java.awt.BasicStroke;
 import java.awt.*;
 import core.Game;
 import core.joueurs.Joueur;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.File;
+import java.awt.Point;
 import utils.Vecteur;
 
 /** Fenetre du mode Editeur de Gravity-Bot.
  * Permet au joueur de construire son propre contrat en :
- *   - placant des obstacles sur le plateau
- *   - reglant le budget de depart
- *   - definissant la position de l'objectif
+ * - placant des obstacles sur le plateau
+ * - reglant le budget de depart
+ * - definissant la position de l'objectif
  * Cette fenetre s'ouvre depuis le bouton "Editeur" du MenuPrincipal.
  * La structure visuelle est identique a FenetreJeu, seule la sidebar change.
  */
@@ -22,7 +26,7 @@ public class ModeEditeur extends JFrame {
 
     /** L'outil selectionné.**/
     private String outilSelectionne = null; // "obstacle", "objectif", "depart"
-
+    
     /**Référence à la grille pour la mettre à jour visuellement. **/
     private AfficherGrille grille;
 
@@ -98,6 +102,9 @@ public class ModeEditeur extends JFrame {
                         positionDepart = new Vecteur(mapX,mapY);
                         grille.setDepart(px,py);
                         grille.repaint();
+                        break;
+                    case "obstacle": 
+                        grille.ajouterObstacle(px, py);
                         break;
                     default:
                         System.out.println(outilSelectionne + " placé en (" + px + ", " + py + ")");
@@ -194,10 +201,7 @@ public class ModeEditeur extends JFrame {
         styliserBoutonControle(btnRetour,      new Color(140, 50, 50));
 
         btnSauvegarder.addActionListener(e -> {
-            JOptionPane.showMessageDialog(this,
-                "Niveau sauvegarde !\n(La logique de sauvegarde sera implementee par l'autre groupe.)",
-                "Sauvegarde", JOptionPane.INFORMATION_MESSAGE);
-            // TODO : appeler la logique de sauvegarde du niveau
+            sauvegarderMapDansFichier();
         });
 
         btnTester.addActionListener(e -> {
@@ -247,6 +251,52 @@ public class ModeEditeur extends JFrame {
                 BorderFactory.createEmptyBorder(6, 16, 6, 16)));
 
     }
+    private void sauvegarderMapDansFichier() {
+        Point depart = grille.getPointDepart();
+        Point cible = grille.getPointCible();
 
+        if (depart == null || cible == null) {
+            JOptionPane.showMessageDialog(this,
+                "Placez au moins un Depart et un Objectif avant de sauvegarder !",
+                "Erreur", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
 
+        String nomFichier = JOptionPane.showInputDialog(this, 
+            "Entrez le nom du fichier pour sauvegarder le niveau (ex: map2) :", 
+            "Nom du niveau", JOptionPane.QUESTION_MESSAGE);
+
+        if (nomFichier == null || nomFichier.trim().isEmpty()) {
+            return;
+        }
+
+        if (!nomFichier.endsWith(".txt")) {
+            nomFichier += ".txt";
+        }
+
+        try {
+            File dossier = new File("maps"); // Crée le dossier à la racine de pl/
+            if (!dossier.exists()) { dossier.mkdirs(); }
+
+            FileWriter writer = new FileWriter("maps/" + nomFichier); 
+            writer.write("positionInitiale = " + positionDepart.getX() + " " + positionDepart.getY() + "\n");
+            writer.write("vitesseInitiale = 0.0 10.0\n");
+            writer.write("ciblePosition = " + ciblePosition.getX() + " " + ciblePosition.getY() + "\n");
+
+            for (Point p : grille.getObstacles()) {
+                // Traduction des coordonnées de la grille vers la Map (échelle 500x500)
+                int mapX = (int)(p.x * 500.0 / grille.getWidth());
+                int mapY = (int)(p.y * 500.0 / grille.getHeight());
+                writer.write("OBSTACLE = SPHERE " + mapX + ".0 " + mapY + ".0 15.0 0.0\n");
+            }
+            writer.close();
+            
+            JOptionPane.showMessageDialog(this,
+                "Niveau sauvegarde avec succes dans maps/" + nomFichier + " !",
+                "Succès", JOptionPane.INFORMATION_MESSAGE);
+
+        } catch (IOException ex) {
+            System.out.println("Erreur de sauvegarde : " + ex.getMessage());
+        }
+    }
 }
