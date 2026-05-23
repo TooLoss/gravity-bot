@@ -57,7 +57,7 @@ public class Map extends JPanel {
         g2d.fillRect(0, 0, 800, 700);
 
         // Grille subtile
-        g2d.setColor(new Color(255, 255, 255, 15));
+        g2d.setColor(new Color(255, 255, 255, 5));
         g2d.setStroke(new java.awt.BasicStroke(0.5f));
         for (int i = 0; i < 800; i += 50) g2d.drawLine(i, 0, i, 700);
         for (int j = 0; j < 700; j += 50) g2d.drawLine(0, j, 800, j);
