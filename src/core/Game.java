@@ -38,7 +38,7 @@ public class Game {
     private void passerTour() {
         tour++;
         joueurCourant = (tour % 2 != 0) ? joueur1 : joueur2;
-        joueurCourant.ajouterBudget();
+        joueurCourant.ajouterBudget(map.getBudgetParTour());
     }
 
     public Map getMap() { return map; }
