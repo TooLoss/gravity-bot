@@ -43,7 +43,7 @@ public class Parametres {
      * et le JSlider pour le contrôle du volume.
      */
     public Parametres() {
-        ImageIcon bgIcon = new ImageIcon("src/interface/gifGravity.gif");
+        ImageIcon bgIcon = new ImageIcon("ressources/gifGravity.gif");
         JPanel buttonsPanel = new JPanel();
         JPanel Volume = new JPanel();
         JLabel backgroundLabel = new JLabel(bgIcon);
@@ -59,7 +59,7 @@ public class Parametres {
 
         // Gestion du curseur
         try {
-            ImageIcon icon = new ImageIcon("src/interface/cursor.png");
+            ImageIcon icon = new ImageIcon("ressources/cursor.png");
             Image originalImg = icon.getImage();
             int cursorSize = 32;
             BufferedImage resizedImg = new BufferedImage(cursorSize, cursorSize, BufferedImage.TYPE_INT_ARGB);

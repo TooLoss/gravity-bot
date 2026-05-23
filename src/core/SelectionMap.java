@@ -51,7 +51,7 @@ public class SelectionMap extends JFrame {
     /* ── Construction de l'interface ─────────────────────────────────── */
 
     private void construireInterface() {
-        ImageIcon bgIcon = new ImageIcon("src/interface/gifGravity.gif");
+        ImageIcon bgIcon = new ImageIcon("ressources/gifGravity.gif");
         JLabel background = new JLabel(bgIcon);
         background.setLayout(new BorderLayout());
         setContentPane(background);

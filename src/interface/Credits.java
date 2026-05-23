@@ -43,7 +43,7 @@ public class Credits {
      * et configure le système de défilement personnalisé pour la liste des noms.
      */
     public Credits() {
-        ImageIcon bgIcon = new ImageIcon("src/interface/gifGravity.gif");
+        ImageIcon bgIcon = new ImageIcon("ressources/gifGravity.gif");
         JLabel backgroundLabel = new JLabel(bgIcon);
         
         // Setup de la frame
@@ -57,7 +57,7 @@ public class Credits {
 
         // Gestion du curseur
         try {
-            ImageIcon icon = new ImageIcon("src/interface/cursor.png");
+            ImageIcon icon = new ImageIcon("ressources/cursor.png");
             Image originalImg = icon.getImage();
             int cursorSize = 32;
             BufferedImage resizedImg = new BufferedImage(cursorSize, cursorSize, BufferedImage.TYPE_INT_ARGB);
