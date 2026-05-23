@@ -61,12 +61,16 @@ public abstract class Obstacle extends Acteur {
         return this.prix;
     }
 
-    /** Setter position finale de l'obstacle. */
+    /** Setter position finale de l'obstacle.
+     * @param point Vecteur finale.
+     */
     public void setPointFinal(Vecteur point) {
         this.pointFinal = new Vecteur(point);
     }
 
-    /** Getter point final de l'obstacle. */
+    /** Getter point final de l'obstacle.
+     * @return Vecteur point final.
+     */
     public Vecteur getPointFinal() {
         return this.pointFinal;
     }

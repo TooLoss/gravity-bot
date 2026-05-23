@@ -156,27 +156,37 @@ public class Map extends JPanel {
         }
     }
 
-    /** Getter de estGagne. */
+    /** Getter de estGagne.
+     * @return boolean true si gagné.
+     */
     public boolean estGagne() {
         return this.estGagne;
     }
 
-    /** Getter budgetParTour. */
+    /** Getter budgetParTour.
+     * @return int budget par tour.
+     */
     public int getBudgetParTour(){
         return this.budgetParTour;
     }
 
-    /** Setter position initiale. */
+    /** Setter position initiale.
+     * @param pos Vecteur initiale.
+     */
     public void setPositionInitiale(Vecteur pos) {
         this.position_initiale = pos;
     }
 
-    /** Setter vitesse initiale. */
+    /** Setter vitesse initiale.
+     * @param vit Vecteur initiale.
+     */
     public void setVitesseInitiale(Vecteur vit) {
         this.vitesse_initiale = vit;
     }
 
-    /** Setter position cible d'arrivé. */
+    /** Setter position cible d'arrivé.
+     * @param pos Vecteur.
+     */
     public void setCiblePosition(Vecteur pos) { 
         this.cible_position = pos; 
         this.cible = new ObstacleCible(pos);

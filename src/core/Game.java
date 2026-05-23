@@ -29,6 +29,8 @@ public class Game {
 
     /**
      * Charge une map depuis un fichier .txt.
+     * @param j1 Joueur 1.
+     * @param j2 Joueur 2.
      * @param cheminMap Chemin vers le fichier de map (ex: "src/core/maps/map2.txt").
      */
     public Game(Joueur j1, Joueur j2, String cheminMap) {
@@ -44,6 +46,8 @@ public class Game {
     /**
      * Utilise une Map déjà configurée (ex : depuis l'éditeur de niveaux).
      * L'audio doit avoir été injecté sur la map avant l'appel.
+     * @param j1 Joueur 1.
+     * @param j2 Joueur 2.
      * @param mapPreChargee Map configurée avec obstacles, position et cible.
      */
     public Game(Joueur j1, Joueur j2, Map mapPreChargee) {
@@ -74,12 +78,23 @@ public class Game {
         joueurCourant.ajouterBudget(map.getBudgetParTour());
     }
 
-    /** Getter à gagné. */
+    /** Getter à gagné.
+     * @return boolean true si gagné.
+     */
     public boolean estGagne() { return map.estGagne(); }
-    /** Getter de map. */
+
+    /** Getter de map.
+     * @return Map map actuelle.
+     */
     public Map getMap() { return map; }
-    /** Getter du joueur courant. */
+
+    /** Getter du joueur courant.
+     * @return Joueur joueur courant.
+     */
     public Joueur getJoueurCourant() { return joueurCourant; }
-    /** Getter du tour courant. */
+
+    /** Getter du tour courant.
+     * @return int tour.
+     */
     public int getTour() { return tour; }
 }

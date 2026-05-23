@@ -1,0 +1,1 @@
+packageSearchIndex = [{"l":"All Packages","url":"allpackages-index.html"},{"l":"core"},{"l":"core.collisions"},{"l":"core.joueurs"},{"l":"core.map"},{"l":"core.obstacles"},{"l":"utils"}]

@@ -10,10 +10,6 @@ public abstract class ObstacleSegment extends Obstacle {
     protected double epaisseur;
     protected double distanceMax;
 
-    /**
-     * @param pointA Origine du segment (= position de l'obstacle).
-     * @param pointB Extrémité du segment.
-     */
     public ObstacleSegment(Vecteur pointA, Vecteur pointB, double epaisseur, double distanceMax) {
         super(pointA);
         this.epaisseur = epaisseur;
