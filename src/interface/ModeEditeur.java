@@ -27,6 +27,10 @@ public class ModeEditeur extends JFrame {
     /** L'outil selectionné.**/
     private String outilSelectionne = null; // "obstacle", "objectif", "depart"
     
+    /** Configuration de l'obstacle courant choisi par l'utilisateur **/
+    private boolean obstacleEstMur = false;
+    private int obstacleRayon = 15;
+    
     /**Référence à la grille pour la mettre à jour visuellement. **/
     private AfficherGrille grille;
 
@@ -104,7 +108,8 @@ public class ModeEditeur extends JFrame {
                         grille.repaint();
                         break;
                     case "obstacle": 
-                        grille.ajouterObstacle(px, py);
+                        // Utilise la configuration choisie (Mur ou Cercle avec son rayon)
+                        grille.ajouterObstacle(px, py, obstacleEstMur, obstacleRayon);
                         break;
                     default:
                         System.out.println(outilSelectionne + " placé en (" + px + ", " + py + ")");
@@ -134,11 +139,39 @@ public class ModeEditeur extends JFrame {
         sidebar.add(Box.createVerticalStrut(15));
 
         // Bouton pour placer un obstacle sur le plateau
-        JButton btnObstacle = creerBoutonOutil("Obstacle", "Bloquer la trajectoire");
-        // Selectionner l'outil obstacle pour le prochain clic sur la grille
+        JButton btnObstacle = creerBoutonOutil("Obstacle", "Choisir le type d'obstacle");
         btnObstacle.addActionListener(e -> {
             outilSelectionne = "obstacle";
-            // TODO : appeler la logique de placement
+            
+            // Choix entre Mur et Cercle 
+            String[] options = {"Obstacle Cercle", "Obstacle Mur"};
+            int choix = JOptionPane.showOptionDialog(this, 
+                "Quel type d'obstacle voulez-vous placer ?", 
+                "Selection de l'obstacle", 
+                JOptionPane.DEFAULT_OPTION, JOptionPane.QUESTION_MESSAGE, 
+                null, options, options[0]);
+                
+            if (choix == 1) {
+                obstacleEstMur = true;
+                obstacleRayon = 15; // Valeur par défaut non critique pour un mur rectangle
+            } else if (choix == 0) {
+                obstacleEstMur = false;
+                
+                // Si c'est un cercle, on demande sa taille (son rayon)
+                String tailleSaisie = JOptionPane.showInputDialog(this, 
+                    "Entrez le rayon du cercle (ex: 15, 25, 40) :", 
+                    "Taille de l'obstacle", JOptionPane.QUESTION_MESSAGE);
+                
+                if (tailleSaisie != null && !tailleSaisie.trim().isEmpty()) {
+                    try {
+                        obstacleRayon = Integer.parseInt(tailleSaisie.trim());
+                    } catch (NumberFormatException ex) {
+                        obstacleRayon = 15; // Sécurité si l'entrée est invalide
+                    }
+                } else {
+                    obstacleRayon = 15;
+                }
+            }
         });
         sidebar.add(btnObstacle);
         sidebar.add(Box.createVerticalStrut(10));
@@ -275,24 +308,33 @@ public class ModeEditeur extends JFrame {
         }
 
         try {
-            File dossier = new File("maps"); // Crée le dossier à la racine de pl/
-            if (!dossier.exists()) { dossier.mkdirs(); }
+            // Emplacement exact sans recréation
+            String cheminComplet = "src/core/maps/" + nomFichier;
 
-            FileWriter writer = new FileWriter("maps/" + nomFichier); 
+            FileWriter writer = new FileWriter(cheminComplet); 
             writer.write("positionInitiale = " + positionDepart.getX() + " " + positionDepart.getY() + "\n");
             writer.write("vitesseInitiale = 0.0 10.0\n");
             writer.write("ciblePosition = " + ciblePosition.getX() + " " + ciblePosition.getY() + "\n");
 
-            for (Point p : grille.getObstacles()) {
-                // Traduction des coordonnées de la grille vers la Map (échelle 500x500)
+            for (int i = 0; i < grille.getObstacles().size(); i++) {
+                Point p = grille.getObstacles().get(i);
+                int rayon = grille.getRayonsObstacles().get(i);
+                boolean mur = grille.getEstUnMur().get(i);
+                
                 int mapX = (int)(p.x * 500.0 / grille.getWidth());
                 int mapY = (int)(p.y * 500.0 / grille.getHeight());
-                writer.write("OBSTACLE = SPHERE " + mapX + ".0 " + mapY + ".0 15.0 0.0\n");
+                
+                // Adapte l'écriture brute dans le fichier texte selon le choix de l'utilisateur
+                if (mur) {
+                    writer.write("OBSTACLE = MUR " + mapX + ".0 " + mapY + ".0\n");
+                } else {
+                    writer.write("OBSTACLE = SPHERE " + mapX + ".0 " + mapY + ".0 " + rayon + ".0 0.0\n");
+                }
             }
             writer.close();
             
             JOptionPane.showMessageDialog(this,
-                "Niveau sauvegarde avec succes dans maps/" + nomFichier + " !",
+                "Niveau sauvegarde avec succes dans src/core/maps/" + nomFichier + " !",
                 "Succès", JOptionPane.INFORMATION_MESSAGE);
 
         } catch (IOException ex) {
