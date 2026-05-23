@@ -36,13 +36,14 @@ public class ChargeurMap {
         }
     }
 
+
     /** Méthode pour traiter une ligne du fichier texte.
      * @param ligne String ligne à analyser.
      * @param map Map pour appliquer les paramètres.
      */
     private static void traiterLigne(String ligne, Map map) {
         ligne = ligne.trim();
-        
+
         if (ligne.isEmpty() || ligne.startsWith("#")) {
             return;
         }
@@ -61,7 +62,6 @@ public class ChargeurMap {
      * @param map Map pour appliquer les paramètres.
      */
     private static void parserParametreGlobal(String cle, String[] tokens, Map map) {
-        // TODO rendre ça plus objet
         switch (cle) {
             case "POSITIONINITIALE":
                 map.setPositionInitiale(extraireVecteur(tokens, 0));
@@ -79,6 +79,7 @@ public class ChargeurMap {
                 break;
         }
     }
+
 
     /** Parser les obstacles en particuliers.
      * @param tokens String[] jetons pour les paramètres.
@@ -100,11 +101,13 @@ public class ChargeurMap {
             map.ajouterObstacle(vraiObstacle);
         }
     }
-
-    /** Extraire un vecteur depuis les jetons.
-     * @param tokens String[] jetons.
-     * @param indexDepart int début du vecteur.
-     * @return Vecteur crée à partir du String.
+    /**
+     * Extrait deux valeurs numériques consécutives à partir d'un index donné
+     * pour fabriquer un objet géométrique à deux dimensions.
+     * * @param tokens      Le tableau de chaînes de caractères contenant les nombres.
+     * @param indexDepart L'index de la coordonnée X dans le tableau.
+     * @return Une nouvelle instance de Vecteur configurée avec les coordonnées lues.
+     * @throws NumberFormatException Si les chaînes lues ne peuvent pas être converties en réels.
      */
     private static Vecteur extraireVecteur(String[] tokens, int indexDepart) {
         float x = Float.parseFloat(tokens[indexDepart]);
