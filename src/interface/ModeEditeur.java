@@ -3,6 +3,7 @@ import java.awt.BasicStroke;
 import java.awt.*;
 import core.Game;
 import core.joueurs.Joueur;
+import utils.Vecteur;
 
 /** Fenetre du mode Editeur de Gravity-Bot.
  * Permet au joueur de construire son propre contrat en :
@@ -21,6 +22,15 @@ public class ModeEditeur extends JFrame {
 
     /** L'outil selectionné.**/
     private String outilSelectionne = null; // "obstacle", "objectif", "depart"
+
+    /**Référence à la grille pour la mettre à jour visuellement. **/
+    private AfficherGrille grille;
+
+    /**Position de la cible choisie dans l'éditeur(coord Map). **/
+    private Vecteur ciblePosition = new Vecteur(450.0, 450.0);
+
+    /**Position de départ du satellite choisie dans l'éditeur(coordonées Map). **/
+    private Vecteur positionDepart = new Vecteur(10.0, 10.0);
 
     public ModeEditeur() {
         setTitle("Gravity-Bot - Editeur de niveaux");
