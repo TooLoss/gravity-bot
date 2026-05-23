@@ -10,7 +10,6 @@ import java.util.HashSet;
 
 /** Classe Map contient référence aux obstacles et projectiles. */
 public class Map extends JPanel {
-    private Audio.GestionnaireAudio gestionnaireAudio;
 
     private HashSet<Obstacle> obstacles = new HashSet<>();
 
@@ -52,10 +51,6 @@ public class Map extends JPanel {
         this.estGagne = false;
         initialiserParametres();
     }
-
-    public void setGestionnaireAudio(Audio.GestionnaireAudio ga){
-        this.gestionnaireAudio = ga;
-    } 
 
     public void initialiserParametres() {
         if (this.projectile == null) {
@@ -113,7 +108,6 @@ public class Map extends JPanel {
         for (Obstacle obs : obstacles) {
             if (obs.estDansObstacle(this.projectile)) {
                 obs.eventAction(this.projectile);
-                gestionnaireAudio.jouerSFX("src/interface/Audio/collision.wav");
             }
         }
     }

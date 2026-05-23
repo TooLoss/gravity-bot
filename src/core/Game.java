@@ -17,11 +17,9 @@ public class Game {
         this.joueur2 = j2;
         this.joueurCourant = j1;
         this.tour = 1;
-        Audio.GestionnaireAudio audio = new Audio.GestionnaireAudio();
         this.map = new Map();
         this.chargeur = new ChargeurMap();
         chargeur.chargerDepuisFichier("./src/core/maps/map1.txt", this.map);
-        map.setGestionnaireAudio(audio);
     }
 
     public void executerTour() {

@@ -212,7 +212,6 @@ public class Parametres {
                 else if (text.equals("Sauvegarder")) { 
                     // On ne sauvegarde que si c'est nécessaire
                     if (volumeJeu != volumeOld) {
-                        Audio.GestionnaireAudio.setVolume(volumeJeu);
                         volumeOld = volumeJeu;
                         btnSauvegarder.setForeground(customGrey); // On le regrise après sauvegarde
                     }

@@ -23,8 +23,6 @@ public class MenuPrincipal extends JFrame {
     
     /** Fenêtre principale du menu. */
     JFrame frame = new JFrame("GravityBot");
-    /** Gestionnaire Audio pour la musique d'ambiance. */
-    private Audio.GestionnaireAudio gameAudio;
 
     /**
      * Constructeur de la classe MenuPrincipal.
@@ -32,14 +30,6 @@ public class MenuPrincipal extends JFrame {
      * et construit l'interface utilisateur.
      */
     public MenuPrincipal() {
-        // Initialisation de la musique.
-        File f = new File("src/interface/Audio/GalacticWAV.wav");
-        System.out.println("Fichier trouvé : " + f.exists());
-            System.out.println("Chemin absolu : " + f.getAbsolutePath());
-
-        this.gameAudio = new Audio.GestionnaireAudio();
-        this.gameAudio.jouerMusique("src/interface/Audio/GalacticWAV.wav");
-        
         // Chargement du fond animé.
         ImageIcon bgIcon = new ImageIcon("src/interface/gifGravity.gif");
         JPanel buttonsPanel = new JPanel();
