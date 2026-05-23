@@ -20,12 +20,12 @@ import ihm.*;
 public class SelectionMap extends JFrame {
 
     private static final Color LOGAN_GLOW = new Color(170, 169, 205);
-    private static final Color WHITE       = new Color(246, 246, 246);
-    private static final Color GOLD        = new Color(255, 200, 80);
-    private static final String MAPS_DIR   = "src/core/maps/";
+    private static final Color WHITE = new Color(246, 246, 246);
+    private static final Color GOLD = new Color(255, 200, 80);
+    private static final String MAPS_DIR = "src/core/maps/";
 
     public SelectionMap() {
-        setTitle("GravityBot  Choisir une Map");
+        setTitle("GravityBot Choisir une Map");
         setSize(700, 600);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLocationRelativeTo(null);
@@ -34,7 +34,6 @@ public class SelectionMap extends JFrame {
         setVisible(true);
     }
 
-    /* ── Chargement des fichiers map ──────────────────────────────────── */
     /**
      * Scanne le répertoire et filtre les fichiers valides.
      * * @return Une List d'objets File pointant vers les fichiers de configuration.
@@ -50,8 +49,6 @@ public class SelectionMap extends JFrame {
         }
         return maps;
     }
-
-    /* ── Construction de l'interface ─────────────────────────────────── */
 
     private void construireInterface() {
         ImageIcon bgIcon = new ImageIcon("ressources/gifGravity.gif");
@@ -78,13 +75,13 @@ public class SelectionMap extends JFrame {
         listePanel.setBorder(BorderFactory.createEmptyBorder(0, 80, 0, 80));
 
         // Bouton aléatoire (mis en valeur)
-        JButton btnAleatoire = creerBouton("🎲  MAP ALÉATOIRE");
+        JButton btnAleatoire = creerBouton("🎲 MAP ALÉATOIRE");
         btnAleatoire.setForeground(GOLD);
         btnAleatoire.addActionListener(e -> {
             if (maps.isEmpty()) {
                 JOptionPane.showMessageDialog(this,
-                    "Aucune map trouvée dans " + MAPS_DIR,
-                    "Erreur", JOptionPane.WARNING_MESSAGE);
+                        "Aucune map trouvée dans " + MAPS_DIR,
+                        "Erreur", JOptionPane.WARNING_MESSAGE);
             } else {
                 File choix = maps.get(new Random().nextInt(maps.size()));
                 lancerJeu(choix.getPath());
@@ -157,7 +154,7 @@ public class SelectionMap extends JFrame {
         wrapper.add(scroll);
         background.add(wrapper, BorderLayout.CENTER);
 
-        // Footer  retour menu
+        // Footer retour menu
         JPanel footer = new JPanel(new FlowLayout(FlowLayout.CENTER));
         footer.setOpaque(false);
         footer.setBorder(BorderFactory.createEmptyBorder(0, 0, 30, 0));
@@ -171,7 +168,6 @@ public class SelectionMap extends JFrame {
     }
 
 
-    /* ── Lancement du jeu ────────────────────────────────────────────── */
     /**
      * * @param cheminMap Le chemin d'accès système vers le fichier de carte à charger.
      */
@@ -183,7 +179,6 @@ public class SelectionMap extends JFrame {
         SwingUtilities.invokeLater(() -> new FenetreJeu(engine));
     }
 
-    /* ── Utilitaires visuels ─────────────────────────────────────────── */
     /**
      * Fabrique un bouton personnalisé aux coins arrondis doté d'animations au survol.
      * * @param texte Le libellé textuel à afficher sur le bouton.
@@ -211,20 +206,20 @@ public class SelectionMap extends JFrame {
             }
             @Override public Insets getBorderInsets(Component c) { return new Insets(10, 20, 10, 20); }
             @Override public boolean isBorderOpaque() { return false; }
-        });
+            });
 
         btn.addMouseListener(new MouseAdapter() {
             Color couleurBase = btn.getForeground();
             @Override public void mouseEntered(MouseEvent e) { btn.setForeground(LOGAN_GLOW); }
-            @Override public void mouseExited(MouseEvent e)  { btn.setForeground(couleurBase); }
-        });
+            @Override public void mouseExited(MouseEvent e) { btn.setForeground(couleurBase); }
+            });
 
         return btn;
     }
 
     private void appliquerCurseur() {
         try {
-            ImageIcon icon = new ImageIcon("src/interface/cursor.png");
+            ImageIcon icon = new ImageIcon("ressources/cursor.png");
             Image img = icon.getImage();
             BufferedImage resized = new BufferedImage(32, 32, BufferedImage.TYPE_INT_ARGB);
             Graphics2D g2 = resized.createGraphics();
