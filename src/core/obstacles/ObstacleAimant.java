@@ -10,7 +10,8 @@ import core.Projectile;
 import core.collisions.CollisionCirculaire;
 
 public class ObstacleAimant extends Obstacle {
-
+    
+    public static final int prix = 50;
     private double puissance;
     private double rayon;
 
