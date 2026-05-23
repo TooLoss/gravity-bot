@@ -11,17 +11,26 @@ import core.collisions.CollisionCirculaire;
 
 public class ObstacleAimant extends Obstacle {
     
-    public static final int prix = 50;
+    private int prix;
     private double puissance;
     private double rayon;
 
     public ObstacleAimant(Vecteur position, double puissance, double rayon) {
+        this(position, puissance, rayon, 50);
+    }
+
+    public ObstacleAimant(Vecteur position, double puissance, double rayon, int prix) {
         super(position);
         this.puissance = puissance;
         this.rayon = rayon;
+        this.prix = prix;
         this.setCollision(new CollisionCirculaire(this.getPosition(), this.rayon));
     }
 
+    @Override
+    public int getPrix() {
+        return this.prix;
+    }   
     @Override
     public void eventAction(Projectile projectile) {
         Vecteur posProjectile = projectile.getPosition();
@@ -39,12 +48,14 @@ public class ObstacleAimant extends Obstacle {
         // Acteur class abstract
     }
 
+
     @Override
     public Obstacle copier() {
         ObstacleAimant copy = new ObstacleAimant(
-                new Vecteur(this.getPosition()),
-                this.puissance,
-                this.rayon);
+            new Vecteur(this.getPosition()),
+            this.puissance,
+            this.rayon,
+            this.prix);
         return copy;
     }
 
