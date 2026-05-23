@@ -4,15 +4,25 @@ import core.joueurs.Joueur;
 import java.util.ArrayList;
 import core.ChargeurMap;
 
+/** Classe game qui gère la game loop. */
 public class Game {
+    /** Map utilisé pour la partie. */
     private Map map;
+    /** Joueur 1. */
     private Joueur joueur1;
+    /** Joueur 2. */
     private Joueur joueur2;
+    /** Joueur qui joue le tour actuel. */
     private Joueur joueurCourant;
+    /** Numéro de tour de la partie. */
     private int tour;
+    /** Chargeur de map. */
     private ChargeurMap chargeur;
 
-     /** Charge la map par défaut (map1.txt). */
+    /** Constructeur de la partie, nécéssite 2 joueurs.
+     * @param j1 Joueur 1.
+     * @param j2 Joueur 2.
+     */
     public Game(Joueur j1, Joueur j2) {
         this(j1, j2, "./src/core/maps/map1.txt");
     }
@@ -47,6 +57,7 @@ public class Game {
         this.chargeur      = new ChargeurMap();
     }
 
+    /** Executer le tour actuelle, enregistre si la simulation est gagnante. */
     public void executerTour() {
         boolean aGagne = map.lancerSimulation();
         
@@ -58,13 +69,19 @@ public class Game {
         }
     }
 
+    /** Passer le tour si la partie n'est pas gagnante. */
     private void passerTour() {
         tour++;
         joueurCourant = (tour % 2 != 0) ? joueur1 : joueur2;
         joueurCourant.ajouterBudget(map.getBudgetParTour());
     }
-    public boolean estGagne() {return map.estGagne();}
+
+    /** Getter à gagné. */
+    public boolean estGagne() { return map.estGagne(); }
+    /** Getter de map. */
     public Map getMap() { return map; }
+    /** Getter du joueur courant. */
     public Joueur getJoueurCourant() { return joueurCourant; }
+    /** Getter du tour courant. */
     public int getTour() { return tour; }
 }
