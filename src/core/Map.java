@@ -2,6 +2,8 @@ package core;
 
 import javax.swing.JPanel;
 import java.awt.Graphics;
+import java.awt.Graphics2D;
+import java.awt.RenderingHints;
 import java.awt.Color;
 import utils.Vecteur;
 import core.obstacles.*;
@@ -44,9 +46,21 @@ public class Map extends JPanel {
     @Override
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
+        Graphics2D g2d = (Graphics2D) g;
 
-        g.setColor(new Color(0, 0, 100));
-        g.fillRect(0, 0, 800, 700);
+        // Fond dégradé bleu foncé
+        java.awt.GradientPaint bg = new java.awt.GradientPaint(
+            0, 0, new Color(5, 5, 30),
+            800, 700, new Color(10, 20, 60)
+        );
+        g2d.setPaint(bg);
+        g2d.fillRect(0, 0, 800, 700);
+
+        // Grille subtile
+        g2d.setColor(new Color(255, 255, 255, 15));
+        g2d.setStroke(new java.awt.BasicStroke(0.5f));
+        for (int i = 0; i < 800; i += 50) g2d.drawLine(i, 0, i, 700);
+        for (int j = 0; j < 700; j += 50) g2d.drawLine(0, j, 800, j);
 
         for (Obstacle obs : obstacles) {
             System.out.println("A affichier l'obstacle");

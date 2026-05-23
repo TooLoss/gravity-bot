@@ -1,6 +1,8 @@
 package core.obstacles;
 
 import java.awt.Graphics;
+import java.awt.Graphics2D;
+import java.awt.RenderingHints;
 import java.awt.Color;
 import core.obstacles.Obstacle;
 import core.Projectile;
@@ -65,8 +67,25 @@ public class ObstacleMur extends Obstacle {
 
     @Override
     public void afficher(Graphics g) {
-        g.setColor(Color.GRAY);
-        g.fillRect((int)pointA.getX(), (int)pointA.getY(), (int)(pointB.getX()
-                    - pointA.getX()), (int)(pointB.getY() - pointA.getY()));
-    }
+        Graphics2D g2d = (Graphics2D) g;
+        g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+
+        int x = (int) pointA.getX();
+        int y = (int) pointA.getY();
+        int w = (int)(pointB.getX() - pointA.getX());
+        int h = (int)(pointB.getY() - pointA.getY());
+
+        // Dégradé vertical
+        java.awt.GradientPaint gradient = new java.awt.GradientPaint(
+            x, y, new Color(100, 100, 130),
+            x, y + h, new Color(40, 40, 60)
+        );
+        g2d.setPaint(gradient);
+        g2d.fillRect(x, y, w, h);
+
+        // Contour lumineux
+        g2d.setColor(new Color(180, 180, 255, 150));
+        g2d.setStroke(new java.awt.BasicStroke(1.5f));
+        g2d.drawRect(x, y, w, h);
+    } 
 }
