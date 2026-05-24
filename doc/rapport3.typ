@@ -105,7 +105,7 @@ conception MVC : Modèle, Vue, Contrôleur.
 == Paquetage core
 
 #figure(
-  image("../doc/uml-core-obstacles.svg", width: 80%),
+  image("uml-core-obstacles.svg", width: 80%),
   caption: [
     Diagramme UML partiel des acteurs.
   ],
@@ -131,7 +131,7 @@ ou un `CollisionCirculaire` sans altérer son comportement intrinsèque,
 favorisant une réutilisation maximale du code de détection.
 
 #figure(
-  image("../doc/uml-core-map.svg", width: 80%),
+  image("uml-core-map.svg", width: 80%),
   caption: [
     Diagramme UML partiel des acteurs présents dans la Map.
   ],
