@@ -85,7 +85,7 @@ La boucle de jeu fonctionne à l'aide de 2 classes.
 *Game* : Contient la logique de tour. Il compte le nombre de tour, lance la
 simulation du tour et vérifie si le joueur à gagner. Dans le cas contraire, il
 change le joueurCourant. \
-Game ne gère pas l'affichage. C'est une classe du package interface
+Game ne gère pas l'affichage. C'est une classe du package ihm
 (`FenetreJeu`) qui lit à chaque frame les données de Game. \
 Il est pas encore possible de gagner, le jeu se termine sans recommencer.
 
