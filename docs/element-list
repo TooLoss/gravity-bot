@@ -4,4 +4,6 @@ core.collisions
 core.joueurs
 core.map
 core.obstacles
+ihm
+ihm.controleur
 utils
