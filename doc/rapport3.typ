@@ -83,12 +83,14 @@ obstacles de l'adversaires sont conservées lors du tour.
 
 - En tant que joueur, je peux choisir la map sur laquelle je vais affronter mon adversaire.
 - En tant que joueur, je peux placer des obstacles sur la Map 2D affiché sur mon écran.
+- En tant que joueur, je dois voir et gérer mon budget pour le placement d'obstacles.
 - En tant que joueur, je peux créer des maps, les essayer, et les jouer contre un joueur.
 
 Fonctionnalités manquantes :
 
 - En tant que joueur, je peux jouer contre l'IA.
-- En tant que joueur, je ne peut pas faire de l'anti-jeu.
+- En tant que joueur, je ne peux pas faire de l'anti-jeu.
+- En tant que joueur, je peux customiser mon satellite.
 
 = Paquetages
 
@@ -116,6 +118,10 @@ Nous avons fait le choix de développer une classe abstraite `Acteur`. Tout
 Pour optimiser le cycle de rendu, chaque acteur est responsable de son propre
 comportement d'affichage en implémentant une méthode dédiée prenant en
 paramètre le contexte `Graphics` de Java.
+
+Graphics permet de placer des formes géométriques sur la map. Cela donne une
+direction artistique simpliste et légère (pas besoin d'images) que nous
+appréciions.
 
 Le `Projectile` est le seul qui peut se déplacer. C'est pourquoi c'est le seul
 qui possède un attribu vitesse. Ce dernier est actualisé par la classe `Map`
@@ -171,14 +177,28 @@ plus facile ainsi de se retrouver dans le code de l'interface.
 -- Placement sur une grille des obstacles.
 ]
 
+La classe `MenuPrincipale` est le point d'entrée de l'utilisateur.
+
+La classe `SelectionMap` liste dynamiquement les fichiers .txt du répertoire
+`src/core/maps/`. Cette interface permet de choisir manuellement une carte ou
+d'en générer une aléatoirement via un bouton dédié, avant de lancer la partie
+avec le constructeur adapté
+
+Pour le jeu, nous avons développer l'interface `FenetreJeu` qui affiche :
+
+-- Une sidebar avec une liste des obstacles (nom et coût) que nous devons
+  mettre à jour pour ajouter des obstacles.
+
+-- Des labels qui affiche le nom du joueur, le tour et le budget.
+
 = Organisation
 
 Un groupe à travaillé sur *interface* :
 El Amrany Anas, El Hauat Chada, Kibou Yassine, Masbah Louay.
 
 Un autre groupe à travaillé sur *core* :
-Abid Mohamed, El Haddadi Bilele, El Qabbab Oussama, Hosayn Mohamed Anis, Samari
-Yassine.
+Abid Mohamed, El Haddadi Bilele, El Qabbab Oussama, Hosayn Mohamed Anis, Masbah
+Louay, Samari Yassine.
 
 Nous avons crée l'UML de *core* avant le début du projet. Ainsi, dès que le
 groupe *core* à terminé son implémentation, il fut facile de le connecter à
@@ -217,11 +237,12 @@ logistique important. Par simplicité, nous avons préféré ne pas utiliser de
 branches ni de pull requests. Tout le monde travaillait sur main. Cela s'est
 avéré être une erreur et nous a fait perdre du temps.
 
-= Génération par intelligence artificiel
+= Note sur l'utilisation d'IA générative
 
-Conformément aux attentes du projet, nous avons décidé de recourir à
-l'intelligence artificielle. Toutes les parties où elle a été utilisée
-totalement ou partiellement ont été marquées dans les rapports. Les parties
-concernés ont été comprises. Voici un résumé de son utilisation :
+Nous avons décidé de recourir à l'intelligence artificielle pour certaines
+tâches tout en restant conforme aux attentes du projet. Toutes les parties où
+elle a été utilisée, partiellement ou totalement, ont été marquées dans les
+rapports. Les parties concernées ont été comprises et vérifiées par les membres
+du groupe. Voici un résumé de son utilisation :
 - Certains affichages d'acteurs avec `Graphics` pour obtenir un beau résultat.
 - Le design du Menu principal (déjà présent mais non estétique).
