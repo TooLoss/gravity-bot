@@ -294,10 +294,13 @@ public class ModeEditeur extends JFrame {
             int mapY = (int)(p.y * 700.0 / grille.getHeight());
 
             if (mur) {
+                Point fin = grille.getFinsMurs().get(i);
+                int finMapX = (int)(fin.x * 800.0 / grille.getWidth());
+                int finMapY = (int)(fin.y * 700.0 / grille.getHeight());
                 map.ajouterObstacle(new core.obstacles.ObstacleMur(
-                            new Vecteur(mapX, mapY),
-                            new Vecteur(mapX + 50, mapY + 50)
-                            ));
+                new Vecteur(mapX, mapY),
+                new Vecteur(finMapX, finMapY)
+                ));
             } else {
                 map.ajouterObstacle(new core.obstacles.ObstacleCirculaire(
                             new Vecteur(mapX, mapY), rayon
@@ -384,7 +387,11 @@ public class ModeEditeur extends JFrame {
 
                 // Adapte l'écriture brute dans le fichier texte selon le choix de l'utilisateur
                 if (mur) {
-                    writer.write("OBSTACLE = MUR " + mapX + ".0 " + mapY + ".0\n");
+                    Point fin = grille.getFinsMurs().get(i);
+                    int finMapX = (int)(fin.x * 800.0 / grille.getWidth());
+                    int finMapY = (int)(fin.y * 700.0 / grille.getHeight());
+                    writer.write("OBSTACLE = MUR " + mapX + ".0 " + mapY + ".0 "
+                    + finMapX + ".0 " + finMapY + ".0\n");
                 } else {
                     writer.write("OBSTACLE = SPHERE " + mapX + ".0 " + mapY + ".0 " + rayon + ".0 0.0\n");
                 }

@@ -19,6 +19,7 @@ public class ObstacleMur extends Obstacle {
         this.pointB = new Vecteur(pointB);
 
         this.setPosition(pointA);
+        this.setPointFinal(pointB);
         this.setCollision(new CollisionRectangle(this.pointA, this.pointB));
         
         // this.setTexture("ressources/mur.png");

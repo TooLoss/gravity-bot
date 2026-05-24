@@ -14,6 +14,8 @@ public class AfficherGrille extends JPanel {
     private ArrayList<Integer> rayonsObstacles = new ArrayList<>();
     // Liste pour savoir si c'est un mur ou un cercle (true si Mur, false si Cercle)
     private ArrayList<Boolean> estUnMur = new ArrayList<>();
+    
+    private ArrayList<Point> finsMurs = new ArrayList<>();
 
     public void setPointDepart(int x, int y) { 
         this.setDepart(x, y); 
@@ -24,13 +26,17 @@ public class AfficherGrille extends JPanel {
     }
     
     // le type et le rayon personnalisé
-    public void ajouterObstacle(int x, int y, boolean duTypeMur, int rayon) { 
-        this.obstacles.add(new Point(x, y)); 
-        this.rayonsObstacles.add(rayon);
-        this.estUnMur.add(duTypeMur);
-        repaint(); 
+    public void ajouterObstacle(int px, int py, int finX, int finY,
+                             int mapX, int mapY, int finMapX, int finMapY,
+                             boolean mur, int rayon) {
+    obstacles.add(new Point(px, py));
+    rayonsObstacles.add(rayon);
+    estUnMur.add(mur);
+    finsMurs.add(new Point(finX, finY));
+    repaint();
     }
     
+    public ArrayList<Point> getFinsMurs() { return finsMurs; }
     public Point getPointDepart() { return new Point(departX, departY); }
     public Point getPointCible() { return new Point(cibleX, cibleY); }
     public ArrayList<Point> getObstacles() { return obstacles; }
@@ -84,8 +90,15 @@ public class AfficherGrille extends JPanel {
             boolean mur = estUnMur.get(i);
             
             if (mur) {
-                g.setColor(new Color(180, 50, 50)); // Rouge foncé pour les murs
-                g.fillRect(p.x, p.y, tailleCase, tailleCase);
+                Point fin = finsMurs.get(i);
+                int x = Math.min(p.x, fin.x);
+                int y = Math.min(p.y, fin.y);
+                int w = Math.abs(fin.x - p.x);
+                int h = Math.abs(fin.y - p.y);
+                if (w == 0) w = tailleCase; // taille minimale si clic sans drag
+                if (h == 0) h = tailleCase;
+                g.setColor(new Color(180, 50, 50));
+                g.fillRect(x, y, w, h);
             } else {
                 g.setColor(Color.GRAY); // Gris pour les sphères/cercles
                 // On centre le dessin selon le rayon fourni
