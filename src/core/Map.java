@@ -50,7 +50,7 @@ public class Map extends JPanel {
     /** Constructeur de la map. */
     public Map() {
         this.estGagne = false;
-        this.budgetInitial = 0;
+        this.budgetInitial = 1000;
         initialiserParametres();
     }
 
