@@ -88,7 +88,7 @@ au tour précédent restent sur la carte. Le budget de chaque joueur est limité
 L'application se lance via son interface graphique Java Swing.
 
 Prérequis :
-Java Runtime Environment (JRE) ou JDK installé (Version 17 ou supérieure recommandée).
+Java Runtime Environment (JRE) ou JDK installé (Version 11 ou supérieure recommandée).
 
 Commande de lancement depuis le dossier contenant le fichier exécutable :
 
@@ -128,13 +128,14 @@ Déroulement d'un tour :
 -- Sélectionnez un type d'obstacle (Exemple : Réflecteur ou Zone de gravité).
 
 3. Action à la souris : Cliquez sur la Map 2D à l'endroit désiré, maintenez le
-   clic enfoncé pour orienter la direction ou pour ajuster la puissance de
-   l'obstacle, puis relâchez le clic pour valider la pose.
+   clic enfoncé pour orienter la direction.
 
 4. Lancement de la simulation : Cliquez sur le bouton "Lancer simulation". Le
    satellite s'élance alors dans l'espace de jeu.
 
-Note technique : Pendant toute la durée de la simulation, l'interface utilisateur est temporairement verrouillée jusqu'à la résolution complète de la trajectoire (calcul synchrone).
+Note technique : Pendant toute la durée de la simulation, l'interface
+utilisateur est temporairement verrouillée jusqu'à la résolution complète de la
+trajectoire.
 
 == L'Éditeur de Niveau
 
