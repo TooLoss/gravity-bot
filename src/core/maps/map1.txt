@@ -1,5 +1,5 @@
 positionInitiale = 50.0 50.0
-budgetInitiale = 1000
+budgetInitiale = 10000
 vitesseInitiale = 0.0 10.0
 ciblePosition = 700.0 500.0
 
