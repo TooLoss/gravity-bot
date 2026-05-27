@@ -59,6 +59,43 @@ public class AfficherGrille extends JPanel {
         this.cibleX = x;
         this.cibleY = y;
     }
+    
+    /**
+ * Retourne l'index de l'obstacle sous le point (x, y), ou -1 si aucun.
+ */
+public int trouverObstacleAt(int x, int y) {
+    for (int i = obstacles.size() - 1; i >= 0; i--) {
+        Point p   = obstacles.get(i);
+        Point fin = finsMurs.get(i);
+        boolean mur = estUnMur.get(i);
+
+        if (mur) {
+            int minX = Math.min(p.x, fin.x);
+            int minY = Math.min(p.y, fin.y);
+            int maxX = Math.max(p.x, fin.x);
+            int maxY = Math.max(p.y, fin.y);
+            if (x >= minX && x <= maxX && y >= minY && y <= maxY) return i;
+        } else {
+            int r  = rayonsObstacles.get(i);
+            int cx = p.x + tailleCase / 2;
+            int cy = p.y + tailleCase / 2;
+            if (Math.hypot(x - cx, y - cy) <= r) return i;
+        }
+    }
+    return -1;
+}
+
+/**
+ * Supprime l'obstacle à l'index donné de toutes les listes.
+ */
+public void supprimerObstacle(int index) {
+    if (index < 0 || index >= obstacles.size()) return;
+    obstacles.remove(index);
+    rayonsObstacles.remove(index);
+    estUnMur.remove(index);
+    finsMurs.remove(index);
+    repaint();
+}
 
     @Override
     protected void paintComponent(Graphics g) {

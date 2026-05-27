@@ -210,7 +210,12 @@ public class ModeEditeur extends JFrame {
             // TODO : appeler la logique de placement du satellite
         });
         sidebar.add(btnDepart);
-        sidebar.add(Box.createVerticalStrut(20));
+        sidebar.add(Box.createVerticalStrut(10));
+        // Bouton pour supprimmer un obstacle
+        JButton btnSupprimer = creerBoutonOutil("Supprimer", "Cliquer sur un obstacle");
+        btnSupprimer.addActionListener(e -> { outilSelectionne = "supprimer";});
+        sidebar.add(btnSupprimer);
+        sidebar.add(Box.createVerticalStrut(20));       
 
         // Reglage du budget de depart avec un slider
         JLabel labelSlider = new JLabel("Budget de depart :");

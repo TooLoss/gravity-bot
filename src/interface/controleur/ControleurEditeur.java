@@ -54,6 +54,12 @@ public class ControleurEditeur {
                 int endMapY = (int)(e.getPoint().y * 700.0 / vue.getGrille().getHeight());
 
                 switch (outil) {
+                    case "supprimer":
+                    int idx = vue.getGrille().trouverObstacleAt(startPx, startPy);               
+                    if (idx != -1) {
+                    vue.getGrille().supprimerObstacle(idx);
+                    }
+                    break;
                     case "objectif":
                         vue.setCiblePosition(new Vecteur(startMapX, startMapY));
                         vue.getGrille().setCible(startPx, startPy);
